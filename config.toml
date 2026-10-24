@@ -1,0 +1,53 @@
+# Vaani configuration. Restart Vaani after editing (tray → Quit, then run.bat).
+
+[hotkey]
+key  = "right ctrl"      # single key for hold mode, e.g. "right ctrl", "right alt", "f9", "caps lock"
+mode = "hold"            # "hold" = push-to-talk | "toggle" = tap to start, tap again to stop (combos like "ctrl+windows" OK)
+
+[audio]
+# input_device = "Microphone Array"   # part of the device name, or an index; omit for Windows default
+sample_rate    = 16000
+keep_mic_open  = false   # true = no start delay + 300 ms pre-roll (first word never clipped), but mic indicator stays on
+preroll_ms     = 300
+min_duration_s = 0.3     # shorter taps are ignored
+max_duration_s = 300
+sounds         = true    # short start/stop beeps
+
+[asr]
+asr_model          = "nemo-parakeet-tdt-0.6b-v3"   # or "nemo-parakeet-tdt-0.6b-v2" (English-only)
+device             = "auto"    # auto | cuda | cpu
+quantization       = "auto"    # auto = fp32 on GPU, int8 on CPU
+vad_threshold      = 0.5
+vad_min_silence_ms = 600
+vad_speech_pad_ms  = 200
+
+[cleanup]
+llm_enabled    = true                     # also toggleable from the tray menu
+llm_url        = "http://127.0.0.1:11434" # local Ollama
+llm_model      = "gemma3:4b"              # any small instruct model you've pulled with `ollama pull`
+llm_min_words  = 8                        # shorter dictations skip the LLM (instant)
+llm_timeout_s  = 4.0                      # on timeout the raw transcript is pasted
+llm_keep_alive = -1                       # keep the model loaded in VRAM
+llm_think_flag = false                    # set true for thinking models (e.g. qwen3) to disable thinking
+
+[output]
+paste_method      = "clipboard"  # clipboard (fast, Unicode-safe) | type (simulated keystrokes)
+restore_clipboard = true
+paste_delay_ms    = 150
+trailing_space    = true
+save_history      = false        # writes %LOCALAPPDATA%\Vaani\history.txt
+
+# Spoken phrase → written form. Case-insensitive, whole words, applied before and after cleanup.
+[replacements]
+"pie torch"          = "PyTorch"
+"pie torch geometric" = "PyTorch Geometric"
+"lang chain"         = "LangChain"
+"lang graph"         = "LangGraph"
+"fast api"           = "FastAPI"
+"olama"              = "Ollama"
+"s t g n n"          = "STGNN"
+"g n n"              = "GNN"
+
+# Say the whole phrase on its own to paste the expansion.
+[snippets]
+"insert my signature" = "Best regards,\nSangameswar"

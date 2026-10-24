@@ -1,0 +1,11 @@
+# ASR runtime (Parakeet + Silero VAD via ONNX). GPU build of onnxruntime with CUDA 13 + cuDNN 9 DLLs from pip.
+onnx-asr[hub]>=0.12
+onnxruntime-gpu[cuda,cudnn]>=1.27
+
+# App
+numpy>=1.26
+sounddevice>=0.5
+keyboard>=0.13.5
+pyperclip>=1.9
+pystray>=0.19.5
+Pillow>=10.0
