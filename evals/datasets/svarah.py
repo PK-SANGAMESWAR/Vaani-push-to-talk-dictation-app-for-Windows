@@ -50,11 +50,7 @@ def prepare(name: str, n: int, seed: int, full: bool) -> tuple[dict, list[Clip]]
     for shard in shards:
         t = pq.read_table(shard, columns=["audio_filepath.path", *META_COLS]).to_pylist()
         for r in t:
-            path = (
-                r["audio_filepath"]["path"]
-                if isinstance(r.get("audio_filepath"), dict)
-                else r["audio_filepath.path"]
-            )
+            path = r.pop("path")  # pyarrow exposes the nested "audio_filepath.path" leaf as "path"
             cid = _clip_id(path)
             if cid in rows:
                 raise RuntimeError(f"duplicate Svarah clip id {cid}")
