@@ -10,3 +10,4 @@ pyarrow==26.0.0         # LibriSpeech (HF copy) and Svarah ship as parquet
 huggingface-hub==2.3.0  # dataset downloads (pinned revisions)
 psutil==7.2.2           # peak RAM
 nvidia-ml-py==13.615.71 # NVML: GPU name, driver, device memory
+pywinauto==0.6.9       # end-to-end Windows test (evals/e2e): focus Notepad, read pasted text

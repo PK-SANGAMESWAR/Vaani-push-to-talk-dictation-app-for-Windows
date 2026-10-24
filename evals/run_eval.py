@@ -22,10 +22,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 from vaani.config import load_config
 from vaani.pipeline import Pipeline
 
-from . import metrics, report, sysinfo
+from . import metrics, report, safety, sysinfo
 from .datasets.common import (
     DEFAULT_N,
     DEFAULT_SEED,
@@ -39,7 +41,7 @@ from .resources import PeakSampler
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DATASETS = ["librispeech-clean", "librispeech-other", "fleurs-en", "svarah"]
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2  # 2: adds `safety`
 
 
 def _parse(argv: list[str] | None) -> argparse.Namespace:
@@ -57,7 +59,20 @@ def _parse(argv: list[str] | None) -> argparse.Namespace:
     p.add_argument("--config", default=str(ROOT / "config.toml"))
     p.add_argument("--device", choices=["auto", "cuda", "cpu"])
     p.add_argument("--quantization", choices=["auto", "none", "int8"])
+    p.add_argument(
+        "--asr",
+        choices=["config", "whisper-large-v3-turbo"],
+        default="config",
+        help="ASR backend: config = Parakeet as in config.toml (shipped); whisper-* = eval-only baseline",
+    )
     p.add_argument("--cleanup", choices=["config", "on", "off"], default="config")
+    p.add_argument("--llm-model", help="Ollama model for cleanup (default: as in config)")
+    p.add_argument(
+        "--gain-db",
+        type=float,
+        default=0.0,
+        help="scale the input audio by this many dB (e.g. -30 = low voice)",
+    )
     p.add_argument("--no-vad", action="store_true", help="DIAGNOSTIC: skip VAD (not the shipped pipeline)")
     p.add_argument("--label", default="run")
     p.add_argument("--out", default=str(ROOT / "evals" / "results"))
@@ -175,6 +190,27 @@ def summarize(utts: list[dict[str, Any]]) -> dict[str, Any]:
     return out
 
 
+def _load_pipeline(cfg, args: argparse.Namespace) -> Pipeline:
+    if args.asr == "config":
+        return Pipeline.load(cfg, use_vad=not args.no_vad)
+    from vaani.pipeline import asr_device, make_cleaner
+    from vaani.textproc import TextProcessor
+
+    from .whisper_backend import WhisperTranscriber
+
+    cfg.asr_model = args.asr  # so provenance and the config hash name the model that ran
+    text = TextProcessor(cfg.replacements, cfg.snippets)
+    stt = WhisperTranscriber(
+        args.asr,
+        asr_device(cfg),
+        cfg.quantization,
+        cfg.vad_threshold,
+        cfg.vad_min_silence_ms,
+        cfg.vad_speech_pad_ms,
+    )
+    return Pipeline(cfg, stt, text, make_cleaner(cfg, text.vocabulary), use_vad=not args.no_vad)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parse(argv)
     logging.basicConfig(
@@ -183,6 +219,7 @@ def main(argv: list[str] | None = None) -> int:
         stream=sys.stderr,
     )
     paths = _manifests(args)
+    code_at_start = sysinfo.code_state()  # before any vaani module is imported by the pipeline
     cfg = load_config(args.config)
     if args.device:
         cfg.device = args.device
@@ -190,6 +227,8 @@ def main(argv: list[str] | None = None) -> int:
         cfg.quantization = args.quantization
     if args.cleanup != "config":
         cfg.llm_enabled = args.cleanup == "on"
+    if args.llm_model:
+        cfg.llm_model = args.llm_model
 
     manifests = []
     clips: list[Clip] = []
@@ -206,7 +245,7 @@ def main(argv: list[str] | None = None) -> int:
 
     sampler = PeakSampler().start()  # baseline is taken before any model loads
     t0 = time.perf_counter()
-    pipeline = Pipeline.load(cfg, use_vad=not args.no_vad)
+    pipeline = _load_pipeline(cfg, args)
     load_ms = (time.perf_counter() - t0) * 1000
     t1 = time.perf_counter()
     pipeline.stt.warmup(SAMPLE_RATE)
@@ -222,6 +261,8 @@ def main(argv: list[str] | None = None) -> int:
     t_run = time.perf_counter()
     for i, clip in enumerate(clips, 1):
         audio = load_audio(clip.path)
+        if args.gain_db:
+            audio = audio * np.float32(10 ** (args.gain_db / 20))
         r = pipeline.process(audio, SAMPLE_RATE)
         utts.append(
             {
@@ -267,7 +308,8 @@ def main(argv: list[str] | None = None) -> int:
             "wer": "corpus-level, EnglishTextNormalizer on ref and hyp; empty normalized refs excluded",
             "cer": "corpus-level on normalized text, spaces counted",
         },
-        "provenance": sysinfo.collect(cfg, pipeline.stt, cfg.llm_enabled),
+        "provenance": sysinfo.collect(cfg, pipeline.stt, cfg.llm_enabled)
+        | {"code": code_at_start | {"changed_during_run": sysinfo.code_state() != code_at_start}},
         "manifests": manifests,
         "cold_start_ms": {
             "model_load": round(load_ms, 1),
@@ -278,6 +320,7 @@ def main(argv: list[str] | None = None) -> int:
         "run_wall_s": round(run_s, 1),
         "resources": resources,
         "summary": summarize(utts),
+        "safety": safety.summarize(utts, pipeline.text.vocabulary),
         "published_reference": None,
         "utterances": utts,
     }

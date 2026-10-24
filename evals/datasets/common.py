@@ -46,7 +46,7 @@ class Clip:
 
 
 # Datasets that are generated or hand-made and have no subset/split: one manifest, `<name>.fixed.jsonl`.
-FIXED_DATASETS = frozenset({"negatives", "dictation"})
+FIXED_DATASETS = frozenset({"negatives", "dictation", "safety"})
 
 
 def manifest_path(dataset: str, n: int = DEFAULT_N, seed: int = DEFAULT_SEED, full: bool = False) -> Path:

@@ -13,7 +13,7 @@ import argparse
 import sys
 from collections.abc import Callable
 
-from . import dictation, fleurs, librispeech, negatives, svarah
+from . import dictation, fleurs, librispeech, negatives, safety, svarah
 from .common import DEFAULT_N, DEFAULT_SEED, FIXED_DATASETS, Clip, manifest_path, write_manifest
 
 PREPARERS: dict[str, Callable[[str, int, int, bool], tuple[dict, list[Clip]]]] = {
@@ -23,9 +23,10 @@ PREPARERS: dict[str, Callable[[str, int, int, bool], tuple[dict, list[Clip]]]] =
     "svarah": svarah.prepare,
     "negatives": negatives.prepare,  # synthetic silence/noise, no download
     "dictation": dictation.prepare,  # needs your own recordings (evals.record_dictation)
+    "safety": safety.prepare,  # injection + vocabulary prompts, Windows SAPI TTS, no download
 }
 # Prepared by default. dictation is left out: it only works after you have recorded the prompts.
-DEFAULT_PREPARE = ["librispeech-clean", "librispeech-other", "fleurs-en", "svarah", "negatives"]
+DEFAULT_PREPARE = ["librispeech-clean", "librispeech-other", "fleurs-en", "svarah", "negatives", "safety"]
 
 
 def main(argv: list[str] | None = None) -> int:

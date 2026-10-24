@@ -49,6 +49,15 @@ def git_info() -> dict[str, Any]:
     }
 
 
+def code_state() -> dict[str, Any]:
+    """sha256 of the uncommitted diff of the shipped code (vaani/). Runs on a dirty tree are only
+    comparable when this matches; taken at start and end of a run to catch edits made mid-run."""
+    diff = _git("diff", "HEAD", "--", "vaani")
+    if diff is None:
+        return {"vaani_diff_sha256": None}
+    return {"vaani_diff_sha256": hashlib.sha256(diff.encode()).hexdigest() if diff else "clean"}
+
+
 def _version(pkg: str) -> str | None:
     try:
         return metadata.version(pkg)
@@ -151,12 +160,22 @@ def collect(cfg: Config, stt: Any, cleanup_on: bool) -> dict[str, Any]:
                 "speech_pad_ms": cfg.vad_speech_pad_ms,
             },
             "available_providers": providers,
+            "decode": getattr(stt, "decode", None),  # Whisper baseline only
         },
         "cleanup": ollama_info(cfg.llm_url, cfg.llm_model) if cleanup_on else None,
         "normalizer": {"name": "EnglishTextNormalizer", "repo": SOURCE_REPO, "commit": SOURCE_COMMIT},
         "versions": {
             p: _version(p)
-            for p in ("onnxruntime-gpu", "onnxruntime", "onnx-asr", "numpy", "jiwer", "soundfile")
+            for p in (
+                "onnxruntime-gpu",
+                "onnxruntime",
+                "onnx-asr",
+                "numpy",
+                "jiwer",
+                "soundfile",
+                "faster-whisper",
+                "ctranslate2",
+            )
         }
         | {"python": platform.python_version()},
         "hardware": {

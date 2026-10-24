@@ -25,8 +25,13 @@ def _normalizer():
     return EnglishTextNormalizer()
 
 
+# LLM cleanup writes typographic quotes ("I’ll"); the leaderboard normalizer only expands ASCII ones, so
+# without this "I’ll" would score as a different word from "I'll" / "I will".
+_QUOTES = str.maketrans({"’": "'", "‘": "'", "“": '"', "”": '"'})
+
+
 def normalize(text: str) -> str:
-    return " ".join(_normalizer()(text).split())
+    return " ".join(_normalizer()(text.translate(_QUOTES)).split())
 
 
 @dataclass(frozen=True)
@@ -123,3 +128,14 @@ def latency_stats(values_ms: Sequence[float]) -> dict:
         "mean": float(v.mean()),
         "max": float(v.max()),
     }
+
+
+def wilson_ci(k: int, n: int, z: float = 1.959964) -> tuple[float, float]:
+    """95% Wilson score interval for a proportion k/n (sane at k = 0, unlike the normal approximation)."""
+    if n <= 0:
+        raise ValueError("n must be positive")
+    p = k / n
+    den = 1 + z * z / n
+    mid = (p + z * z / (2 * n)) / den
+    half = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / den
+    return max(0.0, mid - half), min(1.0, mid + half)

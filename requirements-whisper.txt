@@ -1,0 +1,10 @@
+# Eval-only Whisper baseline (Phase 4 comparisons). Not needed to run Vaani or the main eval suite.
+# Install WITHOUT dependencies: faster-whisper depends on the CPU `onnxruntime` package, which would
+# overwrite onnxruntime-gpu's files and silently remove the CUDA provider (Vaani then runs on CPU).
+#   .\.venv\Scripts\python -m pip install --no-deps -r requirements-whisper.txt
+faster-whisper==1.2.1
+ctranslate2==4.8.3
+av==19.0.2
+tokenizers==0.23.3
+nvidia-cublas-cu12==12.9.2.10   # CTranslate2 4.x links CUDA 12; onnxruntime-gpu ships CUDA 13
+nvidia-cuda-nvrtc-cu12==12.9.86
