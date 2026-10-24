@@ -15,6 +15,27 @@ log = logging.getLogger(__name__)
 BLOCK_MS = 30
 
 
+def resolve_input_device(device: str | int | None) -> str | int | None:
+    """Turn a partial mic name into a device index.
+
+    Windows lists every mic once per host API (MME, DirectSound, WASAPI, WDM-KS), so passing a name to
+    sounddevice raises "Multiple input devices found". Pick the match on the default host API (as the
+    Windows default mic would be), else the first match. Indexes and None pass through unchanged.
+    """
+    if not isinstance(device, str):
+        return device
+    wanted = device.lower()
+    matches = [
+        i
+        for i, d in enumerate(sd.query_devices())
+        if d["max_input_channels"] > 0 and wanted in d["name"].lower()
+    ]
+    if not matches:
+        raise ValueError(f"no input device matches {device!r}")
+    default_api = sd.default.hostapi
+    return next((i for i in matches if sd.query_devices(i)["hostapi"] == default_api), matches[0])
+
+
 class Recorder:
     def __init__(
         self,
@@ -23,7 +44,7 @@ class Recorder:
         keep_open: bool = False,
         preroll_ms: int = 300,
     ):
-        self.device = device
+        self.device = resolve_input_device(device)
         self.keep_open = keep_open
         self.sample_rate = self._supported_rate(sample_rate)
         self._lock = threading.Lock()

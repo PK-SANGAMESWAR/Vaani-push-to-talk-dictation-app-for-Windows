@@ -112,3 +112,28 @@ def test_close_releases_stream():
     r.close()
     assert stream.stopped and stream.closed
     r.close()  # idempotent
+
+
+def test_partial_mic_name_resolves_to_one_device_on_the_default_host_api(monkeypatch):
+    from vaani import audio
+
+    devices = [
+        {"name": "Microphone Array (Realtek(R) Au", "max_input_channels": 2, "hostapi": 0},
+        {"name": "Speakers (Realtek(R) Audio)", "max_input_channels": 0, "hostapi": 0},
+        {"name": "Microphone Array (Realtek(R) Audio)", "max_input_channels": 2, "hostapi": 1},
+        {"name": "CABLE Output (VB-Audio Virtual Cable)", "max_input_channels": 2, "hostapi": 2},
+    ]
+
+    class FakeSd:
+        default = type("D", (), {"hostapi": 1})
+
+        @staticmethod
+        def query_devices(i=None):
+            return devices if i is None else devices[i]
+
+    monkeypatch.setattr(audio, "sd", FakeSd)
+    assert audio.resolve_input_device("microphone array") == 2  # default host API wins
+    assert audio.resolve_input_device("CABLE Output") == 3  # only match, other host API
+    assert audio.resolve_input_device(5) == 5 and audio.resolve_input_device(None) is None
+    with pytest.raises(ValueError, match="no input device"):
+        audio.resolve_input_device("Speakers")  # output-only devices never match
