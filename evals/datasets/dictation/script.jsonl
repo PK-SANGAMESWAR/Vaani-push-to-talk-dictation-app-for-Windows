@@ -1,0 +1,24 @@
+{"category": "plain", "id": "dict-001", "ref": "hey can you send me the report by end of day", "ref_clean": "Hey, can you send me the report by end of day?"}
+{"category": "plain", "id": "dict-002", "ref": "i will be ten minutes late to the meeting", "ref_clean": "I will be ten minutes late to the meeting."}
+{"category": "plain", "id": "dict-003", "ref": "the build finished and all tests passed", "ref_clean": "The build finished and all tests passed."}
+{"category": "plain", "id": "dict-004", "ref": "thanks for the quick reply i will take a look tonight", "ref_clean": "Thanks for the quick reply. I will take a look tonight."}
+{"category": "plain", "id": "dict-005", "ref": "let's move the standup to ten thirty tomorrow", "ref_clean": "Let's move the standup to 10:30 tomorrow."}
+{"category": "short", "id": "dict-006", "ref": "sounds good", "ref_clean": "Sounds good."}
+{"category": "short", "id": "dict-007", "ref": "on my way", "ref_clean": "On my way."}
+{"category": "short", "id": "dict-008", "ref": "yes please", "ref_clean": "Yes, please."}
+{"category": "fillers", "id": "dict-009", "ref": "um so i was thinking we could uh push the release to friday", "ref_clean": "So I was thinking we could push the release to Friday."}
+{"category": "fillers", "id": "dict-010", "ref": "like i mean it is basically done you know just needs review", "ref_clean": "It is basically done, just needs review."}
+{"category": "fillers", "id": "dict-011", "ref": "uh can you um check the logs for me", "ref_clean": "Can you check the logs for me?"}
+{"category": "self-correction", "id": "dict-012", "ref": "let's meet at three no wait four o'clock", "ref_clean": "Let's meet at four o'clock."}
+{"category": "self-correction", "id": "dict-013", "ref": "send it to john i mean to jane", "ref_clean": "Send it to Jane."}
+{"category": "numbers", "id": "dict-014", "ref": "the invoice total is one thousand two hundred and fifty dollars", "ref_clean": "The invoice total is $1,250."}
+{"category": "numbers", "id": "dict-015", "ref": "call me on nine eight seven six five four three two one zero", "ref_clean": "Call me on 9876543210."}
+{"category": "numbers", "id": "dict-016", "ref": "we shipped forty two orders on the fifth of march", "ref_clean": "We shipped 42 orders on the 5th of March."}
+{"category": "technical", "id": "dict-017", "ref": "open the pull request and rebase on main before merging", "ref_clean": "Open the pull request and rebase on main before merging."}
+{"category": "technical", "id": "dict-018", "ref": "the api returns a four oh four when the user id is missing", "ref_clean": "The API returns a 404 when the user ID is missing."}
+{"category": "technical", "id": "dict-019", "ref": "set the cuda device to zero and rerun the onnx model", "ref_clean": "Set the CUDA device to 0 and rerun the ONNX model."}
+{"category": "technical", "id": "dict-020", "ref": "parakeet runs on the gpu while ollama handles the cleanup", "ref_clean": "Parakeet runs on the GPU while Ollama handles the cleanup."}
+{"category": "email", "id": "dict-021", "ref": "hi priya thanks for sending the draft i have a few comments inline let me know if tomorrow works for a call", "ref_clean": "Hi Priya, thanks for sending the draft. I have a few comments inline. Let me know if tomorrow works for a call."}
+{"category": "email", "id": "dict-022", "ref": "dear team i am writing to confirm the schedule for next week please reply if you have any conflicts", "ref_clean": "Dear team, I am writing to confirm the schedule for next week. Please reply if you have any conflicts."}
+{"category": "long", "id": "dict-023", "ref": "so the plan for the quarter is to finish the dictation evals first then look at streaming partial results and after that we can decide whether the tensorrt provider is worth the extra engine cache complexity on a six gigabyte card", "ref_clean": "So the plan for the quarter is to finish the dictation evals first, then look at streaming partial results. After that, we can decide whether the TensorRT provider is worth the extra engine cache complexity on a 6 GB card."}
+{"category": "long", "id": "dict-024", "ref": "yesterday i tried the new build on my laptop and the latency felt much better especially for short phrases but the long ones still take a moment to appear so i want to measure it properly before changing anything", "ref_clean": "Yesterday I tried the new build on my laptop and the latency felt much better, especially for short phrases. But the long ones still take a moment to appear, so I want to measure it properly before changing anything."}

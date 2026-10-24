@@ -32,12 +32,21 @@ class Result:
     total_ms: float
 
 
+def asr_device(cfg: Config) -> str:
+    """With cleanup on and device = "auto", run ASR on CPU (int8) so the Ollama model gets the GPU.
+
+    On a 6 GB card Parakeet fp32 (~3 GB) plus gemma3:4b (~2.8 GB) fill VRAM and both slow down ~10x;
+    CPU int8 measured the same WER and ~0.2 s ASR per 6 s clip. An explicit cuda/cpu is respected.
+    """
+    return "cpu" if cfg.device == "auto" and cfg.llm_enabled else cfg.device
+
+
 def make_transcriber(cfg: Config) -> Transcriber:
     from .stt import Transcriber
 
     return Transcriber(
         cfg.asr_model,
-        cfg.device,
+        asr_device(cfg),
         cfg.quantization,
         cfg.vad_threshold,
         cfg.vad_min_silence_ms,

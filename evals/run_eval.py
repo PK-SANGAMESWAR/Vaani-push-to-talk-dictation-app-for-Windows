@@ -87,7 +87,20 @@ def _score(clip: Clip, raw: str, final: str) -> dict[str, Any]:
     raw_n, final_n = metrics.normalize(raw), metrics.normalize(final)
     w_raw, w_fin = metrics.word_edits(ref_n, raw_n), metrics.word_edits(ref_n, final_n)
     c_raw, c_fin = metrics.char_edits(ref_n, raw_n), metrics.char_edits(ref_n, final_n)
-    return {
+    strict = {}
+    if clip.ref_clean is not None:  # dictation sets: formatting-sensitive score vs the intended text
+        s_raw, s_fin = metrics.strict_edits(clip.ref_clean, raw), metrics.strict_edits(clip.ref_clean, final)
+        strict = {"ref_clean": clip.ref_clean, "strict_raw": [s_raw.errors, s_raw.total]}
+        strict["strict_final"] = [s_fin.errors, s_fin.total]
+        # content accuracy vs the intended text: normalized, so casing/punctuation don't count but
+        # dropped fillers and resolved self-corrections are rewarded instead of penalised as in `wer_*`.
+        rc = metrics.normalize(clip.ref_clean)
+        c_raw_w, c_fin_w = metrics.word_edits(rc, raw_n), metrics.word_edits(rc, final_n)
+        strict["clean_raw"], strict["clean_final"] = (
+            [c_raw_w.errors, c_raw_w.total],
+            [c_fin_w.errors, c_fin_w.total],
+        )
+    return strict | {
         "ref_norm": ref_n,
         "raw_norm": raw_n,
         "final_norm": final_n,
@@ -113,6 +126,7 @@ def group_stats(utts: list[dict[str, Any]]) -> dict[str, Any]:
         if u["cleanup_status"]:
             statuses[u["cleanup_status"]] += 1
     empty_ref = [u for u in utts if u["wer_raw"][1] == 0]
+    strict = [u for u in utts if "strict_final" in u]
     return {
         "n": len(utts),
         "n_scored": len(scored),
@@ -130,7 +144,17 @@ def group_stats(utts: list[dict[str, Any]]) -> dict[str, Any]:
         "routes": dict(routes),
         "cleanup_status": dict(statuses),
         "empty_output_on_speech": sum(1 for u in scored if not u["raw"]),
-        "empty_ref": {"n": len(empty_ref), "nonempty_output": sum(1 for u in empty_ref if u["final"])},
+        # Silence/noise clips (empty reference): any text at all is a false positive.
+        "empty_ref": {
+            "n": len(empty_ref),
+            "nonempty_raw": sum(1 for u in empty_ref if u["raw"]),
+            "nonempty_output": sum(1 for u in empty_ref if u["final"]),
+        },
+        "strict_raw": metrics.rate_with_ci([metrics.Edits(*u["strict_raw"]) for u in strict]),
+        "strict_final": metrics.rate_with_ci([metrics.Edits(*u["strict_final"]) for u in strict]),
+        "clean_raw": metrics.rate_with_ci([metrics.Edits(*u["clean_raw"]) for u in strict]),
+        "clean_final": metrics.rate_with_ci([metrics.Edits(*u["clean_final"]) for u in strict]),
+        "n_strict": len(strict),
     }
 
 
@@ -207,6 +231,8 @@ def main(argv: list[str] | None = None) -> int:
                 "tags": clip.tags,
                 "duration_s": clip.duration_s,
                 "ref": clip.ref,
+                "speaker": clip.speaker,
+                "mic": clip.mic,
                 "raw": r.raw,
                 "final": r.text,
                 "route": r.route,

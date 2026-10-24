@@ -15,6 +15,9 @@ log = logging.getLogger(__name__)
 
 CUDA = "CUDAExecutionProvider"
 CPU = "CPUExecutionProvider"
+# The default arena grows in power-of-two steps and parks the spare VRAM; on a 6 GB card that starves
+# the Ollama cleanup model. Grow by exactly what is asked and pick conv algorithms without a workspace probe.
+CUDA_OPTIONS = {"arena_extend_strategy": "kSameAsRequested", "cudnn_conv_algo_search": "HEURISTIC"}
 
 
 def _cuda_available() -> bool:
@@ -53,7 +56,9 @@ class Transcriber:
             try:
                 # int8 ops mostly fall back to CPU under the CUDA EP, so fp32 is faster on GPU.
                 quant = None if quantization in ("auto", "none") else quantization
-                self.model = onnx_asr.load_model(model_name, quantization=quant, providers=[CUDA, CPU])
+                self.model = onnx_asr.load_model(
+                    model_name, quantization=quant, providers=[(CUDA, CUDA_OPTIONS), CPU]
+                )
                 self.device = "cuda"
                 self.quantization = quant or "fp32"
             except Exception:

@@ -6,6 +6,7 @@ CER counts characters of the normalized text, spaces included (jiwer's default).
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from functools import lru_cache
@@ -44,6 +45,22 @@ def char_edits(ref_norm: str, hyp_norm: str) -> Edits:
         return ["<sp>" if c == " " else c for c in s]
 
     return _edits(tokens(ref_norm), tokens(hyp_norm))
+
+
+_STRICT_TOKEN = re.compile(r"\w+(?:['’]\w+)*|[^\w\s]")
+
+
+def strict_tokens(text: str) -> list[str]:
+    """Words and punctuation marks as separate tokens, case kept ("Hi, Priya." -> Hi , Priya .)."""
+    return _STRICT_TOKEN.findall(text)
+
+
+def strict_edits(ref_clean: str, hyp: str) -> Edits:
+    """Format-sensitive edits against the intended clean text: casing, punctuation and digits count.
+
+    Not comparable with the normalized WER; it is the "would the user have to fix this" measure.
+    """
+    return _edits(strict_tokens(ref_clean), strict_tokens(hyp))
 
 
 def _edits(ref: list[str], hyp: list[str]) -> Edits:

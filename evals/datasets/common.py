@@ -45,7 +45,13 @@ class Clip:
         return DATA_DIR / self.audio
 
 
+# Datasets that are generated or hand-made and have no subset/split: one manifest, `<name>.fixed.jsonl`.
+FIXED_DATASETS = frozenset({"negatives", "dictation"})
+
+
 def manifest_path(dataset: str, n: int = DEFAULT_N, seed: int = DEFAULT_SEED, full: bool = False) -> Path:
+    if dataset in FIXED_DATASETS:
+        return MANIFEST_DIR / f"{dataset}.fixed.jsonl"
     return MANIFEST_DIR / (f"{dataset}.full.jsonl" if full else f"{dataset}.n{n}.s{seed}.jsonl")
 
 

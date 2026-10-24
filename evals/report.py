@@ -137,6 +137,49 @@ def render(r: dict[str, Any]) -> str:
         "",
     ]
 
+    if o["empty_ref"]["n"]:
+        e = o["empty_ref"]
+        out += [
+            "## Silence / noise (reference is empty)",
+            "",
+            f"- Clips: {e['n']} · text out of ASR: **{e['nonempty_raw']}** · text that would be pasted: "
+            f"**{e['nonempty_output']}** (target: 0)",
+            "",
+            "| Kind | Clips | Pasted text |",
+            "|---|---:|---:|",
+        ]
+        by_kind: dict[str, list[int]] = {}
+        for u in r["utterances"]:
+            if u["wer_raw"][1] == 0:
+                k = by_kind.setdefault(u["category"], [0, 0])
+                k[0] += 1
+                k[1] += bool(u["final"])
+        out += [f"| {k} | {n} | {bad} |" for k, (n, bad) in sorted(by_kind.items())]
+        leaks = [u for u in r["utterances"] if u["wer_raw"][1] == 0 and u["final"]][:10]
+        out += ["", *[f"- `{u['id']}` produced: {_cell(u['final'], 80)!r}" for u in leaks], ""]
+
+    if o["n_strict"]:
+        out += [
+            "## Dictation formatting (vs intended clean text)",
+            "",
+            f"Strict WER counts casing, punctuation and digits ({o['n_strict']} clips). Lower is better.",
+            "",
+            "| | Strict WER % [95% CI] | Content WER vs clean text % [95% CI] |",
+            "|---|---|---|",
+            f"| raw ASR | {_pct(o['strict_raw'])} | {_pct(o['clean_raw'])} |",
+            f"| final (what is pasted) | {_pct(o['strict_final'])} | {_pct(o['clean_final'])} |",
+            "",
+            "Content WER normalizes both sides like the main WER but compares with the intended clean text,",
+            "so removing fillers and resolving self-corrections counts as correct. The main WER columns use",
+            "the verbatim speech as reference and count those same edits as errors.",
+            "",
+        ]
+        short = [u for u in r["utterances"] if "strict_final" in u and u["strict_final"][0] > 0][:10]
+        if short:
+            out += ["| Clip | Intended | Pasted |", "|---|---|---|"]
+            out += [f"| `{u['id']}` | {_cell(u['ref_clean'])} | {_cell(u['final'])} |" for u in short]
+            out.append("")
+
     scored = [u for u in r["utterances"] if u["wer_final"][1] > 0 and u["wer_final"][0] > 0]
     worst = sorted(scored, key=lambda u: (-u["wer_final"][0] / u["wer_final"][1], u["id"]))[:10]
     if worst:

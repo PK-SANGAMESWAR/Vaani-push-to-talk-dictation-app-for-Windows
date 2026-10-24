@@ -178,3 +178,69 @@ def test_summarize_and_render():
     md = report.render(result)
     assert "DIRTY TREE" in md and "DIAGNOSTIC RUN" in md and "| ds | 2 |" in md
     assert "Worst 10 clips" in md and "`2`" in md and "`1`" not in md
+
+
+# ---------- phase 2: negatives and dictation formatting ----------
+
+
+def test_strict_edits_count_case_punctuation_and_digits():
+    assert metrics.strict_tokens("Hi, Priya. It's 10:30!") == [
+        "Hi",
+        ",",
+        "Priya",
+        ".",
+        "It's",
+        "10",
+        ":",
+        "30",
+        "!",
+    ]
+    assert metrics.strict_edits("Hi, Priya.", "Hi, Priya.") == metrics.Edits(0, 4)
+    assert metrics.strict_edits("Hi, Priya.", "hi priya") == metrics.Edits(4, 4)  # 2 case, comma, period
+    assert metrics.strict_edits("It costs $5.", "It costs 5.").errors == 1
+
+
+def test_negatives_are_deterministic_and_quiet():
+    from evals.datasets import negatives
+
+    for kind in negatives.KINDS:
+        a, b = negatives.synth(kind, 1.5, 0), negatives.synth(kind, 1.5, 0)
+        assert a.dtype == np.float32 and len(a) == 24_000 and np.array_equal(a, b)
+        assert np.abs(a).max() <= 1.0
+    assert not np.any(negatives.synth("silence-digital", 1.0, 0))
+    assert not np.array_equal(negatives.synth("noise-room", 1.0, 0), negatives.synth("noise-room", 1.0, 1))
+    rms = float(np.sqrt(np.mean(negatives.synth("noise-fan", 2.0, 0) ** 2)))
+    assert 20 * np.log10(rms) == pytest.approx(-45.0, abs=0.5)
+
+
+def test_fixed_datasets_have_single_manifest_name():
+    assert common.manifest_path("negatives", 5, 3).name == "negatives.fixed.jsonl"
+    assert common.manifest_path("fleurs-en", 5, 3).name == "fleurs-en.n5.s3.jsonl"
+
+
+def test_dictation_script_is_well_formed():
+    from evals.datasets import dictation
+
+    rows = dictation.load_script()
+    assert len({r["id"] for r in rows}) == len(rows) >= 20
+    assert all(r["ref"] and r["ref_clean"] and r["ref"] == r["ref"].lower() for r in rows)
+
+
+def test_silence_false_positives_and_strict_score_in_report():
+    clip = common.Clip("n1", "negatives", "n1.wav", 2.0, "", "noise-fan")
+    leak = _utt("n1", "", "thank you", dataset="negatives")
+    assert leak["wer_raw"][1] == 0
+    dclip = common.Clip("d1", "dictation", "d1.wav", 2.0, "hi priya", "email", ref_clean="Hi, Priya.")
+    sc = run_eval._score(dclip, "hi priya", "Hi, Priya.")
+    assert sc["strict_raw"] == [4, 4] and sc["strict_final"] == [0, 4]
+    assert clip.ref == "" and "strict_final" not in run_eval._score(clip, "", "")
+
+    s = run_eval.summarize([leak, _utt("n2", "", "", dataset="negatives")])
+    assert s["overall"]["empty_ref"] == {"n": 2, "nonempty_raw": 1, "nonempty_output": 1}
+
+
+def test_content_wer_rewards_removed_fillers_that_verbatim_wer_penalises():
+    clip = common.Clip("d2", "dictation", "d2.wav", 2.0, "it is you know done", "fillers", ref_clean="It is done.")
+    sc = run_eval._score(clip, "it is you know done", "It is done.")
+    assert sc["wer_final"] == [2, 5]  # verbatim reference expects the filler
+    assert sc["clean_final"] == [0, 3] and sc["clean_raw"] == [2, 3]

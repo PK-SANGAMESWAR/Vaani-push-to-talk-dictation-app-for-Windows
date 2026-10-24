@@ -44,7 +44,7 @@ def fakes(monkeypatch):
 
     def load_model(name, quantization=None, providers=None):
         state.loads.append((name, quantization, providers))
-        if state.cuda_load_fails and stt.CUDA in providers:
+        if state.cuda_load_fails and any(p == stt.CUDA or p[0] == stt.CUDA for p in providers):
             raise RuntimeError("cuda boom")
         return FakeModel(providers, quantization)
 
@@ -58,7 +58,7 @@ def fakes(monkeypatch):
 def test_auto_uses_cuda_fp32_when_available(fakes):
     t = stt.Transcriber()
     assert t.device == "cuda" and fakes.preloaded
-    assert fakes.loads == [("nemo-parakeet-tdt-0.6b-v3", None, [stt.CUDA, stt.CPU])]
+    assert fakes.loads == [("nemo-parakeet-tdt-0.6b-v3", None, [(stt.CUDA, stt.CUDA_OPTIONS), stt.CPU])]
 
 
 def test_auto_uses_cpu_int8_without_cuda(fakes):

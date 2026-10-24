@@ -15,7 +15,7 @@ sounds         = true    # short start/stop beeps
 
 [asr]
 asr_model          = "nemo-parakeet-tdt-0.6b-v3"   # or "nemo-parakeet-tdt-0.6b-v2" (English-only)
-device             = "auto"    # auto | cuda | cpu
+device             = "auto"    # auto | cuda | cpu. auto = GPU, but CPU when [cleanup] is on (shares the 6 GB GPU)
 quantization       = "auto"    # auto = fp32 on GPU, int8 on CPU
 vad_threshold      = 0.5
 vad_min_silence_ms = 600
@@ -26,7 +26,7 @@ llm_enabled    = true                     # also toggleable from the tray menu
 llm_url        = "http://127.0.0.1:11434" # local Ollama
 llm_model      = "gemma3:4b"              # any small instruct model you've pulled with `ollama pull`
 llm_min_words  = 8                        # shorter dictations skip the LLM (instant)
-llm_timeout_s  = 4.0                      # on timeout the raw transcript is pasted
+llm_timeout_s  = 2.5                      # on timeout the raw transcript is pasted (bounds the worst-case wait)
 llm_keep_alive = -1                       # keep the model loaded in VRAM
 llm_think_flag = false                    # set true for thinking models (e.g. qwen3) to disable thinking
 

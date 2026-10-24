@@ -76,7 +76,7 @@ class Config:
     llm_url: str = "http://127.0.0.1:11434"
     llm_model: str = "gemma3:4b"
     llm_min_words: int = 8  # short utterances skip the LLM entirely
-    llm_timeout_s: float = 4.0
+    llm_timeout_s: float = 2.5
     llm_keep_alive: int | str = -1  # keep the model resident in VRAM
     llm_think_flag: bool = False  # send "think": false (only for thinking models like qwen3)
 

@@ -116,3 +116,13 @@ def test_cleaner_clean_with_status(monkeypatch):
     monkeypatch.setattr(c, "_post", down)
     assert c.clean_with_status("hello there") == ("hello there", "error")
     assert c.clean("hello there") == "hello there"
+
+
+@pytest.mark.parametrize(
+    ("device", "llm", "expected"),
+    [("auto", True, "cpu"), ("auto", False, "auto"), ("cuda", True, "cuda"), ("cpu", False, "cpu")],
+)
+def test_asr_device_leaves_gpu_to_ollama_only_when_auto(device, llm, expected):
+    from vaani.pipeline import asr_device
+
+    assert asr_device(Config(device=device, llm_enabled=llm)) == expected
