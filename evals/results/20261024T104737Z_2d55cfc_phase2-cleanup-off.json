@@ -1,0 +1,5440 @@
+{
+ "schema": 1,
+ "label": "phase2-cleanup-off",
+ "created_utc": "2026-10-24T10:47:37+00:00",
+ "diagnostic": {
+  "no_vad": false
+ },
+ "args": {
+  "datasets": "dictation,negatives",
+  "manifest": [],
+  "full": false,
+  "n": 200,
+  "seed": 0,
+  "limit": null,
+  "config": "config.toml",
+  "device": null,
+  "quantization": null,
+  "cleanup": "off",
+  "no_vad": false,
+  "label": "phase2-cleanup-off",
+  "out": "evals/results",
+  "published_wer": null,
+  "published_source": null,
+  "published_note": null,
+  "verbose": false
+ },
+ "settings": {
+  "cleanup": false,
+  "use_vad": true,
+  "bootstrap": {
+   "resamples": 1000,
+   "seed": 0,
+   "ci": 0.95
+  },
+  "percentile_method": "linear",
+  "wer": "corpus-level, EnglishTextNormalizer on ref and hyp; empty normalized refs excluded",
+  "cer": "corpus-level on normalized text, spaces counted"
+ },
+ "provenance": {
+  "git": {
+   "commit": "2d55cfcd138b0302f713771ed81f31304f133d60",
+   "branch": "main",
+   "dirty": false
+  },
+  "config": {
+   "path": "config.toml",
+   "sha256": "d5a153a3c3341f309af3281bc64a3c3c985f233040cf684920c29995ddd3a2a4",
+   "values": {
+    "hotkey": "right ctrl",
+    "mode": "hold",
+    "input_device": null,
+    "sample_rate": 16000,
+    "keep_mic_open": false,
+    "preroll_ms": 300,
+    "min_duration_s": 0.3,
+    "max_duration_s": 300,
+    "sounds": true,
+    "asr_model": "nemo-parakeet-tdt-0.6b-v3",
+    "device": "auto",
+    "quantization": "auto",
+    "vad_threshold": 0.5,
+    "vad_min_silence_ms": 600,
+    "vad_speech_pad_ms": 200,
+    "llm_enabled": false,
+    "llm_url": "http://127.0.0.1:11434",
+    "llm_model": "gemma3:4b",
+    "llm_min_words": 8,
+    "llm_timeout_s": 2.5,
+    "llm_keep_alive": -1,
+    "llm_think_flag": false,
+    "paste_method": "clipboard",
+    "restore_clipboard": true,
+    "paste_delay_ms": 150,
+    "trailing_space": true,
+    "save_history": false,
+    "replacements": {
+     "pie torch": "PyTorch",
+     "pie torch geometric": "PyTorch Geometric",
+     "lang chain": "LangChain",
+     "lang graph": "LangGraph",
+     "fast api": "FastAPI",
+     "olama": "Ollama",
+     "s t g n n": "STGNN",
+     "g n n": "GNN"
+    },
+    "snippets": {
+     "insert my signature": "Best regards,\nSangameswar"
+    }
+   }
+  },
+  "asr": {
+   "model": "nemo-parakeet-tdt-0.6b-v3",
+   "device": "cuda",
+   "quantization": "fp32",
+   "vad": {
+    "model": "silero",
+    "threshold": 0.5,
+    "min_silence_ms": 600,
+    "speech_pad_ms": 200
+   },
+   "available_providers": [
+    "TensorrtExecutionProvider",
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+   ]
+  },
+  "cleanup": null,
+  "normalizer": {
+   "name": "EnglishTextNormalizer",
+   "repo": "https://github.com/huggingface/open_asr_leaderboard",
+   "commit": "7e8d1a1003c201324e9003dd5bc34244340a63b0"
+  },
+  "versions": {
+   "onnxruntime-gpu": "1.31.0",
+   "onnxruntime": null,
+   "onnx-asr": "0.12.0",
+   "numpy": "2.5.4",
+   "jiwer": "4.0.0",
+   "soundfile": "0.14.0",
+   "python": "3.12.11"
+  },
+  "hardware": {
+   "gpu": {
+    "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "driver": "591.66",
+    "memory_total_mb": 6141,
+    "cuda_driver_version": 13010
+   },
+   "cpu": "AMD Ryzen 7 7435HS",
+   "cpu_cores": 8,
+   "cpu_threads": 16,
+   "ram_gb": 23.7
+  },
+  "os": "Windows-11-10.0.26300-SP0"
+ },
+ "manifests": [
+  {
+   "path": "evals/datasets/manifests/dictation.fixed.jsonl",
+   "sha256": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+   "n_used": 24,
+   "meta": {
+    "dataset": "dictation",
+    "full": true,
+    "mic": "laptop array",
+    "missing": [],
+    "n": 24,
+    "population": 24,
+    "script_sha256": "b4096a76608a9a492edd09fba315e91f67f79e6b62fe4708461ca9b26c7cd50c",
+    "seed": null,
+    "source": "evals/datasets/dictation/script.jsonl, recorded locally",
+    "speaker": "me"
+   }
+  },
+  {
+   "path": "evals/datasets/manifests/negatives.fixed.jsonl",
+   "sha256": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+   "n_used": 56,
+   "meta": {
+    "dataset": "negatives",
+    "durations_s": [
+     1.5,
+     3.0,
+     6.0,
+     10.0
+    ],
+    "full": true,
+    "kinds": [
+     "silence-digital",
+     "silence-dither",
+     "noise-room",
+     "noise-fan",
+     "noise-white-loud",
+     "hum-60hz",
+     "keyboard-clicks"
+    ],
+    "license": "CC0-1.0",
+    "n": 56,
+    "seed": null,
+    "source": "synthetic (evals/datasets/negatives.py)",
+    "synth_version": 1,
+    "variants": 2
+   }
+  }
+ ],
+ "cold_start_ms": {
+  "model_load": 6127.0,
+  "warmup": 524.2,
+  "load_plus_warmup": 6651.2,
+  "llm_prewarm": null
+ },
+ "run_wall_s": 5.2,
+ "resources": {
+  "ram_peak_mb": 1117.3,
+  "ram_peak_source": "peak_wset",
+  "gpu": {
+   "scope": "device-wide (all processes)",
+   "total_mb": 6141.0,
+   "baseline_used_mb": 4534.5,
+   "peak_used_mb": 6086.0,
+   "delta_mb": 1551.5,
+   "process_peak_mb": null,
+   "sample_interval_ms": 50
+  }
+ },
+ "summary": {
+  "overall": {
+   "n": 80,
+   "n_scored": 24,
+   "audio_hours": 0.124,
+   "wer_raw": {
+    "value": 0.07829181494661921,
+    "ci95": [
+     0.04294478527607362,
+     0.1183686895810956
+    ],
+    "errors": 22,
+    "total": 281
+   },
+   "wer_final": {
+    "value": 0.07473309608540925,
+    "ci95": [
+     0.03929916944943917,
+     0.11371237458193979
+    ],
+    "errors": 21,
+    "total": 281
+   },
+   "cer_raw": {
+    "value": 0.038102084831056794,
+    "ci95": [
+     0.01691062013341461,
+     0.05789943280173842
+    ],
+    "errors": 53,
+    "total": 1391
+   },
+   "cer_final": {
+    "value": 0.037383177570093455,
+    "ci95": [
+     0.01594417177190866,
+     0.057351370921518374
+    ],
+    "errors": 52,
+    "total": 1391
+   },
+   "latency_ms": {
+    "asr": {
+     "n": 80,
+     "p50": 28.21,
+     "p95": 191.10649999999995,
+     "mean": 62.542875,
+     "max": 355.79
+    },
+    "cleanup": {
+     "n": 0,
+     "p50": null,
+     "p95": null,
+     "mean": null,
+     "max": null
+    },
+    "total": {
+     "n": 80,
+     "p50": 28.21,
+     "p95": 191.12699999999992,
+     "mean": 62.55075000000001,
+     "max": 355.86
+    }
+   },
+   "rtfx": 89.2,
+   "routes": {
+    "replace": 24,
+    "empty": 56
+   },
+   "cleanup_status": {},
+   "empty_output_on_speech": 0,
+   "empty_ref": {
+    "n": 56,
+    "nonempty_raw": 0,
+    "nonempty_output": 0
+   },
+   "strict_raw": {
+    "value": 0.27741935483870966,
+    "ci95": [
+     0.18181818181818182,
+     0.41400541452156925
+    ],
+    "errors": 86,
+    "total": 310
+   },
+   "strict_final": {
+    "value": 0.27419354838709675,
+    "ci95": [
+     0.1774247491638796,
+     0.4125049603174603
+    ],
+    "errors": 85,
+    "total": 310
+   },
+   "clean_raw": {
+    "value": 0.13382899628252787,
+    "ci95": [
+     0.0743801652892562,
+     0.20982142857142858
+    ],
+    "errors": 36,
+    "total": 269
+   },
+   "clean_final": {
+    "value": 0.13011152416356878,
+    "ci95": [
+     0.07142857142857142,
+     0.20471506390111036
+    ],
+    "errors": 35,
+    "total": 269
+   },
+   "n_strict": 24
+  },
+  "by_dataset": {
+   "dictation": {
+    "n": 24,
+    "n_scored": 24,
+    "audio_hours": 0.0442,
+    "wer_raw": {
+     "value": 0.07829181494661921,
+     "ci95": [
+      0.04294478527607362,
+      0.1183686895810956
+     ],
+     "errors": 22,
+     "total": 281
+    },
+    "wer_final": {
+     "value": 0.07473309608540925,
+     "ci95": [
+      0.03929916944943917,
+      0.11371237458193979
+     ],
+     "errors": 21,
+     "total": 281
+    },
+    "cer_raw": {
+     "value": 0.038102084831056794,
+     "ci95": [
+      0.01691062013341461,
+      0.05789943280173842
+     ],
+     "errors": 53,
+     "total": 1391
+    },
+    "cer_final": {
+     "value": 0.037383177570093455,
+     "ci95": [
+      0.01594417177190866,
+      0.057351370921518374
+     ],
+     "errors": 52,
+     "total": 1391
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 24,
+      "p50": 130.11,
+      "p95": 260.8855,
+      "mean": 155.34958333333333,
+      "max": 355.79
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 24,
+      "p50": 130.135,
+      "p95": 260.9285,
+      "mean": 155.37583333333333,
+      "max": 355.86
+     }
+    },
+    "rtfx": 42.7,
+    "routes": {
+     "replace": 24
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.27741935483870966,
+     "ci95": [
+      0.18181818181818182,
+      0.41400541452156925
+     ],
+     "errors": 86,
+     "total": 310
+    },
+    "strict_final": {
+     "value": 0.27419354838709675,
+     "ci95": [
+      0.1774247491638796,
+      0.4125049603174603
+     ],
+     "errors": 85,
+     "total": 310
+    },
+    "clean_raw": {
+     "value": 0.13382899628252787,
+     "ci95": [
+      0.0743801652892562,
+      0.20982142857142858
+     ],
+     "errors": 36,
+     "total": 269
+    },
+    "clean_final": {
+     "value": 0.13011152416356878,
+     "ci95": [
+      0.07142857142857142,
+      0.20471506390111036
+     ],
+     "errors": 35,
+     "total": 269
+    },
+    "n_strict": 24
+   },
+   "negatives": {
+    "n": 56,
+    "n_scored": 0,
+    "audio_hours": 0.0797,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 56,
+      "p50": 19.54,
+      "p95": 45.26,
+      "mean": 22.768571428571427,
+      "max": 49.14
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 56,
+      "p50": 19.54,
+      "p95": 45.26,
+      "mean": 22.768571428571427,
+      "max": 49.14
+     }
+    },
+    "rtfx": 225.1,
+    "routes": {
+     "empty": 56
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 56,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   }
+  },
+  "by_category": {
+   "email": {
+    "n": 2,
+    "n_scored": 2,
+    "audio_hours": 0.0049,
+    "wer_raw": {
+     "value": 0.12195121951219512,
+     "ci95": [
+      0.05263157894736842,
+      0.18181818181818182
+     ],
+     "errors": 5,
+     "total": 41
+    },
+    "wer_final": {
+     "value": 0.12195121951219512,
+     "ci95": [
+      0.05263157894736842,
+      0.18181818181818182
+     ],
+     "errors": 5,
+     "total": 41
+    },
+    "cer_raw": {
+     "value": 0.06796116504854369,
+     "ci95": [
+      0.04040404040404041,
+      0.09345794392523364
+     ],
+     "errors": 14,
+     "total": 206
+    },
+    "cer_final": {
+     "value": 0.06796116504854369,
+     "ci95": [
+      0.04040404040404041,
+      0.09345794392523364
+     ],
+     "errors": 14,
+     "total": 206
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 2,
+      "p50": 207.3,
+      "p95": 256.476,
+      "mean": 207.3,
+      "max": 261.94
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 2,
+      "p50": 207.335,
+      "p95": 256.51550000000003,
+      "mean": 207.335,
+      "max": 261.98
+     }
+    },
+    "rtfx": 42.6,
+    "routes": {
+     "replace": 2
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.10416666666666667,
+     "ci95": [
+      0.045454545454545456,
+      0.15384615384615385
+     ],
+     "errors": 5,
+     "total": 48
+    },
+    "strict_final": {
+     "value": 0.10416666666666667,
+     "ci95": [
+      0.045454545454545456,
+      0.15384615384615385
+     ],
+     "errors": 5,
+     "total": 48
+    },
+    "clean_raw": {
+     "value": 0.12195121951219512,
+     "ci95": [
+      0.05263157894736842,
+      0.18181818181818182
+     ],
+     "errors": 5,
+     "total": 41
+    },
+    "clean_final": {
+     "value": 0.12195121951219512,
+     "ci95": [
+      0.05263157894736842,
+      0.18181818181818182
+     ],
+     "errors": 5,
+     "total": 41
+    },
+    "n_strict": 2
+   },
+   "fillers": {
+    "n": 3,
+    "n_scored": 3,
+    "audio_hours": 0.0052,
+    "wer_raw": {
+     "value": 0.06666666666666667,
+     "ci95": [
+      0.0,
+      0.2857142857142857
+     ],
+     "errors": 2,
+     "total": 30
+    },
+    "wer_final": {
+     "value": 0.06666666666666667,
+     "ci95": [
+      0.0,
+      0.2857142857142857
+     ],
+     "errors": 2,
+     "total": 30
+    },
+    "cer_raw": {
+     "value": 0.028368794326241134,
+     "ci95": [
+      0.0,
+      0.13793103448275862
+     ],
+     "errors": 4,
+     "total": 141
+    },
+    "cer_final": {
+     "value": 0.028368794326241134,
+     "ci95": [
+      0.0,
+      0.13793103448275862
+     ],
+     "errors": 4,
+     "total": 141
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 3,
+      "p50": 130.71,
+      "p95": 206.38199999999998,
+      "mean": 154.39666666666668,
+      "max": 214.79
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 3,
+      "p50": 130.74,
+      "p95": 206.41199999999998,
+      "mean": 154.42333333333332,
+      "max": 214.82
+     }
+    },
+    "rtfx": 40.1,
+    "routes": {
+     "replace": 3
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.41379310344827586,
+     "ci95": [
+      0.25,
+      0.7777777777777778
+     ],
+     "errors": 12,
+     "total": 29
+    },
+    "strict_final": {
+     "value": 0.41379310344827586,
+     "ci95": [
+      0.25,
+      0.7777777777777778
+     ],
+     "errors": 12,
+     "total": 29
+    },
+    "clean_raw": {
+     "value": 0.28,
+     "ci95": [
+      0.0,
+      0.7142857142857143
+     ],
+     "errors": 7,
+     "total": 25
+    },
+    "clean_final": {
+     "value": 0.28,
+     "ci95": [
+      0.0,
+      0.7142857142857143
+     ],
+     "errors": 7,
+     "total": 25
+    },
+    "n_strict": 3
+   },
+   "hum-60hz": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 19.7,
+      "p95": 43.6065,
+      "mean": 22.396250000000002,
+      "max": 44.31
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 19.7,
+      "p95": 43.6065,
+      "mean": 22.396250000000002,
+      "max": 44.31
+     }
+    },
+    "rtfx": 228.8,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "keyboard-clicks": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 19.64,
+      "p95": 43.4235,
+      "mean": 22.79875,
+      "max": 44.05
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 19.64,
+      "p95": 43.4235,
+      "mean": 22.79875,
+      "max": 44.05
+     }
+    },
+    "rtfx": 224.8,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "long": {
+    "n": 2,
+    "n_scored": 2,
+    "audio_hours": 0.0101,
+    "wer_raw": {
+     "value": 0.0625,
+     "ci95": [
+      0.0,
+      0.12195121951219512
+     ],
+     "errors": 5,
+     "total": 80
+    },
+    "wer_final": {
+     "value": 0.0625,
+     "ci95": [
+      0.0,
+      0.12195121951219512
+     ],
+     "errors": 5,
+     "total": 80
+    },
+    "cer_raw": {
+     "value": 0.04337899543378995,
+     "ci95": [
+      0.0,
+      0.084070796460177
+     ],
+     "errors": 19,
+     "total": 438
+    },
+    "cer_final": {
+     "value": 0.04337899543378995,
+     "ci95": [
+      0.0,
+      0.084070796460177
+     ],
+     "errors": 19,
+     "total": 438
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 2,
+      "p50": 305.35,
+      "p95": 350.74600000000004,
+      "mean": 305.35,
+      "max": 355.79
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 2,
+      "p50": 305.415,
+      "p95": 350.8155,
+      "mean": 305.415,
+      "max": 355.86
+     }
+    },
+    "rtfx": 59.4,
+    "routes": {
+     "replace": 2
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.14942528735632185,
+     "ci95": [
+      0.09302325581395349,
+      0.20454545454545456
+     ],
+     "errors": 13,
+     "total": 87
+    },
+    "strict_final": {
+     "value": 0.14942528735632185,
+     "ci95": [
+      0.09302325581395349,
+      0.20454545454545456
+     ],
+     "errors": 13,
+     "total": 87
+    },
+    "clean_raw": {
+     "value": 0.06329113924050633,
+     "ci95": [
+      0.0,
+      0.125
+     ],
+     "errors": 5,
+     "total": 79
+    },
+    "clean_final": {
+     "value": 0.06329113924050633,
+     "ci95": [
+      0.0,
+      0.125
+     ],
+     "errors": 5,
+     "total": 79
+    },
+    "n_strict": 2
+   },
+   "noise-fan": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 20.45,
+      "p95": 44.2025,
+      "mean": 23.05125,
+      "max": 44.71
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 20.45,
+      "p95": 44.2025,
+      "mean": 23.05125,
+      "max": 44.71
+     }
+    },
+    "rtfx": 222.3,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "noise-room": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 19.3,
+      "p95": 47.2605,
+      "mean": 22.9625,
+      "max": 49.14
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 19.3,
+      "p95": 47.2605,
+      "mean": 22.9625,
+      "max": 49.14
+     }
+    },
+    "rtfx": 223.2,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "noise-white-loud": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 20.810000000000002,
+      "p95": 44.033500000000004,
+      "mean": 23.01375,
+      "max": 44.59
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 20.810000000000002,
+      "p95": 44.033500000000004,
+      "mean": 23.01375,
+      "max": 44.59
+     }
+    },
+    "rtfx": 222.7,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "numbers": {
+    "n": 3,
+    "n_scored": 3,
+    "audio_hours": 0.0046,
+    "wer_raw": {
+     "value": 0.05555555555555555,
+     "ci95": [
+      0.0,
+      0.1111111111111111
+     ],
+     "errors": 1,
+     "total": 18
+    },
+    "wer_final": {
+     "value": 0.05555555555555555,
+     "ci95": [
+      0.0,
+      0.1111111111111111
+     ],
+     "errors": 1,
+     "total": 18
+    },
+    "cer_raw": {
+     "value": 0.04597701149425287,
+     "ci95": [
+      0.0,
+      0.1
+     ],
+     "errors": 4,
+     "total": 87
+    },
+    "cer_final": {
+     "value": 0.04597701149425287,
+     "ci95": [
+      0.0,
+      0.1
+     ],
+     "errors": 4,
+     "total": 87
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 3,
+      "p50": 129.51,
+      "p95": 138.51,
+      "mean": 131.08666666666667,
+      "max": 139.51
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 3,
+      "p50": 129.53,
+      "p95": 138.53,
+      "mean": 131.10666666666668,
+      "max": 139.53
+     }
+    },
+    "rtfx": 42.0,
+    "routes": {
+     "replace": 3
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 1.0,
+     "ci95": [
+      0.5,
+      2.4
+     ],
+     "errors": 24,
+     "total": 24
+    },
+    "strict_final": {
+     "value": 1.0,
+     "ci95": [
+      0.5,
+      2.4
+     ],
+     "errors": 24,
+     "total": 24
+    },
+    "clean_raw": {
+     "value": 0.05555555555555555,
+     "ci95": [
+      0.0,
+      0.1111111111111111
+     ],
+     "errors": 1,
+     "total": 18
+    },
+    "clean_final": {
+     "value": 0.05555555555555555,
+     "ci95": [
+      0.0,
+      0.1111111111111111
+     ],
+     "errors": 1,
+     "total": 18
+    },
+    "n_strict": 3
+   },
+   "plain": {
+    "n": 5,
+    "n_scored": 5,
+    "audio_hours": 0.0074,
+    "wer_raw": {
+     "value": 0.08695652173913043,
+     "ci95": [
+      0.02040816326530612,
+      0.175
+     ],
+     "errors": 4,
+     "total": 46
+    },
+    "wer_final": {
+     "value": 0.08695652173913043,
+     "ci95": [
+      0.02040816326530612,
+      0.175
+     ],
+     "errors": 4,
+     "total": 46
+    },
+    "cer_raw": {
+     "value": 0.032407407407407406,
+     "ci95": [
+      0.004424778761061947,
+      0.06635071090047394
+     ],
+     "errors": 7,
+     "total": 216
+    },
+    "cer_final": {
+     "value": 0.032407407407407406,
+     "ci95": [
+      0.004424778761061947,
+      0.06635071090047394
+     ],
+     "errors": 7,
+     "total": 216
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 5,
+      "p50": 127.4,
+      "p95": 177.42,
+      "mean": 138.916,
+      "max": 189.86
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 5,
+      "p50": 127.42,
+      "p95": 177.44,
+      "mean": 138.94,
+      "max": 189.88
+     }
+    },
+    "rtfx": 38.3,
+    "routes": {
+     "replace": 5
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.2037037037037037,
+     "ci95": [
+      0.05555555555555555,
+      0.3958333333333333
+     ],
+     "errors": 11,
+     "total": 54
+    },
+    "strict_final": {
+     "value": 0.2037037037037037,
+     "ci95": [
+      0.05555555555555555,
+      0.3958333333333333
+     ],
+     "errors": 11,
+     "total": 54
+    },
+    "clean_raw": {
+     "value": 0.1276595744680851,
+     "ci95": [
+      0.02040816326530612,
+      0.3023255813953488
+     ],
+     "errors": 6,
+     "total": 47
+    },
+    "clean_final": {
+     "value": 0.1276595744680851,
+     "ci95": [
+      0.02040816326530612,
+      0.3023255813953488
+     ],
+     "errors": 6,
+     "total": 47
+    },
+    "n_strict": 5
+   },
+   "self-correction": {
+    "n": 2,
+    "n_scored": 2,
+    "audio_hours": 0.0031,
+    "wer_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 17
+    },
+    "wer_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 17
+    },
+    "cer_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 63
+    },
+    "cer_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 63
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 2,
+      "p50": 136.245,
+      "p95": 138.48149999999998,
+      "mean": 136.245,
+      "max": 138.73
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 2,
+      "p50": 136.265,
+      "p95": 138.5015,
+      "mean": 136.265,
+      "max": 138.75
+     }
+    },
+    "rtfx": 40.4,
+    "routes": {
+     "replace": 2
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 1.0,
+     "ci95": [
+      1.0,
+      1.0
+     ],
+     "errors": 11,
+     "total": 11
+    },
+    "strict_final": {
+     "value": 1.0,
+     "ci95": [
+      1.0,
+      1.0
+     ],
+     "errors": 11,
+     "total": 11
+    },
+    "clean_raw": {
+     "value": 0.7,
+     "ci95": [
+      0.5,
+      1.0
+     ],
+     "errors": 7,
+     "total": 10
+    },
+    "clean_final": {
+     "value": 0.7,
+     "ci95": [
+      0.5,
+      1.0
+     ],
+     "errors": 7,
+     "total": 10
+    },
+    "n_strict": 2
+   },
+   "short": {
+    "n": 3,
+    "n_scored": 3,
+    "audio_hours": 0.0026,
+    "wer_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 7
+    },
+    "wer_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 7
+    },
+    "cer_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 30
+    },
+    "cer_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 30
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 3,
+      "p50": 102.33,
+      "p95": 104.03099999999999,
+      "mean": 101.44666666666666,
+      "max": 104.22
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 3,
+      "p50": 102.34,
+      "p95": 104.05,
+      "mean": 101.46,
+      "max": 104.24
+     }
+    },
+    "rtfx": 30.6,
+    "routes": {
+     "replace": 3
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 11
+    },
+    "strict_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 11
+    },
+    "clean_raw": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 7
+    },
+    "clean_final": {
+     "value": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "errors": 0,
+     "total": 7
+    },
+    "n_strict": 3
+   },
+   "silence-digital": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 19.125,
+      "p95": 42.0005,
+      "mean": 21.81375,
+      "max": 42.2
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 19.125,
+      "p95": 42.0005,
+      "mean": 21.81375,
+      "max": 42.2
+     }
+    },
+    "rtfx": 234.9,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "silence-dither": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 19.89,
+      "p95": 47.2285,
+      "mean": 23.34375,
+      "max": 47.4
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 19.89,
+      "p95": 47.2285,
+      "mean": 23.34375,
+      "max": 47.4
+     }
+    },
+    "rtfx": 219.5,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "technical": {
+    "n": 4,
+    "n_scored": 4,
+    "audio_hours": 0.0065,
+    "wer_raw": {
+     "value": 0.11904761904761904,
+     "ci95": [
+      0.047619047619047616,
+      0.19047619047619047
+     ],
+     "errors": 5,
+     "total": 42
+    },
+    "wer_final": {
+     "value": 0.09523809523809523,
+     "ci95": [
+      0.047619047619047616,
+      0.1590909090909091
+     ],
+     "errors": 4,
+     "total": 42
+    },
+    "cer_raw": {
+     "value": 0.023809523809523808,
+     "ci95": [
+      0.009345794392523364,
+      0.03773584905660377
+     ],
+     "errors": 5,
+     "total": 210
+    },
+    "cer_final": {
+     "value": 0.01904761904761905,
+     "ci95": [
+      0.008928571428571428,
+      0.03431372549019608
+     ],
+     "errors": 4,
+     "total": 210
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 4,
+      "p50": 135.39999999999998,
+      "p95": 177.19549999999998,
+      "mean": 143.8075,
+      "max": 183.35
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 4,
+      "p50": 135.42000000000002,
+      "p95": 177.224,
+      "mean": 143.83,
+      "max": 183.38
+     }
+    },
+    "rtfx": 40.5,
+    "routes": {
+     "replace": 4
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": 0.21739130434782608,
+     "ci95": [
+      0.08695652173913043,
+      0.3541666666666667
+     ],
+     "errors": 10,
+     "total": 46
+    },
+    "strict_final": {
+     "value": 0.1956521739130435,
+     "ci95": [
+      0.08695652173913043,
+      0.3541666666666667
+     ],
+     "errors": 9,
+     "total": 46
+    },
+    "clean_raw": {
+     "value": 0.11904761904761904,
+     "ci95": [
+      0.047619047619047616,
+      0.19047619047619047
+     ],
+     "errors": 5,
+     "total": 42
+    },
+    "clean_final": {
+     "value": 0.09523809523809523,
+     "ci95": [
+      0.047619047619047616,
+      0.1590909090909091
+     ],
+     "errors": 4,
+     "total": 42
+    },
+    "n_strict": 4
+   }
+  },
+  "by_tag": {}
+ },
+ "published_reference": null,
+ "utterances": [
+  {
+   "id": "dict-001",
+   "dataset": "dictation",
+   "category": "plain",
+   "tags": {},
+   "duration_s": 6.084,
+   "ref": "hey can you send me the report by end of day",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Hey, can you send me the report by end of the day?",
+   "final": "Hey, can you send me the report by end of the day?",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 122.8,
+   "cleanup_ms": 0.0,
+   "total_ms": 122.83,
+   "ref_clean": "Hey, can you send me the report by end of day?",
+   "strict_raw": [
+    1,
+    13
+   ],
+   "strict_final": [
+    1,
+    13
+   ],
+   "clean_raw": [
+    1,
+    11
+   ],
+   "clean_final": [
+    1,
+    11
+   ],
+   "ref_norm": "hey can you send me the report by end of day",
+   "raw_norm": "hey can you send me the report by end of the day",
+   "final_norm": "hey can you send me the report by end of the day",
+   "wer_raw": [
+    1,
+    11
+   ],
+   "wer_final": [
+    1,
+    11
+   ],
+   "cer_raw": [
+    4,
+    44
+   ],
+   "cer_final": [
+    4,
+    44
+   ]
+  },
+  {
+   "id": "dict-002",
+   "dataset": "dictation",
+   "category": "plain",
+   "tags": {},
+   "duration_s": 5.564,
+   "ref": "i will be ten minutes late to the meeting",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "I will be ten minutes late to the meeting.",
+   "final": "I will be ten minutes late to the meeting.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 127.4,
+   "cleanup_ms": 0.0,
+   "total_ms": 127.42,
+   "ref_clean": "I will be ten minutes late to the meeting.",
+   "strict_raw": [
+    0,
+    10
+   ],
+   "strict_final": [
+    0,
+    10
+   ],
+   "clean_raw": [
+    0,
+    9
+   ],
+   "clean_final": [
+    0,
+    9
+   ],
+   "ref_norm": "i will be 10 minutes late to the meeting",
+   "raw_norm": "i will be 10 minutes late to the meeting",
+   "final_norm": "i will be 10 minutes late to the meeting",
+   "wer_raw": [
+    0,
+    9
+   ],
+   "wer_final": [
+    0,
+    9
+   ],
+   "cer_raw": [
+    0,
+    40
+   ],
+   "cer_final": [
+    0,
+    40
+   ]
+  },
+  {
+   "id": "dict-003",
+   "dataset": "dictation",
+   "category": "plain",
+   "tags": {},
+   "duration_s": 5.174,
+   "ref": "the build finished and all tests passed",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "The bill finished and all tests passed.",
+   "final": "The bill finished and all tests passed.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 189.86,
+   "cleanup_ms": 0.0,
+   "total_ms": 189.88,
+   "ref_clean": "The build finished and all tests passed.",
+   "strict_raw": [
+    1,
+    8
+   ],
+   "strict_final": [
+    1,
+    8
+   ],
+   "clean_raw": [
+    1,
+    7
+   ],
+   "clean_final": [
+    1,
+    7
+   ],
+   "ref_norm": "the build finished and all tests passed",
+   "raw_norm": "the bill finished and all tests passed",
+   "final_norm": "the bill finished and all tests passed",
+   "wer_raw": [
+    1,
+    7
+   ],
+   "wer_final": [
+    1,
+    7
+   ],
+   "cer_raw": [
+    2,
+    39
+   ],
+   "cer_final": [
+    2,
+    39
+   ]
+  },
+  {
+   "id": "dict-004",
+   "dataset": "dictation",
+   "category": "plain",
+   "tags": {},
+   "duration_s": 4.836,
+   "ref": "thanks for the quick reply i will take a look tonight",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Thanks for the quick reply, I'll take a look tonight.",
+   "final": "Thanks for the quick reply, I'll take a look tonight.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 127.66,
+   "cleanup_ms": 0.0,
+   "total_ms": 127.68,
+   "ref_clean": "Thanks for the quick reply. I will take a look tonight.",
+   "strict_raw": [
+    3,
+    13
+   ],
+   "strict_final": [
+    3,
+    13
+   ],
+   "clean_raw": [
+    0,
+    11
+   ],
+   "clean_final": [
+    0,
+    11
+   ],
+   "ref_norm": "thanks for the quick reply i will take a look tonight",
+   "raw_norm": "thanks for the quick reply i will take a look tonight",
+   "final_norm": "thanks for the quick reply i will take a look tonight",
+   "wer_raw": [
+    0,
+    11
+   ],
+   "wer_final": [
+    0,
+    11
+   ],
+   "cer_raw": [
+    0,
+    53
+   ],
+   "cer_final": [
+    0,
+    53
+   ]
+  },
+  {
+   "id": "dict-005",
+   "dataset": "dictation",
+   "category": "plain",
+   "tags": {},
+   "duration_s": 4.94,
+   "ref": "let's move the standup to ten thirty tomorrow",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Let's move the stand-up to ten thirty tomorrow.",
+   "final": "Let's move the stand-up to ten thirty tomorrow.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 126.86,
+   "cleanup_ms": 0.0,
+   "total_ms": 126.89,
+   "ref_clean": "Let's move the standup to 10:30 tomorrow.",
+   "strict_raw": [
+    6,
+    10
+   ],
+   "strict_final": [
+    6,
+    10
+   ],
+   "clean_raw": [
+    4,
+    9
+   ],
+   "clean_final": [
+    4,
+    9
+   ],
+   "ref_norm": "let us move the standup to 1030 tomorrow",
+   "raw_norm": "let us move the stand up to 1030 tomorrow",
+   "final_norm": "let us move the stand up to 1030 tomorrow",
+   "wer_raw": [
+    2,
+    8
+   ],
+   "wer_final": [
+    2,
+    8
+   ],
+   "cer_raw": [
+    1,
+    40
+   ],
+   "cer_final": [
+    1,
+    40
+   ]
+  },
+  {
+   "id": "dict-006",
+   "dataset": "dictation",
+   "category": "short",
+   "tags": {},
+   "duration_s": 2.99,
+   "ref": "sounds good",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Sounds good.",
+   "final": "Sounds good.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 97.79,
+   "cleanup_ms": 0.0,
+   "total_ms": 97.8,
+   "ref_clean": "Sounds good.",
+   "strict_raw": [
+    0,
+    3
+   ],
+   "strict_final": [
+    0,
+    3
+   ],
+   "clean_raw": [
+    0,
+    2
+   ],
+   "clean_final": [
+    0,
+    2
+   ],
+   "ref_norm": "sounds good",
+   "raw_norm": "sounds good",
+   "final_norm": "sounds good",
+   "wer_raw": [
+    0,
+    2
+   ],
+   "wer_final": [
+    0,
+    2
+   ],
+   "cer_raw": [
+    0,
+    11
+   ],
+   "cer_final": [
+    0,
+    11
+   ]
+  },
+  {
+   "id": "dict-007",
+   "dataset": "dictation",
+   "category": "short",
+   "tags": {},
+   "duration_s": 3.068,
+   "ref": "on my way",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "On my way.",
+   "final": "On my way.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 104.22,
+   "cleanup_ms": 0.0,
+   "total_ms": 104.24,
+   "ref_clean": "On my way.",
+   "strict_raw": [
+    0,
+    4
+   ],
+   "strict_final": [
+    0,
+    4
+   ],
+   "clean_raw": [
+    0,
+    3
+   ],
+   "clean_final": [
+    0,
+    3
+   ],
+   "ref_norm": "on my way",
+   "raw_norm": "on my way",
+   "final_norm": "on my way",
+   "wer_raw": [
+    0,
+    3
+   ],
+   "wer_final": [
+    0,
+    3
+   ],
+   "cer_raw": [
+    0,
+    9
+   ],
+   "cer_final": [
+    0,
+    9
+   ]
+  },
+  {
+   "id": "dict-008",
+   "dataset": "dictation",
+   "category": "short",
+   "tags": {},
+   "duration_s": 3.25,
+   "ref": "yes please",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Yes, please.",
+   "final": "Yes, please.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 102.33,
+   "cleanup_ms": 0.0,
+   "total_ms": 102.34,
+   "ref_clean": "Yes, please.",
+   "strict_raw": [
+    0,
+    4
+   ],
+   "strict_final": [
+    0,
+    4
+   ],
+   "clean_raw": [
+    0,
+    2
+   ],
+   "clean_final": [
+    0,
+    2
+   ],
+   "ref_norm": "yes please",
+   "raw_norm": "yes please",
+   "final_norm": "yes please",
+   "wer_raw": [
+    0,
+    2
+   ],
+   "wer_final": [
+    0,
+    2
+   ],
+   "cer_raw": [
+    0,
+    10
+   ],
+   "cer_final": [
+    0,
+    10
+   ]
+  },
+  {
+   "id": "dict-009",
+   "dataset": "dictation",
+   "category": "fillers",
+   "tags": {},
+   "duration_s": 6.422,
+   "ref": "um so i was thinking we could uh push the release to friday",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Hmm. So I was thinking we could uh push the release to Friday.",
+   "final": "Hmm. So I was thinking we could uh push the release to Friday.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 130.71,
+   "cleanup_ms": 0.0,
+   "total_ms": 130.74,
+   "ref_clean": "So I was thinking we could push the release to Friday.",
+   "strict_raw": [
+    3,
+    12
+   ],
+   "strict_final": [
+    3,
+    12
+   ],
+   "clean_raw": [
+    0,
+    11
+   ],
+   "clean_final": [
+    0,
+    11
+   ],
+   "ref_norm": "so i was thinking we could push the release to friday",
+   "raw_norm": "so i was thinking we could push the release to friday",
+   "final_norm": "so i was thinking we could push the release to friday",
+   "wer_raw": [
+    0,
+    11
+   ],
+   "wer_final": [
+    0,
+    11
+   ],
+   "cer_raw": [
+    0,
+    53
+   ],
+   "cer_final": [
+    0,
+    53
+   ]
+  },
+  {
+   "id": "dict-010",
+   "dataset": "dictation",
+   "category": "fillers",
+   "tags": {},
+   "duration_s": 6.63,
+   "ref": "like i mean it is basically done you know just needs review",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Like I mean it's basically done, you know, just needs review.",
+   "final": "Like I mean it's basically done, you know, just needs review.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 214.79,
+   "cleanup_ms": 0.0,
+   "total_ms": 214.82,
+   "ref_clean": "It is basically done, just needs review.",
+   "strict_raw": [
+    7,
+    9
+   ],
+   "strict_final": [
+    7,
+    9
+   ],
+   "clean_raw": [
+    5,
+    7
+   ],
+   "clean_final": [
+    5,
+    7
+   ],
+   "ref_norm": "like i mean it is basically done you know just needs review",
+   "raw_norm": "like i mean it is basically done you know just needs review",
+   "final_norm": "like i mean it is basically done you know just needs review",
+   "wer_raw": [
+    0,
+    12
+   ],
+   "wer_final": [
+    0,
+    12
+   ],
+   "cer_raw": [
+    0,
+    59
+   ],
+   "cer_final": [
+    0,
+    59
+   ]
+  },
+  {
+   "id": "dict-011",
+   "dataset": "dictation",
+   "category": "fillers",
+   "tags": {},
+   "duration_s": 5.512,
+   "ref": "uh can you um check the logs for me",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Can you m check the locks for me?",
+   "final": "Can you m check the locks for me?",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 117.69,
+   "cleanup_ms": 0.0,
+   "total_ms": 117.71,
+   "ref_clean": "Can you check the logs for me?",
+   "strict_raw": [
+    2,
+    8
+   ],
+   "strict_final": [
+    2,
+    8
+   ],
+   "clean_raw": [
+    2,
+    7
+   ],
+   "clean_final": [
+    2,
+    7
+   ],
+   "ref_norm": "can you check the logs for me",
+   "raw_norm": "can you m check the locks for me",
+   "final_norm": "can you m check the locks for me",
+   "wer_raw": [
+    2,
+    7
+   ],
+   "wer_final": [
+    2,
+    7
+   ],
+   "cer_raw": [
+    4,
+    29
+   ],
+   "cer_final": [
+    4,
+    29
+   ]
+  },
+  {
+   "id": "dict-012",
+   "dataset": "dictation",
+   "category": "self-correction",
+   "tags": {},
+   "duration_s": 5.798,
+   "ref": "let's meet at three no wait four o'clock",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Let's meet at three. No, wait, four o'clock.",
+   "final": "Let's meet at three. No, wait, four o'clock.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 138.73,
+   "cleanup_ms": 0.0,
+   "total_ms": 138.75,
+   "ref_clean": "Let's meet at four o'clock.",
+   "strict_raw": [
+    6,
+    6
+   ],
+   "strict_final": [
+    6,
+    6
+   ],
+   "clean_raw": [
+    3,
+    6
+   ],
+   "clean_final": [
+    3,
+    6
+   ],
+   "ref_norm": "let us meet at 3 no wait 40 clock",
+   "raw_norm": "let us meet at 3 no wait 40 clock",
+   "final_norm": "let us meet at 3 no wait 40 clock",
+   "wer_raw": [
+    0,
+    9
+   ],
+   "wer_final": [
+    0,
+    9
+   ],
+   "cer_raw": [
+    0,
+    33
+   ],
+   "cer_final": [
+    0,
+    33
+   ]
+  },
+  {
+   "id": "dict-013",
+   "dataset": "dictation",
+   "category": "self-correction",
+   "tags": {},
+   "duration_s": 5.2,
+   "ref": "send it to john i mean to jane",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Send it to John, I mean to Jane.",
+   "final": "Send it to John, I mean to Jane.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 133.76,
+   "cleanup_ms": 0.0,
+   "total_ms": 133.78,
+   "ref_clean": "Send it to Jane.",
+   "strict_raw": [
+    5,
+    5
+   ],
+   "strict_final": [
+    5,
+    5
+   ],
+   "clean_raw": [
+    4,
+    4
+   ],
+   "clean_final": [
+    4,
+    4
+   ],
+   "ref_norm": "send it to john i mean to jane",
+   "raw_norm": "send it to john i mean to jane",
+   "final_norm": "send it to john i mean to jane",
+   "wer_raw": [
+    0,
+    8
+   ],
+   "wer_final": [
+    0,
+    8
+   ],
+   "cer_raw": [
+    0,
+    30
+   ],
+   "cer_final": [
+    0,
+    30
+   ]
+  },
+  {
+   "id": "dict-014",
+   "dataset": "dictation",
+   "category": "numbers",
+   "tags": {},
+   "duration_s": 4.524,
+   "ref": "the invoice total is one thousand two hundred and fifty dollars",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "The invoice total is one thousand two hundred and fifty dollars.",
+   "final": "The invoice total is one thousand two hundred and fifty dollars.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 124.24,
+   "cleanup_ms": 0.0,
+   "total_ms": 124.26,
+   "ref_clean": "The invoice total is $1,250.",
+   "strict_raw": [
+    7,
+    9
+   ],
+   "strict_final": [
+    7,
+    9
+   ],
+   "clean_raw": [
+    0,
+    5
+   ],
+   "clean_final": [
+    0,
+    5
+   ],
+   "ref_norm": "the invoice total is $1250",
+   "raw_norm": "the invoice total is $1250",
+   "final_norm": "the invoice total is $1250",
+   "wer_raw": [
+    0,
+    5
+   ],
+   "wer_final": [
+    0,
+    5
+   ],
+   "cer_raw": [
+    0,
+    26
+   ],
+   "cer_final": [
+    0,
+    26
+   ]
+  },
+  {
+   "id": "dict-015",
+   "dataset": "dictation",
+   "category": "numbers",
+   "tags": {},
+   "duration_s": 6.11,
+   "ref": "call me on nine eight seven six five four three two one zero",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Call me on nine eight seven six-five four-three two one zero.",
+   "final": "Call me on nine eight seven six-five four-three two one zero.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 139.51,
+   "cleanup_ms": 0.0,
+   "total_ms": 139.53,
+   "ref_clean": "Call me on 9876543210.",
+   "strict_raw": [
+    12,
+    5
+   ],
+   "strict_final": [
+    12,
+    5
+   ],
+   "clean_raw": [
+    0,
+    4
+   ],
+   "clean_final": [
+    0,
+    4
+   ],
+   "ref_norm": "call me on 9876543210",
+   "raw_norm": "call me on 9876543210",
+   "final_norm": "call me on 9876543210",
+   "wer_raw": [
+    0,
+    4
+   ],
+   "wer_final": [
+    0,
+    4
+   ],
+   "cer_raw": [
+    0,
+    21
+   ],
+   "cer_final": [
+    0,
+    21
+   ]
+  },
+  {
+   "id": "dict-016",
+   "dataset": "dictation",
+   "category": "numbers",
+   "tags": {},
+   "duration_s": 5.902,
+   "ref": "we shipped forty two orders on the fifth of march",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "We shipped forty-two orders on fifth of March.",
+   "final": "We shipped forty-two orders on fifth of March.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 129.51,
+   "cleanup_ms": 0.0,
+   "total_ms": 129.53,
+   "ref_clean": "We shipped 42 orders on the 5th of March.",
+   "strict_raw": [
+    5,
+    10
+   ],
+   "strict_final": [
+    5,
+    10
+   ],
+   "clean_raw": [
+    1,
+    9
+   ],
+   "clean_final": [
+    1,
+    9
+   ],
+   "ref_norm": "we shipped 42 orders on the 5th of march",
+   "raw_norm": "we shipped 42 orders on 5th of march",
+   "final_norm": "we shipped 42 orders on 5th of march",
+   "wer_raw": [
+    1,
+    9
+   ],
+   "wer_final": [
+    1,
+    9
+   ],
+   "cer_raw": [
+    4,
+    40
+   ],
+   "cer_final": [
+    4,
+    40
+   ]
+  },
+  {
+   "id": "dict-017",
+   "dataset": "dictation",
+   "category": "technical",
+   "tags": {},
+   "duration_s": 5.174,
+   "ref": "open the pull request and rebase on main before merging",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Open the pull request and rebase on main before merging.",
+   "final": "Open the pull request and rebase on main before merging.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 121.08,
+   "cleanup_ms": 0.0,
+   "total_ms": 121.1,
+   "ref_clean": "Open the pull request and rebase on main before merging.",
+   "strict_raw": [
+    0,
+    11
+   ],
+   "strict_final": [
+    0,
+    11
+   ],
+   "clean_raw": [
+    0,
+    10
+   ],
+   "clean_final": [
+    0,
+    10
+   ],
+   "ref_norm": "open the pull request and rebase on main before merging",
+   "raw_norm": "open the pull request and rebase on main before merging",
+   "final_norm": "open the pull request and rebase on main before merging",
+   "wer_raw": [
+    0,
+    10
+   ],
+   "wer_final": [
+    0,
+    10
+   ],
+   "cer_raw": [
+    0,
+    55
+   ],
+   "cer_final": [
+    0,
+    55
+   ]
+  },
+  {
+   "id": "dict-018",
+   "dataset": "dictation",
+   "category": "technical",
+   "tags": {},
+   "duration_s": 7.384,
+   "ref": "the api returns a four oh four when the user id is missing",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "The AP returns a four, four, when the user ID is missing.",
+   "final": "The AP returns a four, four, when the user ID is missing.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 183.35,
+   "cleanup_ms": 0.0,
+   "total_ms": 183.38,
+   "ref_clean": "The API returns a 404 when the user ID is missing.",
+   "strict_raw": [
+    5,
+    12
+   ],
+   "strict_final": [
+    5,
+    12
+   ],
+   "clean_raw": [
+    2,
+    11
+   ],
+   "clean_final": [
+    2,
+    11
+   ],
+   "ref_norm": "the api returns a 404 when the user id is missing",
+   "raw_norm": "the ap returns a 44 when the user id is missing",
+   "final_norm": "the ap returns a 44 when the user id is missing",
+   "wer_raw": [
+    2,
+    11
+   ],
+   "wer_final": [
+    2,
+    11
+   ],
+   "cer_raw": [
+    2,
+    49
+   ],
+   "cer_final": [
+    2,
+    49
+   ]
+  },
+  {
+   "id": "dict-019",
+   "dataset": "dictation",
+   "category": "technical",
+   "tags": {},
+   "duration_s": 5.148,
+   "ref": "set the cuda device to zero and rerun the onnx model",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Set the CUDA device to zero and rerun the ONX model.",
+   "final": "Set the CUDA device to zero and rerun the ONX model.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 128.48,
+   "cleanup_ms": 0.0,
+   "total_ms": 128.5,
+   "ref_clean": "Set the CUDA device to 0 and rerun the ONNX model.",
+   "strict_raw": [
+    2,
+    12
+   ],
+   "strict_final": [
+    2,
+    12
+   ],
+   "clean_raw": [
+    1,
+    11
+   ],
+   "clean_final": [
+    1,
+    11
+   ],
+   "ref_norm": "set the cuda device to 0 and rerun the onnx model",
+   "raw_norm": "set the cuda device to 0 and rerun the onx model",
+   "final_norm": "set the cuda device to 0 and rerun the onx model",
+   "wer_raw": [
+    1,
+    11
+   ],
+   "wer_final": [
+    1,
+    11
+   ],
+   "cer_raw": [
+    1,
+    49
+   ],
+   "cer_final": [
+    1,
+    49
+   ]
+  },
+  {
+   "id": "dict-020",
+   "dataset": "dictation",
+   "category": "technical",
+   "tags": {},
+   "duration_s": 5.616,
+   "ref": "parakeet runs on the gpu while ollama handles the cleanup",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Arakeet runs on the GPU, while Olama handles the cleanup.",
+   "final": "Arakeet runs on the GPU, while Ollama handles the cleanup.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 142.32,
+   "cleanup_ms": 0.0,
+   "total_ms": 142.34,
+   "ref_clean": "Parakeet runs on the GPU while Ollama handles the cleanup.",
+   "strict_raw": [
+    3,
+    11
+   ],
+   "strict_final": [
+    2,
+    11
+   ],
+   "clean_raw": [
+    2,
+    10
+   ],
+   "clean_final": [
+    1,
+    10
+   ],
+   "ref_norm": "parakeet runs on the gpu while ollama handles the cleanup",
+   "raw_norm": "arakeet runs on the gpu while olama handles the cleanup",
+   "final_norm": "arakeet runs on the gpu while ollama handles the cleanup",
+   "wer_raw": [
+    2,
+    10
+   ],
+   "wer_final": [
+    1,
+    10
+   ],
+   "cer_raw": [
+    2,
+    57
+   ],
+   "cer_final": [
+    1,
+    57
+   ]
+  },
+  {
+   "id": "dict-021",
+   "dataset": "dictation",
+   "category": "email",
+   "tags": {},
+   "duration_s": 9.438,
+   "ref": "hi priya thanks for sending the draft i have a few comments inline let me know if tomorrow works for a call",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Hi Priya, thanks for sending the draft. I have a few comments in line. Let me know if tomorrow works well for your call.",
+   "final": "Hi Priya, thanks for sending the draft. I have a few comments in line. Let me know if tomorrow works well for your call.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 261.94,
+   "cleanup_ms": 0.0,
+   "total_ms": 261.98,
+   "ref_clean": "Hi Priya, thanks for sending the draft. I have a few comments inline. Let me know if tomorrow works for a call.",
+   "strict_raw": [
+    4,
+    26
+   ],
+   "strict_final": [
+    4,
+    26
+   ],
+   "clean_raw": [
+    4,
+    22
+   ],
+   "clean_final": [
+    4,
+    22
+   ],
+   "ref_norm": "hi priya thanks for sending the draft i have a few comments inline let me know if tomorrow works for a call",
+   "raw_norm": "hi priya thanks for sending the draft i have a few comments in line let me know if tomorrow works well for your call",
+   "final_norm": "hi priya thanks for sending the draft i have a few comments in line let me know if tomorrow works well for your call",
+   "wer_raw": [
+    4,
+    22
+   ],
+   "wer_final": [
+    4,
+    22
+   ],
+   "cer_raw": [
+    10,
+    107
+   ],
+   "cer_final": [
+    10,
+    107
+   ]
+  },
+  {
+   "id": "dict-022",
+   "dataset": "dictation",
+   "category": "email",
+   "tags": {},
+   "duration_s": 8.242,
+   "ref": "dear team i am writing to confirm the schedule for next week please reply if you have any conflicts",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Dear team, I am writing to confirm the schedule for the next week. Please reply if you have any conflicts.",
+   "final": "Dear team, I am writing to confirm the schedule for the next week. Please reply if you have any conflicts.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 152.66,
+   "cleanup_ms": 0.0,
+   "total_ms": 152.69,
+   "ref_clean": "Dear team, I am writing to confirm the schedule for next week. Please reply if you have any conflicts.",
+   "strict_raw": [
+    1,
+    22
+   ],
+   "strict_final": [
+    1,
+    22
+   ],
+   "clean_raw": [
+    1,
+    19
+   ],
+   "clean_final": [
+    1,
+    19
+   ],
+   "ref_norm": "dear team i am writing to confirm the schedule for next week please reply if you have any conflicts",
+   "raw_norm": "dear team i am writing to confirm the schedule for the next week please reply if you have any conflicts",
+   "final_norm": "dear team i am writing to confirm the schedule for the next week please reply if you have any conflicts",
+   "wer_raw": [
+    1,
+    19
+   ],
+   "wer_final": [
+    1,
+    19
+   ],
+   "cer_raw": [
+    4,
+    99
+   ],
+   "cer_final": [
+    4,
+    99
+   ]
+  },
+  {
+   "id": "dict-023",
+   "dataset": "dictation",
+   "category": "long",
+   "tags": {},
+   "duration_s": 18.356,
+   "ref": "so the plan for the quarter is to finish the dictation evals first then look at streaming partial results and after that we can decide whether the tensorrt provider is worth the extra engine cache complexity on a six gigabyte card",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "So the plan for the quarter is to finish the detection evals first, then look at the streaming partial results and after that we can decide whether the transport provider is worth the extra engine cachet complexity on a 6GB card.",
+   "final": "So the plan for the quarter is to finish the detection evals first, then look at the streaming partial results and after that we can decide whether the transport provider is worth the extra engine cachet complexity on a 6GB card.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 355.79,
+   "cleanup_ms": 0.0,
+   "total_ms": 355.86,
+   "ref_clean": "So the plan for the quarter is to finish the dictation evals first, then look at streaming partial results. After that, we can decide whether the TensorRT provider is worth the extra engine cache complexity on a 6 GB card.",
+   "strict_raw": [
+    9,
+    44
+   ],
+   "strict_final": [
+    9,
+    44
+   ],
+   "clean_raw": [
+    5,
+    40
+   ],
+   "clean_final": [
+    5,
+    40
+   ],
+   "ref_norm": "so the plan for the quarter is to finish the dictation evals 1st then look at streaming partial results and after that we can decide whether the tensorrt provider is worth the extra engine cache complexity on a 6 gigabyte card",
+   "raw_norm": "so the plan for the quarter is to finish the detection evals 1st then look at the streaming partial results and after that we can decide whether the transport provider is worth the extra engine cachet complexity on a 6 gb card",
+   "final_norm": "so the plan for the quarter is to finish the detection evals 1st then look at the streaming partial results and after that we can decide whether the transport provider is worth the extra engine cachet complexity on a 6 gb card",
+   "wer_raw": [
+    5,
+    41
+   ],
+   "wer_final": [
+    5,
+    41
+   ],
+   "cer_raw": [
+    19,
+    226
+   ],
+   "cer_final": [
+    19,
+    226
+   ]
+  },
+  {
+   "id": "dict-024",
+   "dataset": "dictation",
+   "category": "long",
+   "tags": {},
+   "duration_s": 17.914,
+   "ref": "yesterday i tried the new build on my laptop and the latency felt much better especially for short phrases but the long ones still take a moment to appear so i want to measure it properly before changing anything",
+   "speaker": "me",
+   "mic": "laptop array",
+   "raw": "Yesterday I tried the new build on my laptop and the latency felt much better, especially for short phrases, but the long ones still take a moment to appear. So I want to measure it properly before changing anything.",
+   "final": "Yesterday I tried the new build on my laptop and the latency felt much better, especially for short phrases, but the long ones still take a moment to appear. So I want to measure it properly before changing anything.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 254.91,
+   "cleanup_ms": 0.0,
+   "total_ms": 254.97,
+   "ref_clean": "Yesterday I tried the new build on my laptop and the latency felt much better, especially for short phrases. But the long ones still take a moment to appear, so I want to measure it properly before changing anything.",
+   "strict_raw": [
+    4,
+    43
+   ],
+   "strict_final": [
+    4,
+    43
+   ],
+   "clean_raw": [
+    0,
+    39
+   ],
+   "clean_final": [
+    0,
+    39
+   ],
+   "ref_norm": "yesterday i tried the new build on my laptop and the latency felt much better especially for short phrases but the long ones still take a moment to appear so i want to measure it properly before changing anything",
+   "raw_norm": "yesterday i tried the new build on my laptop and the latency felt much better especially for short phrases but the long ones still take a moment to appear so i want to measure it properly before changing anything",
+   "final_norm": "yesterday i tried the new build on my laptop and the latency felt much better especially for short phrases but the long ones still take a moment to appear so i want to measure it properly before changing anything",
+   "wer_raw": [
+    0,
+    39
+   ],
+   "wer_final": [
+    0,
+    39
+   ],
+   "cer_raw": [
+    0,
+    212
+   ],
+   "cer_final": [
+    0,
+    212
+   ]
+  },
+  {
+   "id": "hum-60hz-1.5s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.69,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.69,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-1.5s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.15,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.15,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-10s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 44.31,
+   "cleanup_ms": 0.0,
+   "total_ms": 44.31,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-10s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 42.3,
+   "cleanup_ms": 0.0,
+   "total_ms": 42.3,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-3s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 12.81,
+   "cleanup_ms": 0.0,
+   "total_ms": 12.81,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-3s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 12.36,
+   "cleanup_ms": 0.0,
+   "total_ms": 12.36,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-6s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 26.96,
+   "cleanup_ms": 0.0,
+   "total_ms": 26.96,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-6s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 26.59,
+   "cleanup_ms": 0.0,
+   "total_ms": 26.59,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-1.5s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 8.17,
+   "cleanup_ms": 0.0,
+   "total_ms": 8.17,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-1.5s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 9.18,
+   "cleanup_ms": 0.0,
+   "total_ms": 9.18,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-10s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 44.05,
+   "cleanup_ms": 0.0,
+   "total_ms": 44.05,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-10s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 42.26,
+   "cleanup_ms": 0.0,
+   "total_ms": 42.26,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-3s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.33,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.33,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-3s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.01,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.01,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-6s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 26.12,
+   "cleanup_ms": 0.0,
+   "total_ms": 26.12,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-6s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 25.27,
+   "cleanup_ms": 0.0,
+   "total_ms": 25.27,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.6,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.6,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.76,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.76,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-10s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 44.71,
+   "cleanup_ms": 0.0,
+   "total_ms": 44.71,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-10s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 43.26,
+   "cleanup_ms": 0.0,
+   "total_ms": 43.26,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-3s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.89,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.89,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-3s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.57,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.57,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-6s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 28.29,
+   "cleanup_ms": 0.0,
+   "total_ms": 28.29,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-6s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 26.33,
+   "cleanup_ms": 0.0,
+   "total_ms": 26.33,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.12,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.12,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.58,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.58,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-10s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.14,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.14,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-10s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 43.77,
+   "cleanup_ms": 0.0,
+   "total_ms": 43.77,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-3s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.84,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.84,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-3s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.67,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.67,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-6s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 24.76,
+   "cleanup_ms": 0.0,
+   "total_ms": 24.76,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-6s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 24.82,
+   "cleanup_ms": 0.0,
+   "total_ms": 24.82,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.28,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.28,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.54,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.54,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-10s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 43.0,
+   "cleanup_ms": 0.0,
+   "total_ms": 43.0,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-10s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 44.59,
+   "cleanup_ms": 0.0,
+   "total_ms": 44.59,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-3s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.45,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.45,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-3s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 12.83,
+   "cleanup_ms": 0.0,
+   "total_ms": 12.83,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-6s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 28.17,
+   "cleanup_ms": 0.0,
+   "total_ms": 28.17,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-6s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 28.25,
+   "cleanup_ms": 0.0,
+   "total_ms": 28.25,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-1.5s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.6,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.6,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-1.5s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.73,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.73,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-10s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 42.2,
+   "cleanup_ms": 0.0,
+   "total_ms": 42.2,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-10s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 41.63,
+   "cleanup_ms": 0.0,
+   "total_ms": 41.63,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-3s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 12.75,
+   "cleanup_ms": 0.0,
+   "total_ms": 12.75,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-3s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.74,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.74,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-6s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 25.35,
+   "cleanup_ms": 0.0,
+   "total_ms": 25.35,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-6s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 24.51,
+   "cleanup_ms": 0.0,
+   "total_ms": 24.51,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-1.5s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.34,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.34,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-1.5s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 6.4,
+   "cleanup_ms": 0.0,
+   "total_ms": 6.4,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-10s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 47.4,
+   "cleanup_ms": 0.0,
+   "total_ms": 47.4,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-10s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 46.91,
+   "cleanup_ms": 0.0,
+   "total_ms": 46.91,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-3s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 13.2,
+   "cleanup_ms": 0.0,
+   "total_ms": 13.2,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-3s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.54,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.54,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-6s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 26.72,
+   "cleanup_ms": 0.0,
+   "total_ms": 26.72,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-6s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 25.24,
+   "cleanup_ms": 0.0,
+   "total_ms": 25.24,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  }
+ ]
+}
