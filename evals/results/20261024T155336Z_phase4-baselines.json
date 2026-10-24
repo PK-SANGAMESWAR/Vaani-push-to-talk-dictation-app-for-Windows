@@ -1,0 +1,861 @@
+{
+ "label": "phase4-baselines",
+ "created_utc": "2026-10-24T15:53:36+00:00",
+ "rows": [
+  {
+   "label": "p4-parakeet-gpu-fp32",
+   "file": "evals/results/20261024T150526Z_ac31804_p4-parakeet-gpu-fp32.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "da0d7cee9546ac78a1663824e8597c66899dbe2c0048ac1d57b75d5da06077a6",
+   "code_changed_mid_run": false,
+   "asr": "nemo-parakeet-tdt-0.6b-v3 cuda/fp32",
+   "cleanup": "off",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.020413504318241297,
+     "ci95": [
+      0.015100908962805446,
+      0.02559572274228431
+     ],
+     "errors": 78,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.03788521345773254,
+     "ci95": [
+      0.029000684942169088,
+      0.047517760213166886
+     ],
+     "errors": 134,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.06359189378057302,
+     "ci95": [
+      0.05118473752746465,
+      0.07728593287725812
+     ],
+     "errors": 273,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.10141394441735739,
+     "ci95": [
+      0.07733800192249632,
+      0.12519168432684535
+     ],
+     "errors": 208,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.050576558166690995,
+    "ci95": [
+     0.04433459758477151,
+     0.05709489048338068
+    ],
+    "errors": 693,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.13011152416356878,
+    "ci95": [
+     0.07142857142857142,
+     0.20471506390111036
+    ],
+    "errors": 35,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.27419354838709675,
+    "ci95": [
+     0.1774247491638796,
+     0.4125049603174603
+    ],
+    "errors": 85,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "injection_attempted": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "regressions": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "vocab_recall": {
+    "k": 12,
+    "n": 17,
+    "value": 0.7058823529411765,
+    "ci95": [
+     0.46866889751771845,
+     0.8672001047373057
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 267.61,
+    "p95": 444.255,
+    "mean": 278.61104895104893,
+    "max": 696.74
+   },
+   "latency_cleanup": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "mean": null,
+    "max": null
+   },
+   "rtfx": 25.9,
+   "cold_start_ms": 7246.9,
+   "gpu_peak_mb": 5187.3,
+   "gpu_baseline_mb": 1449.2,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  },
+  {
+   "label": "p4-parakeet-cpu-int8",
+   "file": "evals/results/20261024T140305Z_ac31804_p4-parakeet-cpu-int8.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "c3ae1a2d0f5a0138f5d81216ff26592647f37ca088d88debb92a748b7482b4ed",
+   "code_changed_mid_run": false,
+   "asr": "nemo-parakeet-tdt-0.6b-v3 cpu/int8",
+   "cleanup": "off",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.02093692750588851,
+     "ci95": [
+      0.014826546765387116,
+      0.027401564705779195
+     ],
+     "errors": 80,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.04664970313825276,
+     "ci95": [
+      0.03591211018519569,
+      0.05767541194079096
+     ],
+     "errors": 165,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.07500582343349639,
+     "ci95": [
+      0.06180756423150616,
+      0.08987815650633285
+     ],
+     "errors": 322,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.11457825450999512,
+     "ci95": [
+      0.08880515821394747,
+      0.14191690167061533
+     ],
+     "errors": 235,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.05853160122609838,
+    "ci95": [
+     0.051647043931637764,
+     0.0657729612885304
+    ],
+    "errors": 802,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.13011152416356878,
+    "ci95": [
+     0.06938573449181652,
+     0.2037987232807815
+    ],
+    "errors": 35,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.25161290322580643,
+    "ci95": [
+     0.15496162280701753,
+     0.3718976443394021
+    ],
+    "errors": 78,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "injection_attempted": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "regressions": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "vocab_recall": {
+    "k": 13,
+    "n": 17,
+    "value": 0.7647058823529411,
+    "ci95": [
+     0.5273820168822574,
+     0.9044495574456308
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 277.495,
+    "p95": 659.8295,
+    "mean": 322.99008158508155,
+    "max": 1748.87
+   },
+   "latency_cleanup": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "mean": null,
+    "max": null
+   },
+   "rtfx": 22.5,
+   "cold_start_ms": 3985.1,
+   "gpu_peak_mb": 1337.7,
+   "gpu_baseline_mb": 1101.4,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  },
+  {
+   "label": "p4-whisper-turbo-gpu",
+   "file": "evals/results/20261024T140820Z_ac31804_p4-whisper-turbo-gpu.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "c3ae1a2d0f5a0138f5d81216ff26592647f37ca088d88debb92a748b7482b4ed",
+   "code_changed_mid_run": false,
+   "asr": "whisper-large-v3-turbo cuda/float16",
+   "cleanup": "off",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.01805809997382884,
+     "ci95": [
+      0.012261882489518271,
+      0.024315855249597385
+     ],
+     "errors": 69,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.034492507774950526,
+     "ci95": [
+      0.025542958097722793,
+      0.0438100329523943
+     ],
+     "errors": 122,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.05497321220591661,
+     "ci95": [
+      0.043515767594272226,
+      0.06790905206978642
+     ],
+     "errors": 236,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.08629936616284739,
+     "ci95": [
+      0.06514391370135525,
+      0.10972464147682179
+     ],
+     "errors": 177,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.044081156035615236,
+    "ci95": [
+     0.03846012089046145,
+     0.05026730414206113
+    ],
+    "errors": 604,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.12639405204460966,
+    "ci95": [
+     0.06885552000691758,
+     0.2010893684075122
+    ],
+    "errors": 34,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.2,
+    "ci95": [
+     0.12826080576046334,
+     0.2862906428394142
+    ],
+    "errors": 62,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "injection_attempted": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "regressions": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "vocab_recall": {
+    "k": 13,
+    "n": 17,
+    "value": 0.7647058823529411,
+    "ci95": [
+     0.5273820168822574,
+     0.9044495574456308
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 339.86,
+    "p95": 448.668,
+    "mean": 352.2457692307692,
+    "max": 660.09
+   },
+   "latency_cleanup": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "mean": null,
+    "max": null
+   },
+   "rtfx": 20.7,
+   "cold_start_ms": 6336.3,
+   "gpu_peak_mb": 3675.1,
+   "gpu_baseline_mb": 1337.0,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  },
+  {
+   "label": "p4-cleanup-gemma3-4b",
+   "file": "evals/results/20261024T152032Z_ac31804_p4-cleanup-gemma3-4b.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "da0d7cee9546ac78a1663824e8597c66899dbe2c0048ac1d57b75d5da06077a6",
+   "code_changed_mid_run": false,
+   "asr": "nemo-parakeet-tdt-0.6b-v3 cpu/int8",
+   "cleanup": "gemma3:4b",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.028264852132949488,
+     "ci95": [
+      0.020123497854992366,
+      0.03775803263729298
+     ],
+     "errors": 108,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.05032513429459994,
+     "ci95": [
+      0.03887183358933639,
+      0.06238837211410749
+     ],
+     "errors": 178,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.07290938737479619,
+     "ci95": [
+      0.0589056196303386,
+      0.08791780975277835
+     ],
+     "errors": 313,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.11945392491467577,
+     "ci95": [
+      0.09325949192107877,
+      0.14698894303327964
+     ],
+     "errors": 245,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.061596847175594806,
+    "ci95": [
+     0.05414196014128447,
+     0.06890360784983136
+    ],
+    "errors": 844,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.09293680297397769,
+    "ci95": [
+     0.04308518410286383,
+     0.14418877789917278
+    ],
+    "errors": 25,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.2161290322580645,
+    "ci95": [
+     0.12425894169524743,
+     0.32027136383254207
+    ],
+    "errors": 67,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 0,
+    "n": 23,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.14311662038507353
+    ]
+   },
+   "injection_attempted": {
+    "k": 2,
+    "n": 23,
+    "value": 0.08695652173913043,
+    "ci95": [
+     0.02418000426569175,
+     0.2679598125741516
+    ]
+   },
+   "regressions": {
+    "k": 56,
+    "n": 698,
+    "value": 0.08022922636103152,
+    "ci95": [
+     0.062298732917646496,
+     0.10275486631820106
+    ]
+   },
+   "vocab_recall": {
+    "k": 16,
+    "n": 17,
+    "value": 0.9411764705882353,
+    "ci95": [
+     0.7301796914154303,
+     0.9895395991310502
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 964.615,
+    "p95": 2053.8994999999995,
+    "mean": 1026.3075757575757,
+    "max": 4759.84
+   },
+   "latency_cleanup": {
+    "n": 698,
+    "p50": 627.56,
+    "p95": 1140.905,
+    "mean": 690.9037535816618,
+    "max": 2347.62
+   },
+   "rtfx": 15.7,
+   "cold_start_ms": 5864.2,
+   "gpu_peak_mb": 5705.0,
+   "gpu_baseline_mb": 1365.3,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  },
+  {
+   "label": "p4-cleanup-llama3.2-3b",
+   "file": "evals/results/20261024T153302Z_ac31804_p4-cleanup-llama3.2-3b.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "da0d7cee9546ac78a1663824e8597c66899dbe2c0048ac1d57b75d5da06077a6",
+   "code_changed_mid_run": false,
+   "asr": "nemo-parakeet-tdt-0.6b-v3 cpu/int8",
+   "cleanup": "llama3.2:3b",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.058361685422664226,
+     "ci95": [
+      0.044963232694986796,
+      0.07162516246209218
+     ],
+     "errors": 223,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.1014984450098954,
+     "ci95": [
+      0.0818873228526829,
+      0.12201104391383531
+     ],
+     "errors": 359,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.09829955741905427,
+     "ci95": [
+      0.0802585261904927,
+      0.12038433664928899
+     ],
+     "errors": 422,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.18283764017552415,
+     "ci95": [
+      0.15127837732345928,
+      0.2161399270765488
+     ],
+     "errors": 375,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.10064224200846592,
+    "ci95": [
+     0.09039798282687019,
+     0.11134702602645097
+    ],
+    "errors": 1379,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.09665427509293681,
+    "ci95": [
+     0.05757104643453211,
+     0.12700101317122592
+    ],
+    "errors": 26,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.1967741935483871,
+    "ci95": [
+     0.11986842460028581,
+     0.2797914496626058
+    ],
+    "errors": 61,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 3,
+    "n": 23,
+    "value": 0.13043478260869565,
+    "ci95": [
+     0.04537659058182972,
+     0.32127482448539857
+    ]
+   },
+   "injection_attempted": {
+    "k": 11,
+    "n": 23,
+    "value": 0.4782608695652174,
+    "ci95": [
+     0.2923715729307258,
+     0.6703726279555817
+    ]
+   },
+   "regressions": {
+    "k": 229,
+    "n": 698,
+    "value": 0.32808022922636104,
+    "ci95": [
+     0.2942726701065217,
+     0.36376975961464453
+    ]
+   },
+   "vocab_recall": {
+    "k": 17,
+    "n": 17,
+    "value": 1.0,
+    "ci95": [
+     0.8156818626193445,
+     1.0
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 761.5550000000001,
+    "p95": 1836.1005,
+    "mean": 843.7452447552447,
+    "max": 5074.9
+   },
+   "latency_cleanup": {
+    "n": 698,
+    "p50": 416.14,
+    "p95": 899.191,
+    "mean": 467.20710601719196,
+    "max": 2449.14
+   },
+   "rtfx": 15.6,
+   "cold_start_ms": 6946.0,
+   "gpu_peak_mb": 4453.5,
+   "gpu_baseline_mb": 1491.5,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  },
+  {
+   "label": "p4-cleanup-qwen2.5-7b",
+   "file": "evals/results/20261024T155311Z_ac31804_p4-cleanup-qwen2.5-7b.json",
+   "dirty": true,
+   "commit": "ac31804",
+   "code": "da0d7cee9546ac78a1663824e8597c66899dbe2c0048ac1d57b75d5da06077a6",
+   "code_changed_mid_run": false,
+   "asr": "nemo-parakeet-tdt-0.6b-v3 cpu/int8",
+   "cleanup": "qwen2.5:7b",
+   "wer_final": {
+    "librispeech-clean": {
+     "value": 0.02747971735147867,
+     "ci95": [
+      0.020161194635074847,
+      0.03571787148594377
+     ],
+     "errors": 105,
+     "total": 3821
+    },
+    "librispeech-other": {
+     "value": 0.05456601639807747,
+     "ci95": [
+      0.04281502751204175,
+      0.06730961538461538
+     ],
+     "errors": 193,
+     "total": 3537
+    },
+    "fleurs-en": {
+     "value": 0.07523876077335197,
+     "ci95": [
+      0.06138413165991486,
+      0.09082490406277022
+     ],
+     "errors": 323,
+     "total": 4293
+    },
+    "svarah": {
+     "value": 0.14041930765480254,
+     "ci95": [
+      0.11216139471999792,
+      0.17072316721914613
+     ],
+     "errors": 288,
+     "total": 2051
+    }
+   },
+   "wer_public_final": {
+    "value": 0.0663406801926726,
+    "ci95": [
+     0.058342455351727086,
+     0.07416046479394264
+    ],
+    "errors": 909,
+    "total": 13702
+   },
+   "dictation_clean_final": {
+    "value": 0.10408921933085502,
+    "ci95": [
+     0.05676443931778858,
+     0.15768180825507752
+    ],
+    "errors": 28,
+    "total": 269
+   },
+   "dictation_strict_final": {
+    "value": 0.2064516129032258,
+    "ci95": [
+     0.11914446575007138,
+     0.3138346835217662
+    ],
+    "errors": 64,
+    "total": 310
+   },
+   "hallucination": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "injection_answered": {
+    "k": 1,
+    "n": 23,
+    "value": 0.043478260869565216,
+    "ci95": [
+     0.007716666057951335,
+     0.2099115525545071
+    ]
+   },
+   "injection_attempted": {
+    "k": 2,
+    "n": 23,
+    "value": 0.08695652173913043,
+    "ci95": [
+     0.02418000426569175,
+     0.2679598125741516
+    ]
+   },
+   "regressions": {
+    "k": 86,
+    "n": 698,
+    "value": 0.12320916905444126,
+    "ci95": [
+     0.10086786321702433,
+     0.1496751285885316
+    ]
+   },
+   "vocab_recall": {
+    "k": 17,
+    "n": 17,
+    "value": 1.0,
+    "ci95": [
+     0.8156818626193445,
+     1.0
+    ]
+   },
+   "latency_total_speech": {
+    "n": 858,
+    "p50": 1325.215,
+    "p95": 2830.8775,
+    "mean": 1379.6835664335665,
+    "max": 5011.47
+   },
+   "latency_cleanup": {
+    "n": 698,
+    "p50": 1060.1100000000001,
+    "p95": 2032.219,
+    "mean": 1128.5154011461318,
+    "max": 2532.19
+   },
+   "rtfx": 15.8,
+   "cold_start_ms": 6647.0,
+   "gpu_peak_mb": 5754.5,
+   "gpu_baseline_mb": 1243.8,
+   "manifests": {
+    "evals/datasets/manifests/librispeech-clean.n200.s0.jsonl": "b8d3cbf6efba856ce58e87f6bdca2b0c8f7ae332bece6562044ce7c678d4f276",
+    "evals/datasets/manifests/librispeech-other.n200.s0.jsonl": "bb8ee13d844d1a3624ed5857b536509efc2984821b180a75a1756914180db3a4",
+    "evals/datasets/manifests/fleurs-en.n200.s0.jsonl": "c7c9395d393be952b55b18f045779199f36c12b8724ce1a3ae4c98c4345599e5",
+    "evals/datasets/manifests/svarah.n200.s0.jsonl": "a7e7b86333d1a820867d921c6d9cfc226acc6d48acde41b219d4dca911048b5e",
+    "evals/datasets/manifests/dictation.fixed.jsonl": "b493c4783f2263eb6324f47ef8403c9549fbfd3c88ab3476cd681b38d15406ef",
+    "evals/datasets/manifests/negatives.fixed.jsonl": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+    "evals/datasets/manifests/safety.fixed.jsonl": "cdeaf56d78f06a6f94ad776027ca5215bb97990927943c862cd801b889173c63"
+   }
+  }
+ ]
+}
