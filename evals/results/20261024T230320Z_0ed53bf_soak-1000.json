@@ -1,0 +1,414 @@
+{
+ "schema": 1,
+ "label": "soak-1000",
+ "created_utc": "2026-10-24T19:44:27+00:00",
+ "app_device": "cpu",
+ "settings": {
+  "mic": "CABLE Output",
+  "play": "CABLE Input",
+  "hotkey": "f9",
+  "lead_ms": 300,
+  "cleanup": true,
+  "streaming": true,
+  "release_tail_ms": 200,
+  "settle_ms": 400,
+  "targets": [
+   "notepad"
+  ]
+ },
+ "args": {
+  "datasets": "safety,negatives",
+  "manifest": [],
+  "limit": null,
+  "target": "notepad",
+  "mic": "CABLE Output",
+  "play": "CABLE Input",
+  "hotkey": "f9",
+  "config": "config.toml",
+  "cleanup": "config",
+  "streaming": "config",
+  "lead_ms": 300,
+  "hold_tail_ms": 100,
+  "settle_ms": 400,
+  "timeout_s": 15.0,
+  "soak": 1000,
+  "mem_every": 25,
+  "label": "soak-1000",
+  "out": "evals/results"
+ },
+ "manifests": [
+  {
+   "path": "evals/datasets/manifests/safety.fixed.jsonl",
+   "n_used": 34
+  },
+  {
+   "path": "evals/datasets/manifests/negatives.fixed.jsonl",
+   "n_used": 56
+  }
+ ],
+ "provenance": {
+  "git": {
+   "commit": "0ed53bfc1141b9e41d86d8c153e4a982adffaca0",
+   "branch": "main",
+   "dirty": true
+  },
+  "code": {
+   "vaani_diff_sha256": "b1bd894b23db0ba68b18bc031a6f1b86b79962181bdaf443174ada0a4a6e8487"
+  },
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+   "driver": "591.66",
+   "memory_total_mb": 6141,
+   "cuda_driver_version": 13010
+  },
+  "os": "Windows-11-10.0.26300-SP0"
+ },
+ "soak": {
+  "stats": {
+   "done": 1000,
+   "dropped": 0,
+   "speech_no_text": 0,
+   "silence_pasted": 0,
+   "crashed": false,
+   "exit_code": null,
+   "wall_s": 11932
+  },
+  "memory_samples": [
+   {
+    "i": 0,
+    "t_s": 21.0,
+    "rss_mb": 4.2265625,
+    "private_mb": 0.88671875,
+    "handles": 56,
+    "threads": 3
+   },
+   {
+    "i": 25,
+    "t_s": 525.7,
+    "rss_mb": 4.2734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 50,
+    "t_s": 802.6,
+    "rss_mb": 4.2734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 75,
+    "t_s": 965.7,
+    "rss_mb": 4.2734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 100,
+    "t_s": 1290.8,
+    "rss_mb": 4.2734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 125,
+    "t_s": 1765.1,
+    "rss_mb": 4.2734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 150,
+    "t_s": 1936.7,
+    "rss_mb": 4.25390625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 175,
+    "t_s": 2108.3,
+    "rss_mb": 4.0703125,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 200,
+    "t_s": 2557.6,
+    "rss_mb": 4.02734375,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 225,
+    "t_s": 2907.6,
+    "rss_mb": 4.01171875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 250,
+    "t_s": 3072.3,
+    "rss_mb": 4.01171875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 275,
+    "t_s": 3321.8,
+    "rss_mb": 4.01171875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 300,
+    "t_s": 3828.6,
+    "rss_mb": 4.01171875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 325,
+    "t_s": 4036.2,
+    "rss_mb": 4.01171875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 350,
+    "t_s": 4203.8,
+    "rss_mb": 3.91015625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 375,
+    "t_s": 4590.6,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 400,
+    "t_s": 5003.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 425,
+    "t_s": 5170.8,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 450,
+    "t_s": 5351.6,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 475,
+    "t_s": 5856.3,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 500,
+    "t_s": 6133.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 525,
+    "t_s": 6296.3,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 550,
+    "t_s": 6621.4,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 575,
+    "t_s": 7095.6,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 600,
+    "t_s": 7267.2,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 625,
+    "t_s": 7438.8,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 650,
+    "t_s": 7888.2,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 675,
+    "t_s": 8238.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 700,
+    "t_s": 8402.8,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 725,
+    "t_s": 8652.3,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 750,
+    "t_s": 9159.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 775,
+    "t_s": 9366.8,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 800,
+    "t_s": 9534.4,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 825,
+    "t_s": 9921.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 850,
+    "t_s": 10333.7,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 875,
+    "t_s": 10501.3,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 900,
+    "t_s": 10682.1,
+    "rss_mb": 3.8515625,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 925,
+    "t_s": 11186.9,
+    "rss_mb": 3.875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 950,
+    "t_s": 11463.7,
+    "rss_mb": 3.875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 975,
+    "t_s": 11626.8,
+    "rss_mb": 3.875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   },
+   {
+    "i": 999,
+    "t_s": 11931.5,
+    "rss_mb": 3.875,
+    "private_mb": 0.828125,
+    "handles": 56,
+    "threads": 1
+   }
+  ],
+  "growth_after_warmup": {
+   "rss_mb_per_100": -0.033,
+   "private_mb_per_100": 0.0,
+   "handles_per_100": 0.0
+  },
+  "failures": []
+ },
+ "app_log_tail": []
+}

@@ -168,11 +168,20 @@ def resolve_output_device(name: str) -> int:
 
 
 def dictate(app: VaaniProcess, target, audio: np.ndarray, play_dev: int, a: argparse.Namespace) -> dict:
+    """One dictation; if another window stole focus, redo it once (the first attempt is recorded)."""
+    d = _dictate(app, target, audio, play_dev, a)
+    if not d["focus_ok"]:
+        time.sleep(1.0)
+        d = _dictate(app, target, audio, play_dev, a) | {"focus_retried": True}
+    return d
+
+
+def _dictate(app: VaaniProcess, target, audio: np.ndarray, play_dev: int, a: argparse.Namespace) -> dict:
     import keyboard
     import sounddevice as sd
 
     target.clear()
-    target.focus()
+    focus_at_start = target.focus()
     before = target.read()
     offset = app.log_size()
     keyboard.press(a.hotkey)
@@ -200,12 +209,14 @@ def dictate(app: VaaniProcess, target, audio: np.ndarray, play_dev: int, a: argp
         if not app.alive():
             break
         time.sleep(0.01)
+    focus_at_end = target.has_focus()  # False: another window took focus, the paste went elsewhere
     handled = bool(events)  # a final event, or streamed phrases (a silent tail after them logs nothing)
     return {
         "pasted": text.replace("\r\n", "\n").replace("\r", "\n").strip(),
         "release_to_paste_ms": (last_change - t_rel) * 1000 if last_change else (0.0 if text else None),
         "events": events,
         "handled": handled,
+        "focus_ok": focus_at_start and focus_at_end,
         "read_ms_p50": float(np.median(reads)) if reads else None,
     }
 
@@ -218,6 +229,8 @@ def _clips(a: argparse.Namespace) -> tuple[list[Clip], list[dict]]:
     clips, manifests = [], []
     for p in paths:
         meta, cs = read_manifest(p)
+        if not cs:
+            raise SystemExit(f"manifest {p} has no clips (empty file?); restore it from git or rerun prepare")
         cs = cs[: a.limit] if a.limit else cs
         clips += cs
         manifests.append({"path": sysinfo.rel_path(p), "n_used": len(cs)})
@@ -238,6 +251,8 @@ def score_rows(rows: list[dict]) -> dict[str, Any]:
         "speech_with_nothing_pasted": sum(1 for r in speech if not r["pasted"]),
         "silence_pasted": {"k": sum(1 for r in silent if r["pasted"]), "n": len(silent)},
         "dropped_hotkeys": sum(1 for r in rows if not r["handled"]),
+        "focus_lost_retried": sum(1 for r in rows if r.get("focus_retried")),
+        "focus_lost_final": sum(1 for r in rows if not r.get("focus_ok", True)),
         "ui_read_ms_p50": float(np.median([r["read_ms_p50"] for r in rows if r["read_ms_p50"]] or [0])),
     }
     by_bucket: dict[str, list[float]] = {}
@@ -349,6 +364,8 @@ def render(r: dict[str, Any]) -> str:
             f"| Speech clips with nothing pasted | {m['speech_with_nothing_pasted']} |",
             f"| Silence/noise clips that pasted text | {m['silence_pasted']['k']}/{m['silence_pasted']['n']} |",
             f"| Dropped hotkeys | {m['dropped_hotkeys']} |",
+            f"| Clips redone because another window took focus / still unfocused after redo | "
+            f"{m['focus_lost_retried']} / {m['focus_lost_final']} |",
             f"| UI Automation read time p50 (latency resolution) | {m['ui_read_ms_p50']:.0f} ms |",
             "",
             "| Clip length | n | p50 ms | p95 ms |",

@@ -234,6 +234,8 @@ def main(argv: list[str] | None = None) -> int:
     clips: list[Clip] = []
     for p in paths:
         meta, cs = read_manifest(p)
+        if not cs:
+            raise SystemExit(f"manifest {p} has no clips (empty file?); restore it from git or rerun prepare")
         cs = cs[: args.limit] if args.limit else cs
         rel = sysinfo.rel_path(p)
         sha = hashlib.sha256(p.read_bytes()).hexdigest()

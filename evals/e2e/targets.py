@@ -6,10 +6,32 @@ the harness sees exactly what a user would see after Vaani pastes.
 
 from __future__ import annotations
 
+import contextlib
 import subprocess
 import tempfile
 import time
 from pathlib import Path
+
+
+def foreground_handle() -> int:
+    import ctypes
+
+    return int(ctypes.windll.user32.GetForegroundWindow())
+
+
+def ensure_foreground(window, attempts: int = 6) -> bool:
+    """Bring `window` to the front and confirm it. Pastes and keystrokes go to whichever window is in
+    front, so a clip dictated while another app has focus ends up in the wrong place."""
+    for _ in range(attempts):
+        if foreground_handle() == window.handle:
+            return True
+        try:
+            _send("alt")  # a synthetic key press lifts Windows' foreground lock for set_focus
+            window.set_focus()
+        except Exception:
+            pass
+        time.sleep(0.15)
+    return foreground_handle() == window.handle
 
 
 def _send(keys: str) -> None:
@@ -49,9 +71,14 @@ class NotepadTarget:
                 return found[0]
         raise RuntimeError("could not find Notepad's text area via UI Automation")
 
-    def focus(self) -> None:
-        self.window.set_focus()
-        self.doc.set_focus()
+    def focus(self) -> bool:
+        ok = ensure_foreground(self.window)
+        with contextlib.suppress(Exception):
+            self.doc.set_focus()
+        return ok
+
+    def has_focus(self) -> bool:
+        return foreground_handle() == self.window.handle
 
     def clear(self) -> None:
         self.focus()
@@ -107,9 +134,14 @@ class BrowserTarget:
             raise RuntimeError("could not find the textarea via UI Automation")
         self.box = edits[-1]
 
-    def focus(self) -> None:
-        self.window.set_focus()
-        self.box.set_focus()
+    def focus(self) -> bool:
+        ok = ensure_foreground(self.window)
+        with contextlib.suppress(Exception):
+            self.box.set_focus()
+        return ok
+
+    def has_focus(self) -> bool:
+        return foreground_handle() == self.window.handle
 
     def clear(self) -> None:
         self.focus()
@@ -118,10 +150,16 @@ class BrowserTarget:
         time.sleep(0.05)
 
     def read(self) -> str:
+        # Edge's UIA provider sometimes throws a COMError while the page is busy; retry, then fall back
+        for _ in range(3):
+            try:
+                return self.box.iface_value.CurrentValue
+            except Exception:
+                time.sleep(0.05)
         try:
-            return self.box.iface_value.CurrentValue
-        except Exception:
             return self.box.get_value() or ""
+        except Exception:
+            return self.box.window_text() or ""
 
     def close(self) -> None:
         try:
