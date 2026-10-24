@@ -1,0 +1,5 @@
+# Byte-stable files: their sha256 is recorded in eval reports, so checkouts must not rewrite line endings.
+evals/datasets/manifests/*.jsonl  text eol=lf
+evals/results/*.json              text eol=lf
+evals/results/*.md                text eol=lf
+evals/normalizer/**               text eol=lf

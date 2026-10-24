@@ -8,6 +8,7 @@ license = { text = "MIT" }
 [tool.ruff]
 line-length = 110
 target-version = "py311"
+extend-exclude = ["evals/normalizer"]  # vendored verbatim from open_asr_leaderboard
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]

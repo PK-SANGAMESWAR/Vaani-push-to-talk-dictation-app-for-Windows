@@ -55,16 +55,9 @@ def main() -> None:
     cfg = load_config(args.config)
 
     if args.download or args.file:
-        from .stt import Transcriber
+        from .pipeline import make_transcriber
 
-        stt = Transcriber(
-            cfg.asr_model,
-            cfg.device,
-            cfg.quantization,
-            cfg.vad_threshold,
-            cfg.vad_min_silence_ms,
-            cfg.vad_speech_pad_ms,
-        )
+        stt = make_transcriber(cfg)
         if args.download:
             print(f"Models cached. ASR runs on: {stt.device}")
             return

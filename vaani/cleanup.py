@@ -68,6 +68,10 @@ class Cleaner:
             return False
 
     def clean(self, text: str) -> str:
+        return self.clean_with_status(text)[0]
+
+    def clean_with_status(self, text: str) -> tuple[str, str]:
+        """Return (text, status): "ok" = cleaned text, "error" / "rejected" = raw text back."""
         payload = {
             "model": self.model,
             "stream": False,
@@ -85,10 +89,10 @@ class Cleaner:
             out = self._post("/api/chat", payload, timeout=self.timeout_s)["message"]["content"]
         except (urllib.error.URLError, TimeoutError, KeyError, ValueError, OSError) as e:
             log.warning("cleanup skipped: %s", e)
-            return text
+            return text, "error"
         out = _TAGS.sub("", out).strip().strip('"').strip()
         log.info("cleanup %.0f ms", (time.perf_counter() - t0) * 1000)
-        return out if is_plausible(text, out) else text
+        return (out, "ok") if is_plausible(text, out) else (text, "rejected")
 
 
 def is_plausible(raw: str, cleaned: str) -> bool:

@@ -2,34 +2,43 @@
 
 Vaani (വാണി, "speech") is a **fully local, push-to-talk dictation app for Windows**: hold a key, speak, release, and clean text is pasted into whatever app has focus. It is an offline, open-source take on Wispr Flow / Suki (Suki is macOS-only). No audio or text ever leaves the machine.
 
-Target machine: Windows 11 laptop, **NVIDIA RTX 4060 (8 GB VRAM)**, Python 3.12.
+Target machine: Windows 11 laptop, **NVIDIA RTX 4050 Laptop GPU (6 GB VRAM)**, driver 591.66, Python 3.12. With 6 GB, Parakeet fp32 and the Ollama cleanup model share tight VRAM.
 
 ## Pipeline
 
 ```
 hotkey (keyboard hook) → control queue → Recorder (sounddevice, 16 kHz mono float32)
   → jobs queue → worker thread:
-      Silero VAD (CPU) segments speech, drops silence
-      → Parakeet TDT 0.6B v3 (onnx-asr, CUDA EP, fp32)
-      → snippet match | replacements → optional Ollama cleanup (localhost) → replacements again
-      → paste via clipboard + Ctrl+V, restore clipboard
+      Pipeline.process (vaani/pipeline.py, shared with evals/):
+        Silero VAD (CPU) segments speech, drops silence
+        → Parakeet TDT 0.6B v3 (onnx-asr, CUDA EP, fp32)
+        → snippet match | replacements → optional Ollama cleanup (localhost) → replacements again
+      → paste via clipboard + Ctrl+V, restore clipboard (App, not Pipeline)
 ```
+
+`Pipeline.process(audio, sr)` returns a `Result` (raw, final text, route, cleanup status, timings). It never pastes, logs transcripts, or touches the clipboard. The app and the eval suite both call it, so evals measure the code that ships: put any audio-to-text logic change there, not in `App`.
 
 ## File map
 
 | File | Responsibility |
 |---|---|
 | `vaani/__main__.py` | CLI entry (`--config`, `--file`, `--download`, `-v`), logging, single-instance mutex |
-| `vaani/app.py` | Orchestration: threads, queues, hotkey → start/stop, processing, state |
+| `vaani/app.py` | Orchestration: threads, queues, hotkey → start/stop, calls `Pipeline`, paste, timing log, history, state |
+| `vaani/pipeline.py` | `Pipeline` / `Result`: audio → text (VAD + ASR → snippets/replacements → optional cleanup) with timings; `make_transcriber` / `make_cleaner` factories |
 | `vaani/audio.py` | `Recorder`: mic capture, optional always-open stream with pre-roll buffer |
-| `vaani/stt.py` | `Transcriber`: provider selection (CUDA → CPU fallback), VAD + Parakeet, warm-up |
-| `vaani/cleanup.py` | `Cleaner`: Ollama `/api/chat` call, prompt, `is_plausible` output guard |
+| `vaani/stt.py` | `Transcriber`: provider selection (CUDA → CPU fallback), VAD + Parakeet, warm-up; `transcribe(..., vad=False)` is eval-only |
+| `vaani/cleanup.py` | `Cleaner`: Ollama `/api/chat` call, prompt, `is_plausible` output guard; `clean_with_status` → `"ok"` / `"error"` / `"rejected"` |
 | `vaani/textproc.py` | `TextProcessor`: custom vocabulary replacements, voice snippets |
 | `vaani/output.py` | `insert_text`: clipboard paste or simulated typing |
 | `vaani/tray.py` | pystray icon (state colours) + menu |
 | `vaani/config.py` | `config.toml` → `Config` dataclass, validation |
 | `config.toml` | User settings (hotkey, models, vocabulary, snippets) |
 | `tests/` | pytest unit tests (no GPU/mic needed) |
+| `evals/` | Accuracy/latency/memory eval suite over public datasets; see `evals/README.md` |
+| `evals/datasets/` | Dataset downloaders (`prepare.py`) and committed JSONL manifests (`manifests/`) |
+| `evals/run_eval.py` | Runs `Pipeline` over manifests → `evals/results/*.json` + `.md` report |
+| `evals/normalizer/` | Vendored Open ASR Leaderboard text normalizer (Apache-2.0, unmodified; ruff-excluded) |
+| `requirements-eval.txt` | Exact-pinned eval-only dependencies (not needed to run Vaani) |
 
 ## Commands (PowerShell, from the repo root)
 
@@ -41,14 +50,20 @@ powershell -ExecutionPolicy Bypass -File setup.ps1   # venv + deps + model downl
 .\.venv\Scripts\python -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python -m pytest -q
 .\.venv\Scripts\python -m ruff check . ; .\.venv\Scripts\python -m ruff format .
+
+# evals (optional)
+.\.venv\Scripts\python -m pip install -r requirements-eval.txt
+.\.venv\Scripts\python -m evals.datasets.prepare                        # download + write manifests (once)
+.\.venv\Scripts\python -m evals.run_eval --cleanup off --label gpu-fp32
+.\.venv\Scripts\python -m evals.run_eval --limit 5 --cleanup off        # quick smoke test
 ```
 
 Logs: `%LOCALAPPDATA%\Vaani\vaani.log` (each dictation logs audio length, ASR ms, total ms).
 
 ## Non-negotiable principles
 
-1. **Fully local.** The only network call allowed is to Ollama on `127.0.0.1`. Never add cloud APIs, telemetry, or update checks by default. Model downloads happen once (Hugging Face cache) during setup.
-2. **Latency is the product.** Budget on the RTX 4060: release-to-paste **< 400 ms** for a 10 s clip without cleanup, **< 1.2 s** with cleanup. Measure before and after any change that touches the hot path (use the timing log line or `--file`).
+1. **Fully local.** The only network call allowed is to Ollama on `127.0.0.1`. Never add cloud APIs, telemetry, or update checks by default. Model downloads happen once (Hugging Face cache) during setup. Eval datasets are downloaded only by `evals.datasets.prepare`, never by the app.
+2. **Latency is the product.** Budget on the target GPU (set for an RTX 4060; to be re-validated on the RTX 4050 in Phase 4 of the eval work): release-to-paste **< 400 ms** for a 10 s clip without cleanup, **< 1.2 s** with cleanup. Measure before and after any change that touches the hot path (use the timing log line or `--file`).
 3. **Models load once and stay resident.** Never load a model per dictation. Warm up after loading.
 4. **Never block the keyboard hook thread.** Hook callbacks only `ctrl.put(...)`. Windows silently removes low-level hooks that exceed `LowLevelHooksTimeout`, and the hotkey would just stop working.
 5. **Silence must produce no text.** That's why we use a transducer model (Parakeet) plus VAD rather than Whisper, which hallucinates on silence. Don't remove the VAD stage.
@@ -75,7 +90,8 @@ Logs: `%LOCALAPPDATA%\Vaani\vaani.log` (each dictation logs audio length, ASR ms
 
 ## Testing
 
-- Unit tests (`tests/`) cover config parsing, replacements/snippets, and the cleanup plausibility guard. They must run without GPU, mic, or Ollama. Mock HTTP for `Cleaner`.
+- Unit tests (`tests/`) cover config parsing, replacements/snippets, the cleanup plausibility guard, `Pipeline` routing/cleanup status/timings (`test_pipeline.py`, models faked), and the eval harness: normalizer, WER/CER, CIs, manifests, provenance (`test_evals.py`). They must run without GPU, mic, Ollama, or network. Mock HTTP for `Cleaner`.
+- Evals (`evals/`) measure accuracy and latency on real models; see `evals/README.md`. Numbers quoted in the README must come from a run on a clean commit (dirty-tree runs are flagged in the report).
 - Manual checklist after changes to the hot path: (1) short phrase in Notepad, (2) 45 s dictation (VAD split), (3) silence-only press → nothing pasted, (4) Ollama stopped → raw text still pasted, (5) rapid press/release taps don't wedge state, (6) dictate into a browser text box and VS Code, (7) check timing lines in the log.
 
 ## Roadmap (ideas, in rough priority)
@@ -94,4 +110,6 @@ Logs: `%LOCALAPPDATA%\Vaani\vaani.log` (each dictation logs audio length, ASR ms
 - Don't add cloud fallbacks "for convenience".
 - Don't move work into hook callbacks or the PortAudio callback.
 - Don't make the LLM step mandatory or let it run on short utterances by default.
-- Don't commit model files, `.venv`, or recordings.
+- Don't commit model files, `.venv`, or recordings, or eval audio (`evals/data/` is gitignored; only manifests and results are committed).
+- Don't duplicate audio-to-text logic outside `Pipeline`, or the evals stop measuring what ships.
+- Don't edit the vendored files in `evals/normalizer/`; update them from upstream as its README describes.

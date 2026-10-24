@@ -5,13 +5,13 @@ from __future__ import annotations
 import logging
 import queue
 import threading
-import time
 from datetime import datetime
 from pathlib import Path
 
 import numpy as np
 
 from .config import Config
+from .pipeline import Pipeline, make_cleaner, make_transcriber
 from .textproc import TextProcessor, word_count
 
 log = logging.getLogger(__name__)
@@ -41,10 +41,26 @@ class App:
         self._lock = threading.Lock()
         self._recording = False
         self._timer: threading.Timer | None = None
+        self.pipeline = Pipeline(cfg, None, self.text, None)
         self.recorder = None
-        self.stt = None
-        self.cleaner = None
         self.tray = None
+
+    # Models live on the pipeline (shared with the eval suite); these keep App's attribute API.
+    @property
+    def stt(self):
+        return self.pipeline.stt
+
+    @stt.setter
+    def stt(self, value) -> None:
+        self.pipeline.stt = value
+
+    @property
+    def cleaner(self):
+        return self.pipeline.cleaner
+
+    @cleaner.setter
+    def cleaner(self, value) -> None:
+        self.pipeline.cleaner = value
 
     # ---------- lifecycle ----------
 
@@ -61,30 +77,14 @@ class App:
             import keyboard
 
             from .audio import Recorder
-            from .cleanup import Cleaner
-            from .stt import Transcriber
 
             c = self.cfg
-            self.stt = Transcriber(
-                c.asr_model,
-                c.device,
-                c.quantization,
-                c.vad_threshold,
-                c.vad_min_silence_ms,
-                c.vad_speech_pad_ms,
-            )
+            self.stt = make_transcriber(c)
             self.device = self.stt.device
             self.recorder = Recorder(c.sample_rate, c.input_device, c.keep_mic_open, c.preroll_ms)
             self.stt.warmup(self.recorder.sample_rate)
 
-            self.cleaner = Cleaner(
-                c.llm_url,
-                c.llm_model,
-                c.llm_timeout_s,
-                c.llm_keep_alive,
-                c.llm_think_flag,
-                self.text.vocabulary,
-            )
+            self.cleaner = make_cleaner(c, self.text.vocabulary)
             if c.llm_enabled:
                 threading.Thread(target=self.cleaner.prewarm, name="ollama-warm", daemon=True).start()
 
@@ -193,30 +193,20 @@ class App:
 
         c = self.cfg
         sr = self.recorder.sample_rate
-        t0 = time.perf_counter()
-        raw = self.stt.transcribe(audio, sr)
-        t_asr = time.perf_counter() - t0
-        if not raw:
-            log.info("no speech detected (%.1fs audio)", audio.size / sr)
+        r = self.pipeline.process(audio, sr)
+        if not r.raw:
+            log.info("no speech detected (%.1fs audio)", r.audio_s)
             return
 
-        snippet = self.text.snippet(raw)
-        if snippet is not None:
-            final = snippet
-        else:
-            final = self.text.replace(raw)
-            if c.llm_enabled and word_count(final) >= c.llm_min_words:
-                final = self.text.replace(self.cleaner.clean(final))
-        t_total = time.perf_counter() - t0
-
+        final = r.text
         if c.trailing_space and not final.endswith(("\n", " ")):
             final += " "
         insert_text(final, c.paste_method, c.restore_clipboard, c.paste_delay_ms)
         log.info(
             "audio %.1fs | asr %.0f ms | total %.0f ms | %d words",
-            audio.size / sr,
-            t_asr * 1000,
-            t_total * 1000,
+            r.audio_s,
+            r.asr_ms,
+            r.total_ms,
             word_count(final),
         )
         if c.save_history:

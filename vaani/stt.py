@@ -55,12 +55,14 @@ class Transcriber:
                 quant = None if quantization in ("auto", "none") else quantization
                 self.model = onnx_asr.load_model(model_name, quantization=quant, providers=[CUDA, CPU])
                 self.device = "cuda"
+                self.quantization = quant or "fp32"
             except Exception:
                 log.exception("CUDA load failed, falling back to CPU")
         if self.model is None:
             quant = "int8" if quantization == "auto" else (None if quantization == "none" else quantization)
             self.model = onnx_asr.load_model(model_name, quantization=quant, providers=[CPU])
             self.device = "cpu"
+            self.quantization = quant or "fp32"
 
         # Silero is ~2 MB; CPU is faster than a GPU round-trip for it.
         vad = onnx_asr.load_vad("silero", providers=[CPU])
@@ -80,12 +82,15 @@ class Transcriber:
         self.model.recognize(noise, sample_rate=sample_rate)
         log.info("ASR warm-up took %.0f ms", (time.perf_counter() - t0) * 1000)
 
-    def transcribe(self, audio: np.ndarray, sample_rate: int = 16_000) -> str:
+    def transcribe(self, audio: np.ndarray, sample_rate: int = 16_000, vad: bool = True) -> str:
         """VAD-segment the clip (drops silence, splits long dictation) and join segment texts.
 
         Returns "" when no speech is detected, so silence never produces text.
+        `vad=False` feeds the whole clip to the model: an eval-only diagnostic, never used by the app.
         """
         if audio.size == 0:
             return ""
+        if not vad:
+            return self.model.recognize(audio, sample_rate=sample_rate).strip()
         segments = self.vad_model.recognize(audio, sample_rate=sample_rate)
         return " ".join(t for s in segments if (t := s.text.strip()))
