@@ -15,8 +15,8 @@ results can't drift when an upstream package changes.
 To update: download the two files at a newer commit, update `SOURCE_COMMIT` in `__init__.py` and this
 README, and re-run the evals (a normalizer change can move WER).
 
-TODO(phase6-notice): list this vendored code (Apache-2.0, copyright The OpenAI team and The
-HuggingFace Team) in the repo's NOTICE file.
+Listed in the repo's [NOTICE](../../NOTICE) file (Apache-2.0, copyright The OpenAI team and The
+HuggingFace Team).
 
 SHA-256 of the vendored files:
 

@@ -27,7 +27,7 @@ import numpy as np
 from vaani.config import load_config
 from vaani.pipeline import Pipeline
 
-from . import metrics, report, safety, sysinfo
+from . import gates, metrics, netguard, report, safety, sysinfo
 from .datasets.common import (
     DEFAULT_N,
     DEFAULT_SEED,
@@ -41,7 +41,7 @@ from .resources import PeakSampler
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DATASETS = ["librispeech-clean", "librispeech-other", "fleurs-en", "svarah"]
-SCHEMA_VERSION = 2  # 2: adds `safety`
+SCHEMA_VERSION = 3  # 2: adds `safety`; 3: adds `gates` and `network`
 
 
 def _parse(argv: list[str] | None) -> argparse.Namespace:
@@ -74,6 +74,16 @@ def _parse(argv: list[str] | None) -> argparse.Namespace:
         help="scale the input audio by this many dB (e.g. -30 = low voice)",
     )
     p.add_argument("--no-vad", action="store_true", help="DIAGNOSTIC: skip VAD (not the shipped pipeline)")
+    p.add_argument(
+        "--gates",
+        metavar="PROFILE",
+        help="check the result against evals/thresholds.toml (profile name) and exit 1 on regression",
+    )
+    p.add_argument(
+        "--block-network",
+        action="store_true",
+        help="refuse every non-loopback connection during the whole run and record the attempts",
+    )
     p.add_argument("--label", default="run")
     p.add_argument("--out", default=str(ROOT / "evals" / "results"))
     p.add_argument(
@@ -245,6 +255,9 @@ def main(argv: list[str] | None = None) -> int:
     if missing_audio:
         raise SystemExit(f"{len(missing_audio)} audio files missing (e.g. {missing_audio[0]}); run prepare")
 
+    guard = netguard.Guard().install() if args.block_network else None  # before any model loads
+    if guard:
+        guard.self_test()
     sampler = PeakSampler().start()  # baseline is taken before any model loads
     t0 = time.perf_counter()
     pipeline = _load_pipeline(cfg, args)
@@ -290,6 +303,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  {i}/{len(clips)}", file=sys.stderr)
     run_s = time.perf_counter() - t_run
     resources = sampler.stop()
+    if guard:
+        guard.uninstall()
 
     created = datetime.now(UTC)
     result = {
@@ -323,9 +338,12 @@ def main(argv: list[str] | None = None) -> int:
         "resources": resources,
         "summary": summarize(utts),
         "safety": safety.summarize(utts, pipeline.text.vocabulary),
+        "network": {"blocked": guard is not None, "attempts": guard.attempts if guard else []},
         "published_reference": None,
         "utterances": utts,
     }
+    if args.gates:
+        result["gates"] = gates.evaluate(result, args.gates)
     if args.published_wer is not None:
         ours = result["summary"]["overall"]["wer_raw"]
         lo, hi = (x * 100 for x in ours["ci95"])

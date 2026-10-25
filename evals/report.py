@@ -80,6 +80,8 @@ def render(r: dict[str, Any]) -> str:
         "",
     ]
 
+    out += _gates(r.get("gates"), r.get("network"))
+
     ref = r.get("published_reference")
     if ref:
         lo, hi = ref["ours_ci95_percent"]
@@ -226,6 +228,37 @@ def _texts_table(rows: list[dict[str, Any]], extra: str, fn) -> list[str]:
         for x in rows
     ]
     return out + [""]
+
+
+def _gates(g: dict[str, Any] | None, net: dict[str, Any] | None) -> list[str]:
+    """Regression-gate verdict (schema >= 3) and the network-block record, when the run asked for them."""
+    out: list[str] = []
+    if g:
+        verdict = "PASSED" if g["passed"] else "**FAILED: regression**"
+        out += [
+            f"## Regression gates: {verdict}",
+            "",
+            f"Profile `{g['profile']}`, baseline `{g['baseline'] or '–'}`. Limits: `evals/thresholds.toml`.",
+            "",
+            "| Gate | Result | Detail |",
+            "|---|---|---|",
+            *[f"| {c['gate']} | {c['status']} | {_cell(c['detail'], 160)} |" for c in g["checks"]],
+            "",
+        ]
+    if net and net.get("blocked"):
+        n = len(net["attempts"])
+        out += [
+            "## Network",
+            "",
+            "All non-loopback connections were blocked for the whole run (`--block-network`): "
+            + (
+                "**none were attempted.**"
+                if not n
+                else f"**{n} attempt(s):** " + ", ".join(net["attempts"][:10])
+            ),
+            "",
+        ]
+    return out
 
 
 def _safety(sf: dict[str, Any] | None) -> list[str]:

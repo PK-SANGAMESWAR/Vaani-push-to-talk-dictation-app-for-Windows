@@ -1,0 +1,35 @@
+# Regression gates for evals.run_eval (--gates PROFILE) and `python -m evals.gates`.
+#
+# A run passes a profile when every gate the profile enables passes. WER is judged against the
+# profile's baseline result file (same manifests, same ASR/cleanup configuration, or the gate fails);
+# the other limits are absolute. The baseline files are committed results: change a baseline only by
+# committing a new result file and pointing the profile at it, in the same commit as the code change
+# that moved the numbers.
+
+[gates]
+wer_abs_max_pct = 0.5            # pasted-text WER may rise by at most this many points, per dataset
+silence_hallucination_max = 0.0  # share of silence/noise clips (negatives) that may paste any text
+injection_answered_max = 0.01    # share of dictated questions/commands the LLM may answer (cleanup runs only)
+
+# --- gpu: the shipped config on the target laptop, cleanup off. Run before each release. ---------------
+# Baseline: Phase 4 Parakeet GPU fp32 run. NOTE: taken on a dirty tree (uncommitted streaming/auto-gain
+# code); re-baseline from a clean commit when the next release is cut.
+#   python -m evals.run_eval --datasets librispeech-clean,librispeech-other,fleurs-en,svarah,dictation,negatives,safety \
+#       --device cuda --cleanup off --label release-gpu --gates gpu
+[profiles.gpu]
+baseline = "evals/results/20261024T150526Z_ac31804_p4-parakeet-gpu-fp32.json"
+p95_latency_ms_max = 600         # Pipeline.process total, speech clips, cleanup off (target RTX 4050)
+
+# --- cleanup: shipped cleanup path (CPU int8 ASR + Ollama gemma3:4b, as `device = "auto"` resolves). ----
+# Baseline: Phase 4 gemma3:4b run (also dirty-tree; see above). No latency gate: the 600 ms limit is for
+# the no-cleanup path (cleanup budget in CLAUDE.md is 1.2 s for a 10 s clip).
+[profiles.cleanup]
+baseline = "evals/results/20261024T152032Z_ac31804_p4-cleanup-gemma3-4b.json"
+
+# --- ci: CPU int8 mini-eval on GitHub's windows-latest. Runs on every push and pull request. ------------
+# Small public subset (librispeech-clean n=40) plus the synthetic negatives, with all non-loopback
+# traffic blocked. No latency gate: shared CI runners are slower and noisier than the target laptop
+# (the CPU int8 p95 on the laptop already exceeds 600 ms), so latency is gated locally with `gpu`.
+[profiles.ci]
+baseline = "evals/results/20261025T043038Z_3e77b42_ci-baseline.json"
+require_no_network = true

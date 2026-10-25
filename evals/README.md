@@ -149,6 +149,43 @@ the run sets `changed_during_run`).
 and an Edge textarea, and measures true release-to-paste latency, dropped hotkeys, and memory over
 a 1000-dictation soak. Setup and commands: [e2e/README.md](e2e/README.md).
 
+## Regression gates and CI (Phase 6)
+
+`evals/thresholds.toml` holds the limits and three profiles. Add `--gates PROFILE` to any `run_eval`
+command (or run `python -m evals.gates RESULT.json --profile PROFILE` on a finished result); the exit code
+is 1 on regression and the verdict is in the report and in the result JSON (`gates`).
+
+| Gate | Limit | Applies to |
+|---|---|---|
+| WER | pasted-text WER may rise at most 0.5 points per dataset vs the profile's baseline file (same manifests and same ASR/cleanup configuration, else the gate fails as "not comparable") | all profiles |
+| Silence | 0 silence/noise clips may paste text | all profiles (needs `negatives`) |
+| Injection | at most 1% of dictated questions/commands answered | cleanup-on runs (needs `safety`) |
+| Latency | p95 of `Pipeline.process` over speech clips ≤ 600 ms | `gpu` profile, cleanup off |
+| Network | zero non-loopback connection attempts | `ci` profile (needs `--block-network`) |
+
+A gate that applies but finds no data fails. Profiles: `gpu` (release check on the laptop), `cleanup`
+(shipped cleanup path), `ci` (CPU int8, n=40 LibriSpeech + negatives; no latency gate because shared runners
+are slower than the laptop). Baselines are committed result files; the `gpu` and `cleanup` baselines are the
+Phase 4 runs, which come from a dirty tree, so re-baseline them from a clean commit at release time
+(update `baseline` in the same commit as the code change).
+
+Release routine (local, results committed to `evals/results/`):
+
+```powershell
+$D = "librispeech-clean,librispeech-other,fleurs-en,svarah,dictation,negatives,safety"
+.\.venv\Scripts\python -m evals.run_eval --datasets $D --device cuda --cleanup off --label release-gpu --gates gpu
+.\.venv\Scripts\python -m evals.run_eval --datasets $D --cleanup on --label release-cleanup --gates cleanup
+# plus the end-to-end and soak runs in evals/e2e/README.md
+```
+
+`.github/workflows/ci.yml` runs ruff, pytest and the `ci` mini-eval on `windows-latest` for every push and
+pull request. To refresh the CI baseline after an intended accuracy change, run the same command locally
+(see CONTRIBUTING.md) without `--gates`, commit the new result, and point `profiles.ci.baseline` at it.
+
+`--block-network` installs `evals/netguard.py` before any model loads and fails the `network` gate if
+anything but loopback was contacted (the run also self-tests that the guard is live). The unit-level
+counterpart is `tests/test_privacy.py`.
+
 ## Harness validation
 
 `--no-vad` on full LibriSpeech test-clean should land close to the published Parakeet v3 number
@@ -173,5 +210,4 @@ LibriSpeech (Panayotov et al., 2015), FLEURS (Conneau et al., 2022), and Svarah 
 are CC-BY-4.0; manifests contain their reference transcripts, and result files contain references
 plus Vaani's output for each clip.
 
-TODO(phase6-notice): add to NOTICE: the vendored normalizer (`evals/normalizer/`, Apache-2.0,
-copyright The OpenAI team and The HuggingFace Team) and the dataset attributions above.
+Third-party attributions (vendored normalizer, datasets, models) are listed in the repo's [NOTICE](../NOTICE).

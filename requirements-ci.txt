@@ -1,0 +1,21 @@
+# CI-only: everything the unit tests and the CPU mini-eval need, without the ~1 GB of CUDA wheels.
+# Same versions as requirements.txt / requirements-eval.txt, except the CPU `onnxruntime` replaces
+# `onnxruntime-gpu` (never install both). tests/test_repo_files.py fails if the shared pins drift.
+onnx-asr[hub]>=0.12
+onnxruntime>=1.27
+numpy>=1.26
+sounddevice>=0.5
+keyboard>=0.13.5
+pyperclip>=1.9
+pystray>=0.19.5
+Pillow>=10.0
+
+jiwer==4.0.0
+regex==2026.9.29
+soundfile==0.14.0
+pyarrow==26.0.0
+huggingface-hub==2.3.0
+psutil==7.2.2
+
+pytest>=8
+ruff>=0.6

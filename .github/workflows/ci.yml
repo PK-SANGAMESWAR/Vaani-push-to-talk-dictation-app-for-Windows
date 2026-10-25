@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: python -m pip install -r requirements-ci.txt
+      - run: python -m ruff check .
+      - run: python -m ruff format --check .
+      - run: python -m pytest -q
+
+  mini-eval:
+    # CPU int8 Parakeet on a small public subset + synthetic silence/noise, with every non-loopback
+    # socket blocked, gated against the committed baseline (evals/thresholds.toml, profile "ci").
+    # GPU and end-to-end evals cannot run here; they are run locally before each release.
+    runs-on: windows-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+      - run: python -m pip install -r requirements-ci.txt
+      - name: Cache models and eval audio
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            evals/data
+          key: eval-data-v1-${{ hashFiles('evals/datasets/librispeech.py', 'requirements-ci.txt') }}
+      - name: Prepare datasets (the only step that downloads eval data)
+        run: python -m evals.datasets.prepare librispeech-clean negatives --n 40
+      - name: Manifests must match the committed ones
+        run: git diff --exit-code -- evals/datasets/manifests
+      - name: Download the models (setup step, network allowed)
+        run: python -m vaani --download
+      - name: Mini-eval with network blocked, gated
+        run: >
+          python -m evals.run_eval --datasets librispeech-clean,negatives --n 40
+          --device cpu --quantization int8 --cleanup off --block-network --gates ci
+          --label ci --out ci-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mini-eval-results
+          path: ci-results

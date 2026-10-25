@@ -11,3 +11,4 @@ dist/
 # eval datasets (downloaded audio, archives); manifests and results are committed
 evals/data/
 *.flac
+ci-results/

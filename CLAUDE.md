@@ -38,7 +38,14 @@ hotkey (keyboard hook) → control queue → Recorder (sounddevice, 16 kHz mono 
 | `evals/datasets/` | Dataset downloaders (`prepare.py`) and committed JSONL manifests (`manifests/`) |
 | `evals/run_eval.py` | Runs `Pipeline` over manifests → `evals/results/*.json` + `.md` report |
 | `evals/normalizer/` | Vendored Open ASR Leaderboard text normalizer (Apache-2.0, unmodified; ruff-excluded) |
+| `evals/thresholds.toml`, `evals/gates.py` | Regression gates and profiles (`gpu`, `cleanup`, `ci`); `run_eval --gates PROFILE` exits 1 on regression |
+| `evals/netguard.py` | Blocks non-loopback sockets and records attempts (`run_eval --block-network`, `tests/test_privacy.py`) |
+| `evals/bench_table.py` | Generates the README benchmark block from clean-tree result files |
 | `requirements-eval.txt` | Exact-pinned eval-only dependencies (not needed to run Vaani) |
+| `requirements-ci.txt` | CI install: CPU `onnxruntime`, no CUDA wheels; shared pins must equal `requirements-eval.txt` (tested) |
+| `requirements.lock` | Hash-pinned full set for Windows/py3.12 (regenerate with the `uv pip compile` line in its header) |
+| `.github/workflows/ci.yml` | ruff + pytest, then CPU int8 mini-eval with network blocked and `--gates ci` |
+| `NOTICE`, `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md` | Open-source files; update NOTICE when adding a model, dataset or vendored code |
 
 ## Commands (PowerShell, from the repo root)
 
@@ -92,7 +99,16 @@ Logs: `%LOCALAPPDATA%\Vaani\vaani.log` (each dictation logs audio length, ASR ms
 
 - Unit tests (`tests/`) cover config parsing, replacements/snippets, the cleanup plausibility guard, `Pipeline` routing/cleanup status/timings (`test_pipeline.py`, models faked), and the eval harness: normalizer, WER/CER, CIs, manifests, provenance (`test_evals.py`). They must run without GPU, mic, Ollama, or network. Mock HTTP for `Cleaner`.
 - Evals (`evals/`) measure accuracy and latency on real models; see `evals/README.md`. Numbers quoted in the README must come from a run on a clean commit (dirty-tree runs are flagged in the report).
+- `test_gates.py` (gate logic on synthetic results), `test_privacy.py` (non-loopback sockets blocked, pipeline still works, `llm_url` must be loopback), `test_repo_files.py` (README table equals the committed result, CI pins match, notices exist).
 - Manual checklist after changes to the hot path: (1) short phrase in Notepad, (2) 45 s dictation (VAD split), (3) silence-only press → nothing pasted, (4) Ollama stopped → raw text still pasted, (5) rapid press/release taps don't wedge state, (6) dictate into a browser text box and VS Code, (7) check timing lines in the log.
+
+## Evals (summary; details in `evals/README.md`)
+
+- Layout: `evals/datasets/` (downloaders + committed manifests), `evals/run_eval.py` (runs `Pipeline`), `report.py`, `compare.py`, `safety.py`, `gates.py`, `e2e/` (real app through a virtual mic), results in `evals/results/`.
+- Gates (`evals/thresholds.toml`): WER at most +0.5 points per dataset vs the profile baseline, 0 silence/noise clips pasting text, injection answered ≤ 1%, p95 latency ≤ 600 ms without cleanup (`gpu` profile only), 0 non-loopback connection attempts (`ci`). A gate with no data fails. Baselines are committed result files; change one only together with the code change that moved it.
+- Before a release, on the laptop: `run_eval --gates gpu` (cleanup off) and `--gates cleanup`, plus the e2e and soak runs; commit the results. CI runs only the CPU mini-eval (`--gates ci`).
+- Never quote a number in docs unless it is in a committed result from a clean tree; `python -m evals.bench_table --write` regenerates the README table and refuses dirty runs.
+- `llm_url` must be loopback; config loading rejects anything else.
 
 ## Roadmap (ideas, in rough priority)
 
