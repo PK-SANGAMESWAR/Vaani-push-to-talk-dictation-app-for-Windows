@@ -20,6 +20,7 @@ no tagged releases yet, so everything is under Unreleased; entries are grouped b
 - `requirements.lock` (hash-pinned), `requirements-ci.txt`, NOTICE, SECURITY, CONTRIBUTING, CODE_OF_CONDUCT,
   issue and pull-request templates, README benchmark table generated from committed results
   (`python -m evals.bench_table`).
+- README: tray-menu screenshot and a troubleshooting note for a wrong or silent microphone.
 
 ### Changed
 - `llm_url` must point at loopback (127.0.0.0/8, ::1, localhost); anything else is rejected when the config loads.

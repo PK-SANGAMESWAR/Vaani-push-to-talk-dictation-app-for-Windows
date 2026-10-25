@@ -25,10 +25,17 @@ This creates `.venv`, installs dependencies (~1 GB because of the CUDA libraries
 
 ## Use
 
-Double-click `run.bat`. When the tray icon turns green, **hold Right Ctrl, speak, release.**
+Double-click `run.bat`. Vaani runs in the system tray (click `^` on the taskbar if the icon is hidden). When
+it is ready, click into any text box, then **hold Caps Lock (the default hotkey), speak, release.**
 
+![Vaani tray menu: status, AI cleanup toggle, Open config, Open log folder, Quit](docs/tray-menu.png)
+
+- The tray menu shows the status and which device the speech model runs on, toggles AI cleanup, and opens
+  the config and log folder.
 - Short dictations (under 8 words) skip the LLM and paste almost instantly.
-- Toggle AI cleanup from the tray menu.
+- With `streaming = true`, long dictations paste phrase by phrase when you pause while holding the key.
+- Wrong or silent microphone ("no speech detected" in the log)? Windows may be using a virtual or disabled
+  input. Set `input_device` under `[audio]` in `config.toml` to part of your mic's name.
 - Debug with `run-debug.bat`; logs live in `%LOCALAPPDATA%\Vaani\vaani.log`.
 - Start with Windows: press `Win+R`, type `shell:startup`, and put a shortcut to `run.bat` there.
 - Benchmark: `.venv\Scripts\python -m vaani --file some.wav`
