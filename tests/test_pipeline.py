@@ -126,3 +126,33 @@ def test_asr_device_leaves_gpu_to_ollama_only_when_auto(device, llm, expected):
     from vaani.pipeline import asr_device
 
     assert asr_device(Config(device=device, llm_enabled=llm)) == expected
+
+
+def test_boost_quiet_raises_low_audio_but_never_attenuates_or_amplifies_silence():
+    from vaani.pipeline import GAIN_MAX_DB, GAIN_TARGET_PEAK, boost_quiet
+
+    quiet = np.full(1600, 0.01, dtype=np.float32)
+    assert float(np.abs(boost_quiet(quiet)).max()) == pytest.approx(GAIN_TARGET_PEAK)
+    very_quiet = np.full(1600, 0.0002, dtype=np.float32)  # needs 63 dB: capped at GAIN_MAX_DB
+    assert float(np.abs(boost_quiet(very_quiet)).max()) == pytest.approx(
+        0.0002 * 10 ** (GAIN_MAX_DB / 20), rel=1e-4
+    )
+    for loud_level in (0.1, 0.8):  # normal-level speech is left alone
+        loud = np.full(1600, loud_level, dtype=np.float32)
+        assert boost_quiet(loud) is loud
+    for silent in (np.zeros(1600, dtype=np.float32), np.zeros(0, dtype=np.float32)):
+        assert boost_quiet(silent) is silent
+
+
+def test_pipeline_boosts_before_asr_only_when_enabled():
+    seen = []
+
+    class Spy:
+        def transcribe(self, audio, sr, vad=True):
+            seen.append(float(np.abs(audio).max()))
+            return ""
+
+    quiet = np.full(16_000, 0.01, dtype=np.float32)
+    Pipeline(Config(auto_gain=True), Spy()).process(quiet, 16_000)
+    Pipeline(Config(auto_gain=False), Spy()).process(quiet, 16_000)
+    assert seen[0] == pytest.approx(0.3) and seen[1] == pytest.approx(0.01)

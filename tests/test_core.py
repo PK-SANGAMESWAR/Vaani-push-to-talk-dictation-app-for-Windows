@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def test_shipped_config_loads():
     cfg = load_config(ROOT / "config.toml")
-    assert cfg.hotkey == "right ctrl"
+    assert cfg.hotkey  # personal choice, so don't pin the key; load_config validates it for the mode
     assert cfg.mode == "hold"
     assert cfg.replacements["pie torch"] == "PyTorch"
     assert cfg.asr_model == "nemo-parakeet-tdt-0.6b-v3"

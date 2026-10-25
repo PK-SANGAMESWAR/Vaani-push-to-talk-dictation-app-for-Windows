@@ -66,6 +66,8 @@ def inserted(monkeypatch):
 def make_app(tmp_path, recorder=None, stt=None, cleaner=None, **cfg) -> App:
     cfg.setdefault("sounds", False)
     cfg.setdefault("llm_enabled", False)
+    cfg.setdefault("streaming", False)  # streaming has its own tests below
+    cfg.setdefault("release_tail_ms", 0)
     app = App(Config(**cfg), tmp_path)
     app.recorder = recorder or FakeRecorder()
     app.stt = stt or FakeStt()
@@ -112,7 +114,7 @@ def test_stop_queues_audio_for_worker(tmp_path):
     app._start()
     app._stop()
     assert app.state == "busy" and not app._recording
-    assert app.jobs.get_nowait().size == SR
+    assert app.jobs.get_nowait()[0].size == SR
 
 
 def test_short_tap_is_ignored_and_does_not_wedge_state(tmp_path):
@@ -168,7 +170,7 @@ def test_worker_processes_jobs_returns_to_idle_and_survives_errors(tmp_path):
     done = threading.Event()
     results: list[int] = []
 
-    def process(audio):
+    def process(audio, streamed=False):
         if audio.size == 1:
             raise RuntimeError("boom")
         results.append(audio.size)
@@ -178,8 +180,8 @@ def test_worker_processes_jobs_returns_to_idle_and_survives_errors(tmp_path):
     app.state = "busy"
     t = threading.Thread(target=app._worker)
     t.start()
-    app.jobs.put(np.zeros(1, np.float32))  # raises inside _process
-    app.jobs.put(np.zeros(5, np.float32))
+    app.jobs.put((np.zeros(1, np.float32), False))  # raises inside _process
+    app.jobs.put((np.zeros(5, np.float32), False))
     assert done.wait(2)
     for _ in range(200):  # state flips to idle in the worker's `finally`
         if app.state == "idle":
@@ -192,10 +194,10 @@ def test_worker_processes_jobs_returns_to_idle_and_survives_errors(tmp_path):
 
 def test_worker_does_not_go_idle_while_user_is_recording_again(tmp_path):
     app = make_app(tmp_path)
-    app._process = lambda audio: None
+    app._process = lambda audio, streamed=False: None
     app.state = "recording"
     app._recording = True
-    app.jobs.put(np.zeros(1, np.float32))
+    app.jobs.put((np.zeros(1, np.float32), False))
     app.jobs.put(None)
     app._worker()
     assert app.state == "recording"
@@ -359,3 +361,52 @@ def test_shutdown_unhooks_and_stops_threads(tmp_path, wired):
 def test_queues_are_unbounded_fifo(tmp_path):
     app = make_app(tmp_path)
     assert isinstance(app.jobs, queue.Queue) and app.jobs.maxsize == 0
+
+
+# ---------- streaming ----------
+
+
+class StreamingRecorder(FakeRecorder):
+    """Recorder with a phrase already spoken: 1 s of speech then a long pause, then a short tail."""
+
+    def __init__(self):
+        super().__init__(seconds=0.5)
+        t = np.arange(SR) / SR
+        self.pending = np.concatenate(
+            [(0.1 * np.sin(2 * np.pi * 220 * t)).astype(np.float32), np.zeros(SR, dtype=np.float32)]
+        )
+
+    def peek(self):
+        return self.pending
+
+    def consume(self, n):
+        self.pending = self.pending[n:]
+
+
+def test_streamed_phrase_is_pasted_during_the_hold_and_tail_is_a_partial_job(tmp_path, inserted):
+    from vaani import streaming
+
+    streaming.POLL_S = 0.01
+    try:
+        app = make_app(tmp_path, recorder=StreamingRecorder(), streaming=True, stream_pause_ms=500)
+        app.pipeline.stt = FakeStt("first phrase")
+        app._start()
+        for _ in range(300):
+            if inserted:
+                break
+            threading.Event().wait(0.01)
+        assert [c[0] for c in inserted] == ["first phrase "] and app.state == "recording"
+        app._stop()
+    finally:
+        streaming.POLL_S = 0.15
+    audio, streamed = app.jobs.get_nowait()
+    assert streamed is True and audio.size == SR // 2  # the recorder's remaining tail
+
+
+def test_streamed_tail_is_processed_raw_and_silent_tail_logs_nothing(tmp_path, inserted):
+    app = make_app(tmp_path, llm_enabled=True, llm_min_words=1, cleaner=FakeCleaner("CLEANED"))
+    app._process(np.ones(SR, np.float32), True)
+    assert inserted[0][0] == "hello world " and app.cleaner.calls == []  # no cleanup after streaming
+    app.stt = FakeStt("")
+    app._process(np.ones(SR, np.float32), True)
+    assert len(inserted) == 1

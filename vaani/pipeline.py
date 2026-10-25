@@ -20,11 +20,29 @@ if TYPE_CHECKING:
     from .stt import Transcriber
 
 
+# Clips with a peak below GAIN_BELOW_PEAK are raised to GAIN_TARGET_PEAK, by at most 30 dB. Louder clips
+# are left alone: boosting normal-level speech cost ~1.4 WER points, while VAD/ASR only fail below ~0.05.
+GAIN_BELOW_PEAK = 0.05
+GAIN_TARGET_PEAK = 0.3
+GAIN_MAX_DB = 30.0
+
+
+def boost_quiet(audio: np.ndarray) -> np.ndarray:
+    """Raise a quiet recording towards GAIN_TARGET_PEAK. Silero VAD and Parakeet both fail on a low
+    voice (measured: 24% WER at -26 dB, 51% at -32 dB vs ~10% with this boost), so fix the level first.
+    Digital silence and normal-level audio are returned untouched.
+    """
+    peak = float(np.abs(audio).max()) if audio.size else 0.0
+    if peak < 1e-4 or peak >= GAIN_BELOW_PEAK:
+        return audio
+    return audio * min(GAIN_TARGET_PEAK / peak, 10 ** (GAIN_MAX_DB / 20))
+
+
 @dataclass
 class Result:
     raw: str  # ASR text; "" = no speech detected
     text: str  # final text, before the app adds a trailing space
-    route: str  # "empty" | "snippet" | "replace" | "cleanup"
+    route: str  # "empty" | "snippet" | "replace" | "cleanup" | "partial"
     cleanup_status: str | None  # None = not run | "ok" | "error" | "rejected"
     audio_s: float
     asr_ms: float
@@ -88,10 +106,14 @@ class Pipeline:
         text = TextProcessor(cfg.replacements, cfg.snippets)
         return cls(cfg, make_transcriber(cfg), text, make_cleaner(cfg, text.vocabulary), use_vad)
 
-    def process(self, audio: np.ndarray, sample_rate: int) -> Result:
+    def process(self, audio: np.ndarray, sample_rate: int, partial: bool = False) -> Result:
+        """`partial=True` is one phrase of a streamed dictation: replacements only, no snippet or cleanup
+        (a snippet needs the whole utterance, and cleanup latency would stall the next phrase)."""
         c = self.cfg
         audio_s = audio.size / sample_rate
         t0 = time.perf_counter()
+        if c.auto_gain:
+            audio = boost_quiet(audio)
         if self.use_vad:
             raw = self.stt.transcribe(audio, sample_rate)
         else:
@@ -102,6 +124,10 @@ class Pipeline:
 
         cleanup_ms = 0.0
         status = None
+        if partial:
+            final = self.text.replace(raw)
+            t_total = time.perf_counter() - t0
+            return Result(raw, final, "partial", None, audio_s, t_asr * 1000, 0.0, t_total * 1000)
         snippet = self.text.snippet(raw)
         if snippet is not None:
             final, route = snippet, "snippet"

@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import queue
 import threading
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -36,11 +37,15 @@ class App:
         self.state = "loading"
         self.device = "…"
         self.text = TextProcessor(cfg.replacements, cfg.snippets)
-        self.jobs: queue.Queue[np.ndarray | None] = queue.Queue()
+        self.jobs: queue.Queue[tuple[np.ndarray, bool] | None] = (
+            queue.Queue()
+        )  # (audio, is_last_phrase_of_stream)
         self.ctrl: queue.Queue[str | None] = queue.Queue()
         self._lock = threading.Lock()
         self._recording = False
         self._timer: threading.Timer | None = None
+        self._session = None  # StreamSession for the dictation in progress
+        self._paste_lock = threading.Lock()  # streamed phrases and the final job never paste at once
         self.pipeline = Pipeline(cfg, None, self.text, None)
         self.recorder = None
         self.tray = None
@@ -151,6 +156,12 @@ class App:
         if self.cfg.sounds:
             _beep(880, 40)
         self._set_state("recording")
+        if self.cfg.streaming:
+            from .streaming import StreamSession
+
+            self._session = StreamSession(
+                self.recorder, self.pipeline, self._emit_phrase, self.cfg.stream_pause_ms
+            ).start()
         self._timer = threading.Timer(self.cfg.max_duration_s, lambda: self.ctrl.put("stop"))
         self._timer.daemon = True
         self._timer.start()
@@ -162,46 +173,73 @@ class App:
             self._recording = False
         if self._timer:
             self._timer.cancel()
+        if self.cfg.release_tail_ms > 0:  # control thread, not the keyboard hook: safe to wait
+            time.sleep(self.cfg.release_tail_ms / 1000)
+        streamed = False
+        if self._session is not None:  # stop polling before the recorder, so no phrase is split in two
+            streamed = self._session.finish()
+            self._session = None
         audio = self.recorder.stop()
         if self.cfg.sounds:
             _beep(660, 40)
         duration = audio.size / self.recorder.sample_rate
         if duration < self.cfg.min_duration_s:
-            log.info("ignored %.2fs tap", duration)
+            if not streamed:
+                log.info("ignored %.2fs tap", duration)
             self._set_state("idle")
             return
         self._set_state("busy")
-        self.jobs.put(audio)
+        self.jobs.put((audio, streamed))
 
     # ---------- processing ----------
 
     def _worker(self) -> None:
         while True:
-            audio = self.jobs.get()
-            if audio is None:
+            job = self.jobs.get()
+            if job is None:
                 return
             try:
-                self._process(audio)
+                self._process(*job)
             except Exception:
                 log.exception("processing failed")
             finally:
                 if self.jobs.empty() and not self._recording:
                     self._set_state("idle")
 
-    def _process(self, audio: np.ndarray) -> None:
+    def _emit_phrase(self, text: str) -> None:
+        """Paste one streamed phrase (called on the stream thread). A space keeps phrases apart."""
+        from .output import insert_text
+
+        with self._paste_lock:
+            insert_text(
+                text.rstrip() + " ",
+                self.cfg.paste_method,
+                self.cfg.restore_clipboard,
+                self.cfg.paste_delay_ms,
+            )
+        if self.cfg.save_history:
+            self._save_history(text)
+
+    def _save_history(self, text: str) -> None:
+        with (self.data_dir / "history.txt").open("a", encoding="utf-8") as f:
+            f.write(f"{datetime.now():%Y-%m-%d %H:%M:%S}\t{text.strip()}\n")
+
+    def _process(self, audio: np.ndarray, streamed: bool = False) -> None:
         from .output import insert_text
 
         c = self.cfg
         sr = self.recorder.sample_rate
-        r = self.pipeline.process(audio, sr)
+        r = self.pipeline.process(audio, sr, partial=streamed)
         if not r.raw:
-            log.info("no speech detected (%.1fs audio)", r.audio_s)
+            if not streamed:  # after streamed phrases, a silent tail is normal
+                log.info("no speech detected (%.1fs audio)", r.audio_s)
             return
 
         final = r.text
         if c.trailing_space and not final.endswith(("\n", " ")):
             final += " "
-        insert_text(final, c.paste_method, c.restore_clipboard, c.paste_delay_ms)
+        with self._paste_lock:
+            insert_text(final, c.paste_method, c.restore_clipboard, c.paste_delay_ms)
         log.info(
             "audio %.1fs | asr %.0f ms | total %.0f ms | %d words",
             r.audio_s,
@@ -210,8 +248,7 @@ class App:
             word_count(final),
         )
         if c.save_history:
-            with (self.data_dir / "history.txt").open("a", encoding="utf-8") as f:
-                f.write(f"{datetime.now():%Y-%m-%d %H:%M:%S}\t{final.strip()}\n")
+            self._save_history(final)
 
     # ---------- helpers ----------
 

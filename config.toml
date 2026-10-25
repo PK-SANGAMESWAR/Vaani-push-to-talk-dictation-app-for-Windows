@@ -1,7 +1,7 @@
 # Vaani configuration. Restart Vaani after editing (tray → Quit, then run.bat).
 
 [hotkey]
-key  = "right ctrl"      # single key for hold mode, e.g. "right ctrl", "right alt", "f9", "caps lock"
+key  = "caps lock"       # single key for hold mode, e.g. "right ctrl", "right alt", "f9", "caps lock"
 mode = "hold"            # "hold" = push-to-talk | "toggle" = tap to start, tap again to stop (combos like "ctrl+windows" OK)
 
 [audio]
@@ -11,6 +11,8 @@ keep_mic_open  = false   # true = no start delay + 300 ms pre-roll (first word n
 preroll_ms     = 300
 min_duration_s = 0.3     # shorter taps are ignored
 max_duration_s = 300
+release_tail_ms = 200    # keep recording briefly after you release the key so the last word isn't cut off
+auto_gain       = true   # boost quiet speech before recognition; without it a low voice is dropped
 sounds         = true    # short start/stop beeps
 
 [asr]
@@ -23,12 +25,17 @@ vad_speech_pad_ms  = 200
 
 [cleanup]
 llm_enabled    = true                     # also toggleable from the tray menu
-llm_url        = "http://127.0.0.1:11434" # local Ollama
+llm_url        = "http://127.0.0.1:11434" # local Ollama. Must be loopback (127.0.0.1 / localhost / ::1); anything else is rejected at startup
 llm_model      = "gemma3:4b"              # any small instruct model you've pulled with `ollama pull`
 llm_min_words  = 8                        # shorter dictations skip the LLM (instant)
 llm_timeout_s  = 2.5                      # on timeout the raw transcript is pasted (bounds the worst-case wait)
 llm_keep_alive = -1                       # keep the model loaded in VRAM
 llm_think_flag = false                    # set true for thinking models (e.g. qwen3) to disable thinking
+
+[streaming]
+streaming       = true   # paste each phrase as soon as you pause, while still holding the key
+stream_pause_ms = 700    # silence that ends a phrase. Streamed phrases are raw ASR text: no cleanup, no snippets.
+                        # Short dictations with no pause still get the full pipeline (cleanup, snippets).
 
 [output]
 paste_method      = "clipboard"  # clipboard (fast, Unicode-safe) | type (simulated keystrokes)

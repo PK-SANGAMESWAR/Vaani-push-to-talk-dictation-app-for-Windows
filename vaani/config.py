@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import ipaddress
 import tomllib
 from dataclasses import dataclass, field, fields
 from pathlib import Path
+from urllib.parse import urlparse
 
 # TOML section -> Config field names that live in it.
 _SECTIONS: dict[str, tuple[str, ...]] = {
@@ -16,6 +18,8 @@ _SECTIONS: dict[str, tuple[str, ...]] = {
         "preroll_ms",
         "min_duration_s",
         "max_duration_s",
+        "release_tail_ms",
+        "auto_gain",
         "sounds",
     ),
     "asr": (
@@ -35,6 +39,7 @@ _SECTIONS: dict[str, tuple[str, ...]] = {
         "llm_keep_alive",
         "llm_think_flag",
     ),
+    "streaming": ("streaming", "stream_pause_ms"),
     "output": (
         "paste_method",
         "restore_clipboard",
@@ -61,6 +66,8 @@ class Config:
     preroll_ms: int = 300
     min_duration_s: float = 0.3
     max_duration_s: float = 300.0
+    release_tail_ms: int = 200  # keep recording this long after the key is released (last word not clipped)
+    auto_gain: bool = True  # boost quiet speech before VAD/ASR (a low voice is otherwise dropped)
     sounds: bool = True
 
     # [asr]
@@ -80,6 +87,10 @@ class Config:
     llm_keep_alive: int | str = -1  # keep the model resident in VRAM
     llm_think_flag: bool = False  # send "think": false (only for thinking models like qwen3)
 
+    # [streaming]
+    streaming: bool = True  # paste each phrase at a pause while the key is held (raw text, no cleanup)
+    stream_pause_ms: int = 700  # silence that ends a phrase
+
     # [output]
     paste_method: str = "clipboard"  # clipboard | type
     restore_clipboard: bool = True
@@ -92,6 +103,16 @@ class Config:
     snippets: dict[str, str] = field(default_factory=dict)
 
     path: Path | None = None
+
+
+def _is_loopback_url(url: str) -> bool:
+    host = urlparse(url).hostname or ""
+    if host.lower() == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        return False
 
 
 def load_config(path: str | Path) -> Config:
@@ -119,6 +140,8 @@ def load_config(path: str | Path) -> Config:
         raise ValueError("hold mode needs a single key (e.g. 'right ctrl'); use toggle mode for combos")
     if cfg.device not in ("auto", "cuda", "cpu"):
         raise ValueError(f"[asr] device must be auto/cuda/cpu, got {cfg.device!r}")
+    if not _is_loopback_url(cfg.llm_url):
+        raise ValueError(f"[cleanup] llm_url must point at this machine (loopback), got {cfg.llm_url!r}")
     if cfg.paste_method not in ("clipboard", "type"):
         raise ValueError(f"[output] paste_method must be clipboard/type, got {cfg.paste_method!r}")
     return cfg

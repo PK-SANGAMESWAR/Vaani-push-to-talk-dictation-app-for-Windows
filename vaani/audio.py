@@ -110,6 +110,20 @@ class Recorder:
             return np.zeros(0, dtype=np.float32)
         return np.concatenate(frames).astype(np.float32, copy=False)
 
+    def peek(self) -> np.ndarray:
+        """Audio recorded since start (or the last `consume`), without removing it."""
+        with self._lock:
+            frames = list(self._frames)
+        if not frames:
+            return np.zeros(0, dtype=np.float32)
+        return np.concatenate(frames).astype(np.float32, copy=False)
+
+    def consume(self, n_samples: int) -> None:
+        """Drop the first n_samples of the pending audio (a phrase that was already transcribed)."""
+        with self._lock:
+            pending = np.concatenate(self._frames) if self._frames else np.zeros(0, dtype=np.float32)
+            self._frames = [pending[n_samples:]] if pending.size > n_samples else []
+
     @property
     def recording(self) -> bool:
         return self._recording
