@@ -1,0 +1,4827 @@
+{
+ "schema": 3,
+ "label": "ci-baseline",
+ "created_utc": "2026-10-25T05:01:07+00:00",
+ "diagnostic": {
+  "no_vad": false
+ },
+ "args": {
+  "datasets": "librispeech-clean,negatives",
+  "manifest": [],
+  "full": false,
+  "n": 40,
+  "seed": 0,
+  "limit": null,
+  "config": "config.toml",
+  "device": "cpu",
+  "quantization": "int8",
+  "asr": "config",
+  "cleanup": "off",
+  "llm_model": null,
+  "gain_db": 0.0,
+  "no_vad": false,
+  "gates": null,
+  "block_network": true,
+  "label": "ci-baseline",
+  "out": "evals/results",
+  "published_wer": null,
+  "published_source": null,
+  "published_note": null,
+  "verbose": false
+ },
+ "settings": {
+  "cleanup": false,
+  "use_vad": true,
+  "bootstrap": {
+   "resamples": 1000,
+   "seed": 0,
+   "ci": 0.95
+  },
+  "percentile_method": "linear",
+  "wer": "corpus-level, EnglishTextNormalizer on ref and hyp; empty normalized refs excluded",
+  "cer": "corpus-level on normalized text, spaces counted"
+ },
+ "provenance": {
+  "git": {
+   "commit": "ace27dd65e86c743b31c9b14a33b334faedb5bbd",
+   "branch": "main",
+   "dirty": false
+  },
+  "config": {
+   "path": "config.toml",
+   "sha256": "4ff758e91e1741ef9be9e31194ff303c92e95a207707cbf1923aee0c889362bb",
+   "values": {
+    "hotkey": "caps lock",
+    "mode": "hold",
+    "input_device": null,
+    "sample_rate": 16000,
+    "keep_mic_open": false,
+    "preroll_ms": 300,
+    "min_duration_s": 0.3,
+    "max_duration_s": 300,
+    "release_tail_ms": 200,
+    "auto_gain": true,
+    "sounds": true,
+    "asr_model": "nemo-parakeet-tdt-0.6b-v3",
+    "device": "cpu",
+    "quantization": "int8",
+    "vad_threshold": 0.5,
+    "vad_min_silence_ms": 600,
+    "vad_speech_pad_ms": 200,
+    "llm_enabled": false,
+    "llm_url": "http://127.0.0.1:11434",
+    "llm_model": "gemma3:4b",
+    "llm_min_words": 8,
+    "llm_timeout_s": 2.5,
+    "llm_keep_alive": -1,
+    "llm_think_flag": false,
+    "streaming": true,
+    "stream_pause_ms": 700,
+    "paste_method": "clipboard",
+    "restore_clipboard": true,
+    "paste_delay_ms": 150,
+    "trailing_space": true,
+    "save_history": false,
+    "replacements": {
+     "pie torch": "PyTorch",
+     "pie torch geometric": "PyTorch Geometric",
+     "lang chain": "LangChain",
+     "lang graph": "LangGraph",
+     "fast api": "FastAPI",
+     "olama": "Ollama",
+     "s t g n n": "STGNN",
+     "g n n": "GNN"
+    },
+    "snippets": {
+     "insert my signature": "Best regards,\nSangameswar"
+    }
+   }
+  },
+  "asr": {
+   "model": "nemo-parakeet-tdt-0.6b-v3",
+   "device": "cpu",
+   "quantization": "int8",
+   "vad": {
+    "model": "silero",
+    "threshold": 0.5,
+    "min_silence_ms": 600,
+    "speech_pad_ms": 200
+   },
+   "available_providers": [
+    "TensorrtExecutionProvider",
+    "CUDAExecutionProvider",
+    "CPUExecutionProvider"
+   ],
+   "decode": null
+  },
+  "cleanup": null,
+  "normalizer": {
+   "name": "EnglishTextNormalizer",
+   "repo": "https://github.com/huggingface/open_asr_leaderboard",
+   "commit": "7e8d1a1003c201324e9003dd5bc34244340a63b0"
+  },
+  "versions": {
+   "onnxruntime-gpu": "1.31.0",
+   "onnxruntime": null,
+   "onnx-asr": "0.12.0",
+   "numpy": "2.5.4",
+   "jiwer": "4.0.0",
+   "soundfile": "0.14.0",
+   "faster-whisper": "1.2.1",
+   "ctranslate2": "4.8.3",
+   "python": "3.12.11"
+  },
+  "hardware": {
+   "gpu": {
+    "name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+    "driver": "591.66",
+    "memory_total_mb": 6141,
+    "cuda_driver_version": 13010
+   },
+   "cpu": "AMD Ryzen 7 7435HS",
+   "cpu_cores": 8,
+   "cpu_threads": 16,
+   "ram_gb": 23.7
+  },
+  "os": "Windows-11-10.0.26300-SP0",
+  "code": {
+   "vaani_diff_sha256": "clean",
+   "changed_during_run": false
+  }
+ },
+ "manifests": [
+  {
+   "path": "evals/datasets/manifests/librispeech-clean.n40.s0.jsonl",
+   "sha256": "c48f0b247a836f3a0ddf1bd71e595130889534b9e726a385791cac06e99c328d",
+   "n_used": 40,
+   "meta": {
+    "dataset": "librispeech-clean",
+    "file": "clean/test/0000.parquet",
+    "file_sha256": "7113aa4c3cf963fb54697145719a7725f984c8836d1c494a554cbb9f1a017df0",
+    "full": false,
+    "license": "CC-BY-4.0",
+    "n": 40,
+    "population": 2620,
+    "revision": "71cacbfb7e2354c4226d01e70d77d5fca3d04ba1",
+    "seed": 0,
+    "source": "https://huggingface.co/datasets/openslr/librispeech_asr",
+    "split": "test-clean"
+   }
+  },
+  {
+   "path": "evals/datasets/manifests/negatives.fixed.jsonl",
+   "sha256": "924e74ef0f4be4b6dd91ee429a7123db4548562004aaac19e9dc96046889d62f",
+   "n_used": 56,
+   "meta": {
+    "dataset": "negatives",
+    "durations_s": [
+     1.5,
+     3.0,
+     6.0,
+     10.0
+    ],
+    "full": true,
+    "kinds": [
+     "silence-digital",
+     "silence-dither",
+     "noise-room",
+     "noise-fan",
+     "noise-white-loud",
+     "hum-60hz",
+     "keyboard-clicks"
+    ],
+    "license": "CC0-1.0",
+    "n": 56,
+    "seed": null,
+    "source": "synthetic (evals/datasets/negatives.py)",
+    "synth_version": 1,
+    "variants": 2
+   }
+  }
+ ],
+ "cold_start_ms": {
+  "model_load": 4569.1,
+  "warmup": 123.8,
+  "load_plus_warmup": 4692.9,
+  "llm_prewarm": null
+ },
+ "run_wall_s": 19.7,
+ "resources": {
+  "ram_peak_mb": 1222.9,
+  "ram_peak_source": "peak_wset",
+  "gpu": {
+   "scope": "device-wide (all processes)",
+   "total_mb": 6141.0,
+   "baseline_used_mb": 4982.7,
+   "peak_used_mb": 4984.1,
+   "delta_mb": 1.3,
+   "process_peak_mb": null,
+   "sample_interval_ms": 50
+  }
+ },
+ "summary": {
+  "overall": {
+   "n": 96,
+   "n_scored": 40,
+   "audio_hours": 0.1679,
+   "wer_raw": {
+    "value": 0.015240328253223915,
+    "ci95": [
+     0.005979443978321504,
+     0.027851849798573382
+    ],
+    "errors": 13,
+    "total": 853
+   },
+   "wer_final": {
+    "value": 0.015240328253223915,
+    "ci95": [
+     0.005979443978321504,
+     0.027851849798573382
+    ],
+    "errors": 13,
+    "total": 853
+   },
+   "cer_raw": {
+    "value": 0.005355947333184557,
+    "ci95": [
+     0.00234886910961606,
+     0.009720431176407307
+    ],
+    "errors": 24,
+    "total": 4481
+   },
+   "cer_final": {
+    "value": 0.005355947333184557,
+    "ci95": [
+     0.00234886910961606,
+     0.009720431176407307
+    ],
+    "errors": 24,
+    "total": 4481
+   },
+   "latency_ms": {
+    "asr": {
+     "n": 96,
+     "p50": 49.635000000000005,
+     "p95": 719.3675000000001,
+     "mean": 201.61875,
+     "max": 1881.49
+    },
+    "cleanup": {
+     "n": 0,
+     "p50": null,
+     "p95": null,
+     "mean": null,
+     "max": null
+    },
+    "total": {
+     "n": 96,
+     "p50": 49.635000000000005,
+     "p95": 719.4425,
+     "mean": 201.64770833333333,
+     "max": 1881.67
+    }
+   },
+   "rtfx": 31.2,
+   "routes": {
+    "replace": 40,
+    "empty": 56
+   },
+   "cleanup_status": {},
+   "empty_output_on_speech": 0,
+   "empty_ref": {
+    "n": 56,
+    "nonempty_raw": 0,
+    "nonempty_output": 0
+   },
+   "strict_raw": {
+    "value": null,
+    "ci95": null,
+    "errors": 0,
+    "total": 0
+   },
+   "strict_final": {
+    "value": null,
+    "ci95": null,
+    "errors": 0,
+    "total": 0
+   },
+   "clean_raw": {
+    "value": null,
+    "ci95": null,
+    "errors": 0,
+    "total": 0
+   },
+   "clean_final": {
+    "value": null,
+    "ci95": null,
+    "errors": 0,
+    "total": 0
+   },
+   "n_strict": 0
+  },
+  "by_dataset": {
+   "librispeech-clean": {
+    "n": 40,
+    "n_scored": 40,
+    "audio_hours": 0.0881,
+    "wer_raw": {
+     "value": 0.015240328253223915,
+     "ci95": [
+      0.005979443978321504,
+      0.027851849798573382
+     ],
+     "errors": 13,
+     "total": 853
+    },
+    "wer_final": {
+     "value": 0.015240328253223915,
+     "ci95": [
+      0.005979443978321504,
+      0.027851849798573382
+     ],
+     "errors": 13,
+     "total": 853
+    },
+    "cer_raw": {
+     "value": 0.005355947333184557,
+     "ci95": [
+      0.00234886910961606,
+      0.009720431176407307
+     ],
+     "errors": 24,
+     "total": 4481
+    },
+    "cer_final": {
+     "value": 0.005355947333184557,
+     "ci95": [
+      0.00234886910961606,
+      0.009720431176407307
+     ],
+     "errors": 24,
+     "total": 4481
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 40,
+      "p50": 367.47,
+      "p95": 947.93,
+      "mean": 446.64750000000004,
+      "max": 1881.49
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 40,
+      "p50": 367.53499999999997,
+      "p95": 948.0409999999999,
+      "mean": 446.717,
+      "max": 1881.67
+     }
+    },
+    "rtfx": 17.8,
+    "routes": {
+     "replace": 40
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 0,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "negatives": {
+    "n": 56,
+    "n_scored": 0,
+    "audio_hours": 0.0797,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 56,
+      "p50": 23.045,
+      "p95": 50.8425,
+      "mean": 26.598214285714285,
+      "max": 73.13
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 56,
+      "p50": 23.045,
+      "p95": 50.8425,
+      "mean": 26.598214285714285,
+      "max": 73.13
+     }
+    },
+    "rtfx": 192.7,
+    "routes": {
+     "empty": 56
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 56,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   }
+  },
+  "by_category": {
+   "hum-60hz": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 24.83,
+      "p95": 65.59449999999998,
+      "mean": 30.791249999999998,
+      "max": 73.13
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 24.83,
+      "p95": 65.59449999999998,
+      "mean": 30.791249999999998,
+      "max": 73.13
+     }
+    },
+    "rtfx": 166.4,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "keyboard-clicks": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 21.505,
+      "p95": 50.411500000000004,
+      "mean": 25.622500000000002,
+      "max": 50.59
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 21.505,
+      "p95": 50.411500000000004,
+      "mean": 25.622500000000002,
+      "max": 50.59
+     }
+    },
+    "rtfx": 200.0,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "noise-fan": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 22.71,
+      "p95": 48.6425,
+      "mean": 25.81625,
+      "max": 49.01
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 22.71,
+      "p95": 48.6425,
+      "mean": 25.81625,
+      "max": 49.01
+     }
+    },
+    "rtfx": 198.5,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "noise-room": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 23.605,
+      "p95": 50.013,
+      "mean": 26.5775,
+      "max": 50.3
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 23.605,
+      "p95": 50.013,
+      "mean": 26.5775,
+      "max": 50.3
+     }
+    },
+    "rtfx": 192.8,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "noise-white-loud": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 22.79,
+      "p95": 52.488,
+      "mean": 26.58625,
+      "max": 54.56
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 22.79,
+      "p95": 52.488,
+      "mean": 26.58625,
+      "max": 54.56
+     }
+    },
+    "rtfx": 192.8,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "silence-digital": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 21.46,
+      "p95": 49.8865,
+      "mean": 25.17625,
+      "max": 49.96
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 21.46,
+      "p95": 49.8865,
+      "mean": 25.17625,
+      "max": 49.96
+     }
+    },
+    "rtfx": 203.6,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   },
+   "silence-dither": {
+    "n": 8,
+    "n_scored": 0,
+    "audio_hours": 0.0114,
+    "wer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "wer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "cer_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "latency_ms": {
+     "asr": {
+      "n": 8,
+      "p50": 22.735,
+      "p95": 48.9005,
+      "mean": 25.6175,
+      "max": 49.52
+     },
+     "cleanup": {
+      "n": 0,
+      "p50": null,
+      "p95": null,
+      "mean": null,
+      "max": null
+     },
+     "total": {
+      "n": 8,
+      "p50": 22.735,
+      "p95": 48.9005,
+      "mean": 25.6175,
+      "max": 49.52
+     }
+    },
+    "rtfx": 200.1,
+    "routes": {
+     "empty": 8
+    },
+    "cleanup_status": {},
+    "empty_output_on_speech": 0,
+    "empty_ref": {
+     "n": 8,
+     "nonempty_raw": 0,
+     "nonempty_output": 0
+    },
+    "strict_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "strict_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_raw": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "clean_final": {
+     "value": null,
+     "ci95": null,
+     "errors": 0,
+     "total": 0
+    },
+    "n_strict": 0
+   }
+  },
+  "by_tag": {}
+ },
+ "safety": {
+  "hallucination": {
+   "rate": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "raw_rate": {
+    "k": 0,
+    "n": 56,
+    "value": 0.0,
+    "ci95": [
+     0.0,
+     0.06419393766646092
+    ]
+   },
+   "by_kind": {
+    "hum-60hz": {
+     "n": 8,
+     "pasted": 0
+    },
+    "keyboard-clicks": {
+     "n": 8,
+     "pasted": 0
+    },
+    "noise-fan": {
+     "n": 8,
+     "pasted": 0
+    },
+    "noise-room": {
+     "n": 8,
+     "pasted": 0
+    },
+    "noise-white-loud": {
+     "n": 8,
+     "pasted": 0
+    },
+    "silence-digital": {
+     "n": 8,
+     "pasted": 0
+    },
+    "silence-dither": {
+     "n": 8,
+     "pasted": 0
+    }
+   },
+   "examples": []
+  },
+  "injection": {
+   "n": 0,
+   "cleanup_ran": 0,
+   "cleanup_status": {},
+   "answered": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "llm_attempted": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "by_category": {},
+   "answered_clips": [],
+   "clips": []
+  },
+  "regressions": {
+   "n": 0,
+   "regressed": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "improved": 0,
+   "unchanged": 0,
+   "by_dataset": {},
+   "worst": []
+  },
+  "vocabulary": {
+   "terms": [
+    "FastAPI",
+    "GNN",
+    "LangChain",
+    "LangGraph",
+    "Ollama",
+    "PyTorch",
+    "PyTorch Geometric",
+    "STGNN"
+   ],
+   "expected": 0,
+   "recall_raw": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "recall_final": {
+    "k": 0,
+    "n": 0,
+    "value": null,
+    "ci95": null
+   },
+   "per_term": {},
+   "misses": []
+  },
+  "settings": {
+   "divergence_threshold": 0.25,
+   "worst_n": 20,
+   "ci": "Wilson score 95%"
+  }
+ },
+ "network": {
+  "blocked": true,
+  "attempts": []
+ },
+ "published_reference": null,
+ "utterances": [
+  {
+   "id": "121-127105-0031",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 10.765,
+   "ref": "SHE WAS YOUNG UNTRIED NERVOUS IT WAS A VISION OF SERIOUS DUTIES AND LITTLE COMPANY OF REALLY GREAT LONELINESS",
+   "speaker": "121",
+   "mic": null,
+   "raw": "She was young, untried, nervous. It was a vision of serious duties and little company. of really great loneliness.",
+   "final": "She was young, untried, nervous. It was a vision of serious duties and little company. of really great loneliness.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 710.69,
+   "cleanup_ms": 0.0,
+   "total_ms": 710.76,
+   "ref_norm": "she was young untried nervous it was a vision of serious duties and little company of really great loneliness",
+   "raw_norm": "she was young untried nervous it was a vision of serious duties and little company of really great loneliness",
+   "final_norm": "she was young untried nervous it was a vision of serious duties and little company of really great loneliness",
+   "wer_raw": [
+    0,
+    19
+   ],
+   "wer_final": [
+    0,
+    19
+   ],
+   "cer_raw": [
+    0,
+    109
+   ],
+   "cer_final": [
+    0,
+    109
+   ]
+  },
+  {
+   "id": "1284-1181-0010",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 6.435,
+   "ref": "THEIR CONTENTS HAD ALL BOILED AWAY LEAVING IN THE BOTTOM OF EACH KETTLE A FEW GRAINS OF FINE WHITE POWDER",
+   "speaker": "1284",
+   "mic": null,
+   "raw": "their contents had all boiled away, leaving in the bottom of each kettle a few grains of fine white powder.",
+   "final": "their contents had all boiled away, leaving in the bottom of each kettle a few grains of fine white powder.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 380.1,
+   "cleanup_ms": 0.0,
+   "total_ms": 380.17,
+   "ref_norm": "their contents had all boiled away leaving in the bottom of each kettle a few grains of fine white powder",
+   "raw_norm": "their contents had all boiled away leaving in the bottom of each kettle a few grains of fine white powder",
+   "final_norm": "their contents had all boiled away leaving in the bottom of each kettle a few grains of fine white powder",
+   "wer_raw": [
+    0,
+    20
+   ],
+   "wer_final": [
+    0,
+    20
+   ],
+   "cer_raw": [
+    0,
+    105
+   ],
+   "cer_final": [
+    0,
+    105
+   ]
+  },
+  {
+   "id": "1320-122617-0010",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 10.0,
+   "ref": "THE TASK WILL NOT BE DIFFICULT RETURNED DAVID HESITATING THOUGH I GREATLY FEAR YOUR PRESENCE WOULD RATHER INCREASE THAN MITIGATE HIS UNHAPPY FORTUNES",
+   "speaker": "1320",
+   "mic": null,
+   "raw": "The task will not be difficult, returned David, hesitating, though I greatly fear your presence would rather increase than mitigate his unhappy fortunes.",
+   "final": "The task will not be difficult, returned David, hesitating, though I greatly fear your presence would rather increase than mitigate his unhappy fortunes.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 522.88,
+   "cleanup_ms": 0.0,
+   "total_ms": 522.96,
+   "ref_norm": "the task will not be difficult returned david hesitating though i greatly fear your presence would rather increase than mitigate his unhappy fortunes",
+   "raw_norm": "the task will not be difficult returned david hesitating though i greatly fear your presence would rather increase than mitigate his unhappy fortunes",
+   "final_norm": "the task will not be difficult returned david hesitating though i greatly fear your presence would rather increase than mitigate his unhappy fortunes",
+   "wer_raw": [
+    0,
+    23
+   ],
+   "wer_final": [
+    0,
+    23
+   ],
+   "cer_raw": [
+    0,
+    149
+   ],
+   "cer_final": [
+    0,
+    149
+   ]
+  },
+  {
+   "id": "1580-141084-0000",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 4.615,
+   "ref": "IT WAS THE INDIAN WHOSE DARK SILHOUETTE APPEARED SUDDENLY UPON HIS BLIND",
+   "speaker": "1580",
+   "mic": null,
+   "raw": "It was the Indian, whose dark silhouette appeared suddenly upon his blind.",
+   "final": "It was the Indian, whose dark silhouette appeared suddenly upon his blind.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 247.66,
+   "cleanup_ms": 0.0,
+   "total_ms": 247.71,
+   "ref_norm": "it was the indian whose dark silhouette appeared suddenly upon his blind",
+   "raw_norm": "it was the indian whose dark silhouette appeared suddenly upon his blind",
+   "final_norm": "it was the indian whose dark silhouette appeared suddenly upon his blind",
+   "wer_raw": [
+    0,
+    12
+   ],
+   "wer_final": [
+    0,
+    12
+   ],
+   "cer_raw": [
+    0,
+    72
+   ],
+   "cer_final": [
+    0,
+    72
+   ]
+  },
+  {
+   "id": "1580-141084-0016",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 5.96,
+   "ref": "MY FRIEND DID NOT APPEAR TO BE DEPRESSED BY HIS FAILURE BUT SHRUGGED HIS SHOULDERS IN HALF HUMOROUS RESIGNATION",
+   "speaker": "1580",
+   "mic": null,
+   "raw": "my friend did not appear to be depressed by his failure, but shrugged his shoulders in half humorous resignation.",
+   "final": "my friend did not appear to be depressed by his failure, but shrugged his shoulders in half humorous resignation.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 350.08,
+   "cleanup_ms": 0.0,
+   "total_ms": 350.15,
+   "ref_norm": "my friend did not appear to be depressed by his failure but shrugged his shoulders in half humorous resignation",
+   "raw_norm": "my friend did not appear to be depressed by his failure but shrugged his shoulders in half humorous resignation",
+   "final_norm": "my friend did not appear to be depressed by his failure but shrugged his shoulders in half humorous resignation",
+   "wer_raw": [
+    0,
+    19
+   ],
+   "wer_final": [
+    0,
+    19
+   ],
+   "cer_raw": [
+    0,
+    111
+   ],
+   "cer_final": [
+    0,
+    111
+   ]
+  },
+  {
+   "id": "1580-141084-0024",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.185,
+   "ref": "HE COULD HARDLY STAND STILL SO GREAT WAS HIS MENTAL AGITATION AND HE RAN TOWARDS HOLMES WITH TWO EAGER HANDS OUTSTRETCHED THANK HEAVEN THAT YOU HAVE COME",
+   "speaker": "1580",
+   "mic": null,
+   "raw": "He could hardly stand still, so great was his mental agitation, and he ran towards Holmes with two eager hands outstretched. Thank Heaven that you have come,",
+   "final": "He could hardly stand still, so great was his mental agitation, and he ran towards Holmes with two eager hands outstretched. Thank Heaven that you have come,",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 461.11,
+   "cleanup_ms": 0.0,
+   "total_ms": 461.2,
+   "ref_norm": "he could hardly stand still so great was his mental agitation and he ran towards holmes with 2 eager hands outstretched thank heaven that you have come",
+   "raw_norm": "he could hardly stand still so great was his mental agitation and he ran towards holmes with 2 eager hands outstretched thank heaven that you have come",
+   "final_norm": "he could hardly stand still so great was his mental agitation and he ran towards holmes with 2 eager hands outstretched thank heaven that you have come",
+   "wer_raw": [
+    0,
+    27
+   ],
+   "wer_final": [
+    0,
+    27
+   ],
+   "cer_raw": [
+    0,
+    151
+   ],
+   "cer_final": [
+    0,
+    151
+   ]
+  },
+  {
+   "id": "2094-142345-0059",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 10.01,
+   "ref": "THIS MISSUS POYSER SAID BLUSHING AND BELIEVING THAT THE CAPTAIN WAS REALLY INTERESTED IN HER MILK PANS AND WOULD ADJUST HIS OPINION OF HER TO THE APPEARANCE OF HER DAIRY",
+   "speaker": "2094",
+   "mic": null,
+   "raw": "This, misses Poiser said, blushing, and believing that the captain was really interested in her milk pans, and would adjust his opinion of her to the appearance of her dairy.",
+   "final": "This, misses Poiser said, blushing, and believing that the captain was really interested in her milk pans, and would adjust his opinion of her to the appearance of her dairy.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 493.95,
+   "cleanup_ms": 0.0,
+   "total_ms": 494.05,
+   "ref_norm": "this missus poyser said blushing and believing that the captain was really interested in her milk pans and would adjust his opinion of her to the appearance of her dairy",
+   "raw_norm": "this misses poiser said blushing and believing that the captain was really interested in her milk pans and would adjust his opinion of her to the appearance of her dairy",
+   "final_norm": "this misses poiser said blushing and believing that the captain was really interested in her milk pans and would adjust his opinion of her to the appearance of her dairy",
+   "wer_raw": [
+    2,
+    30
+   ],
+   "wer_final": [
+    2,
+    30
+   ],
+   "cer_raw": [
+    2,
+    169
+   ],
+   "cer_final": [
+    2,
+    169
+   ]
+  },
+  {
+   "id": "2300-131720-0000",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 5.08,
+   "ref": "THE PARIS PLANT LIKE THAT AT THE CRYSTAL PALACE WAS A TEMPORARY EXHIBIT",
+   "speaker": "2300",
+   "mic": null,
+   "raw": "The Paris plant, like that of the Crystal Palace, was a temporary exhibit.",
+   "final": "The Paris plant, like that of the Crystal Palace, was a temporary exhibit.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 292.33,
+   "cleanup_ms": 0.0,
+   "total_ms": 292.37,
+   "ref_norm": "the paris plant like that at the crystal palace was a temporary exhibit",
+   "raw_norm": "the paris plant like that of the crystal palace was a temporary exhibit",
+   "final_norm": "the paris plant like that of the crystal palace was a temporary exhibit",
+   "wer_raw": [
+    1,
+    13
+   ],
+   "wer_final": [
+    1,
+    13
+   ],
+   "cer_raw": [
+    2,
+    71
+   ],
+   "cer_final": [
+    2,
+    71
+   ]
+  },
+  {
+   "id": "2300-131720-0029",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 6.425,
+   "ref": "HENCE THE EDISON ELECTROLYTIC METER IS NO LONGER USED DESPITE ITS EXCELLENT QUALITIES",
+   "speaker": "2300",
+   "mic": null,
+   "raw": "hence the Edison Electrolytic Meter is no longer used, despite its excellent qualities.",
+   "final": "hence the Edison Electrolytic Meter is no longer used, despite its excellent qualities.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 355.75,
+   "cleanup_ms": 0.0,
+   "total_ms": 355.81,
+   "ref_norm": "hence the edison electrolytic meter is no longer used despite its excellent qualities",
+   "raw_norm": "hence the edison electrolytic meter is no longer used despite its excellent qualities",
+   "final_norm": "hence the edison electrolytic meter is no longer used despite its excellent qualities",
+   "wer_raw": [
+    0,
+    13
+   ],
+   "wer_final": [
+    0,
+    13
+   ],
+   "cer_raw": [
+    0,
+    85
+   ],
+   "cer_final": [
+    0,
+    85
+   ]
+  },
+  {
+   "id": "2830-3980-0040",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 2.62,
+   "ref": "THE GREETING OF THE APOSTLE IS REFRESHING",
+   "speaker": "2830",
+   "mic": null,
+   "raw": "The greeting of the apostle is refreshing.",
+   "final": "The greeting of the apostle is refreshing.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 177.03,
+   "cleanup_ms": 0.0,
+   "total_ms": 177.06,
+   "ref_norm": "the greeting of the apostle is refreshing",
+   "raw_norm": "the greeting of the apostle is refreshing",
+   "final_norm": "the greeting of the apostle is refreshing",
+   "wer_raw": [
+    0,
+    7
+   ],
+   "wer_final": [
+    0,
+    7
+   ],
+   "cer_raw": [
+    0,
+    41
+   ],
+   "cer_final": [
+    0,
+    41
+   ]
+  },
+  {
+   "id": "2961-960-0020",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.88,
+   "ref": "AND HENCE WE FIND THE SAME SORT OF CLUMSINESS IN THE TIMAEUS OF PLATO WHICH CHARACTERIZES THE PHILOSOPHICAL POEM OF LUCRETIUS",
+   "speaker": "2961",
+   "mic": null,
+   "raw": "and hence we find the same sort of clumsiness in the Timaeus of Plato, which characterizes the philosophical poem of Lucretius.",
+   "final": "and hence we find the same sort of clumsiness in the Timaeus of Plato, which characterizes the philosophical poem of Lucretius.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 483.18,
+   "cleanup_ms": 0.0,
+   "total_ms": 483.26,
+   "ref_norm": "and hence we find the same sort of clumsiness in the timaeus of plato which characterizes the philosophical poem of lucretius",
+   "raw_norm": "and hence we find the same sort of clumsiness in the timaeus of plato which characterizes the philosophical poem of lucretius",
+   "final_norm": "and hence we find the same sort of clumsiness in the timaeus of plato which characterizes the philosophical poem of lucretius",
+   "wer_raw": [
+    0,
+    21
+   ],
+   "wer_final": [
+    0,
+    21
+   ],
+   "cer_raw": [
+    0,
+    125
+   ],
+   "cer_final": [
+    0,
+    125
+   ]
+  },
+  {
+   "id": "3575-170457-0056",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 3.37,
+   "ref": "I DOUBT WHETHER BRANWELL WAS MAINTAINING HIMSELF AT THIS TIME",
+   "speaker": "3575",
+   "mic": null,
+   "raw": "I doubt whether Branwell was maintaining himself at this time.",
+   "final": "I doubt whether Branwell was maintaining himself at this time.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 204.03,
+   "cleanup_ms": 0.0,
+   "total_ms": 204.09,
+   "ref_norm": "i doubt whether branwell was maintaining himself at this time",
+   "raw_norm": "i doubt whether branwell was maintaining himself at this time",
+   "final_norm": "i doubt whether branwell was maintaining himself at this time",
+   "wer_raw": [
+    0,
+    10
+   ],
+   "wer_final": [
+    0,
+    10
+   ],
+   "cer_raw": [
+    0,
+    61
+   ],
+   "cer_final": [
+    0,
+    61
+   ]
+  },
+  {
+   "id": "3729-6852-0033",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 28.575,
+   "ref": "YOU ARE NOW IN THE ONLY COUNTRY IN THE WORLD WHERE WIT CAN MAKE A FORTUNE BY SELLING EITHER A GENUINE OR A FALSE ARTICLE IN THE FIRST CASE IT RECEIVES THE WELCOME OF INTELLIGENT AND TALENTED PEOPLE AND IN THE SECOND FOOLS ARE ALWAYS READY TO REWARD IT FOR SILLINESS IS TRULY A CHARACTERISTIC OF THE PEOPLE HERE AND HOWEVER WONDERFUL IT MAY APPEAR SILLINESS IS THE DAUGHTER OF WIT",
+   "speaker": "3729",
+   "mic": null,
+   "raw": "You are now in the only country in the world where wit can make a fortune by selling either a genuine or a false article. In the first case, it receives the welcome of intelligent and talented people. And in the second, fools are always ready to reward it, for silliness is truly a characteristic of the people here, and however wonderful it may appear, silliness is the daughter of wit.",
+   "final": "You are now in the only country in the world where wit can make a fortune by selling either a genuine or a false article. In the first case, it receives the welcome of intelligent and talented people. And in the second, fools are always ready to reward it, for silliness is truly a characteristic of the people here, and however wonderful it may appear, silliness is the daughter of wit.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 1881.49,
+   "cleanup_ms": 0.0,
+   "total_ms": 1881.67,
+   "ref_norm": "you are now in the only country in the world where wit can make a fortune by selling either a genuine or a false article in the 1st case it receives the welcome of intelligent and talented people and in the 2nd fools are always ready to reward it for silliness is truly a characteristic of the people here and however wonderful it may appear silliness is the daughter of wit",
+   "raw_norm": "you are now in the only country in the world where wit can make a fortune by selling either a genuine or a false article in the 1st case it receives the welcome of intelligent and talented people and in the 2nd fools are always ready to reward it for silliness is truly a characteristic of the people here and however wonderful it may appear silliness is the daughter of wit",
+   "final_norm": "you are now in the only country in the world where wit can make a fortune by selling either a genuine or a false article in the 1st case it receives the welcome of intelligent and talented people and in the 2nd fools are always ready to reward it for silliness is truly a characteristic of the people here and however wonderful it may appear silliness is the daughter of wit",
+   "wer_raw": [
+    0,
+    71
+   ],
+   "wer_final": [
+    0,
+    71
+   ],
+   "cer_raw": [
+    0,
+    374
+   ],
+   "cer_final": [
+    0,
+    374
+   ]
+  },
+  {
+   "id": "3729-6852-0039",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 8.825,
+   "ref": "HE HIMSELF RECITED THE SAME PASSAGE IN FRENCH AND POLITELY POINTED OUT THE PARTS IN WHICH HE THOUGHT THAT I HAD IMPROVED ON THE ORIGINAL",
+   "speaker": "3729",
+   "mic": null,
+   "raw": "he himself recited the same passage in French, and politely pointed out the parts in which he thought that I had improved on the original.",
+   "final": "he himself recited the same passage in French, and politely pointed out the parts in which he thought that I had improved on the original.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 405.39,
+   "cleanup_ms": 0.0,
+   "total_ms": 405.47,
+   "ref_norm": "he himself recited the same passage in french and politely pointed out the parts in which he thought that i had improved on the original",
+   "raw_norm": "he himself recited the same passage in french and politely pointed out the parts in which he thought that i had improved on the original",
+   "final_norm": "he himself recited the same passage in french and politely pointed out the parts in which he thought that i had improved on the original",
+   "wer_raw": [
+    0,
+    25
+   ],
+   "wer_final": [
+    0,
+    25
+   ],
+   "cer_raw": [
+    0,
+    136
+   ],
+   "cer_final": [
+    0,
+    136
+   ]
+  },
+  {
+   "id": "4446-2273-0016",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.645,
+   "ref": "HER HAIR IS STILL LIKE FLAX AND HER BLUE EYES ARE JUST LIKE A BABY'S AND SHE HAS THE SAME THREE FRECKLES ON HER LITTLE NOSE AND TALKS ABOUT GOING BACK TO HER BAINS DE MER",
+   "speaker": "4446",
+   "mic": null,
+   "raw": "Her hair is still like flax, and her blue eyes are just like a baby's, and she has the same three freckles on her little nose, and talks about going back to her bandamer.",
+   "final": "Her hair is still like flax, and her blue eyes are just like a baby's, and she has the same three freckles on her little nose, and talks about going back to her bandamer.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 539.11,
+   "cleanup_ms": 0.0,
+   "total_ms": 539.2,
+   "ref_norm": "her hair is still like flax and her blue eyes are just like a baby s and she has the same 3 freckles on her little nose and talks about going back to her bains de mer",
+   "raw_norm": "her hair is still like flax and her blue eyes are just like a baby s and she has the same 3 freckles on her little nose and talks about going back to her bandamer",
+   "final_norm": "her hair is still like flax and her blue eyes are just like a baby s and she has the same 3 freckles on her little nose and talks about going back to her bandamer",
+   "wer_raw": [
+    3,
+    37
+   ],
+   "wer_final": [
+    3,
+    37
+   ],
+   "cer_raw": [
+    5,
+    166
+   ],
+   "cer_final": [
+    5,
+    166
+   ]
+  },
+  {
+   "id": "4507-16021-0021",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 14.48,
+   "ref": "THE PAINTER WHO SAYS MY GRINDER THE NOTARY WHO SAYS MY SKIP THE GUTTER THE HAIRDRESSER WHO SAYS MY MEALYBACK THE COBBLER WHO SAYS MY CUB TALKS SLANG",
+   "speaker": "4507",
+   "mic": null,
+   "raw": "the painter who says My grinder the notary who says my skip o' the gutter the hairdresser who says my mealy back the cobbler who says my cub talks slang.",
+   "final": "the painter who says My grinder the notary who says my skip o' the gutter the hairdresser who says my mealy back the cobbler who says my cub talks slang.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 745.4,
+   "cleanup_ms": 0.0,
+   "total_ms": 745.49,
+   "ref_norm": "the painter who says my grinder the notary who says my skip the gutter the hairdresser who says my mealyback the cobbler who says my cub talks slang",
+   "raw_norm": "the painter who says my grinder the notary who says my skip 0 the gutter the hairdresser who says my mealy back the cobbler who says my cub talks slang",
+   "final_norm": "the painter who says my grinder the notary who says my skip 0 the gutter the hairdresser who says my mealy back the cobbler who says my cub talks slang",
+   "wer_raw": [
+    3,
+    28
+   ],
+   "wer_final": [
+    3,
+    28
+   ],
+   "cer_raw": [
+    3,
+    148
+   ],
+   "cer_final": [
+    3,
+    148
+   ]
+  },
+  {
+   "id": "4507-16021-0049",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 5.91,
+   "ref": "THERE IS HARDLY ONE DAY OUT OF A HUNDRED WHICH IS WHOLLY JOYOUS AND SUNNY",
+   "speaker": "4507",
+   "mic": null,
+   "raw": "there is hardly one day out of a hundred, which is wholly joyous and sunny,",
+   "final": "there is hardly one day out of a hundred, which is wholly joyous and sunny,",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 303.22,
+   "cleanup_ms": 0.0,
+   "total_ms": 303.27,
+   "ref_norm": "there is hardly one day out of a 100 which is wholly joyous and sunny",
+   "raw_norm": "there is hardly one day out of a 100 which is wholly joyous and sunny",
+   "final_norm": "there is hardly one day out of a 100 which is wholly joyous and sunny",
+   "wer_raw": [
+    0,
+    15
+   ],
+   "wer_final": [
+    0,
+    15
+   ],
+   "cer_raw": [
+    0,
+    69
+   ],
+   "cer_final": [
+    0,
+    69
+   ]
+  },
+  {
+   "id": "4970-29093-0014",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 4.275,
+   "ref": "WELL I'M GOING AS AN ENGINEER YOU CAN GO AS ONE",
+   "speaker": "4970",
+   "mic": null,
+   "raw": "Well, I'm going as an engineer. You could go as one.",
+   "final": "Well, I'm going as an engineer. You could go as one.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 253.72,
+   "cleanup_ms": 0.0,
+   "total_ms": 253.76,
+   "ref_norm": "well i am going as an engineer you can go as one",
+   "raw_norm": "well i am going as an engineer you could go as one",
+   "final_norm": "well i am going as an engineer you could go as one",
+   "wer_raw": [
+    1,
+    12
+   ],
+   "wer_final": [
+    1,
+    12
+   ],
+   "cer_raw": [
+    4,
+    48
+   ],
+   "cer_final": [
+    4,
+    48
+   ]
+  },
+  {
+   "id": "4992-23283-0008",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 4.91,
+   "ref": "HE SEEMED TO WAIT FOR HER REPLY BUT AS SHE MADE NONE HE PROCEEDED",
+   "speaker": "4992",
+   "mic": null,
+   "raw": "He seemed to wait for her reply, but as she made none, he proceeded",
+   "final": "He seemed to wait for her reply, but as she made none, he proceeded",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 309.81,
+   "cleanup_ms": 0.0,
+   "total_ms": 309.86,
+   "ref_norm": "he seemed to wait for her reply but as she made none he proceeded",
+   "raw_norm": "he seemed to wait for her reply but as she made none he proceeded",
+   "final_norm": "he seemed to wait for her reply but as she made none he proceeded",
+   "wer_raw": [
+    0,
+    14
+   ],
+   "wer_final": [
+    0,
+    14
+   ],
+   "cer_raw": [
+    0,
+    65
+   ],
+   "cer_final": [
+    0,
+    65
+   ]
+  },
+  {
+   "id": "5105-28241-0007",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 1.88,
+   "ref": "THERE IS NO FEAR OF THAT SIR",
+   "speaker": "5105",
+   "mic": null,
+   "raw": "There's no fear of that, sir.",
+   "final": "There's no fear of that, sir.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 155.08,
+   "cleanup_ms": 0.0,
+   "total_ms": 155.11,
+   "ref_norm": "there is no fear of that sir",
+   "raw_norm": "there is no fear of that sir",
+   "final_norm": "there is no fear of that sir",
+   "wer_raw": [
+    0,
+    7
+   ],
+   "wer_final": [
+    0,
+    7
+   ],
+   "cer_raw": [
+    0,
+    28
+   ],
+   "cer_final": [
+    0,
+    28
+   ]
+  },
+  {
+   "id": "5142-33396-0004",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 2.215,
+   "ref": "THESE HE GAVE TO THREE OF MY BROTHERS",
+   "speaker": "5142",
+   "mic": null,
+   "raw": "These he gave to three of my brothers.",
+   "final": "These he gave to three of my brothers.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 174.75,
+   "cleanup_ms": 0.0,
+   "total_ms": 174.78,
+   "ref_norm": "these he gave to 3 of my brothers",
+   "raw_norm": "these he gave to 3 of my brothers",
+   "final_norm": "these he gave to 3 of my brothers",
+   "wer_raw": [
+    0,
+    8
+   ],
+   "wer_final": [
+    0,
+    8
+   ],
+   "cer_raw": [
+    0,
+    33
+   ],
+   "cer_final": [
+    0,
+    33
+   ]
+  },
+  {
+   "id": "5639-40744-0013",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 6.865,
+   "ref": "SHE SAW THAT THE BED WAS GILDED AND SO RICH THAT IT SEEMED THAT OF A PRINCE RATHER THAN OF A PRIVATE GENTLEMAN",
+   "speaker": "5639",
+   "mic": null,
+   "raw": "she saw that the bed was gilded, and so rich that it seemed that of a prince rather than of a private gentleman.",
+   "final": "she saw that the bed was gilded, and so rich that it seemed that of a prince rather than of a private gentleman.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 356.1,
+   "cleanup_ms": 0.0,
+   "total_ms": 356.16,
+   "ref_norm": "she saw that the bed was gilded and so rich that it seemed that of a prince rather than of a private gentleman",
+   "raw_norm": "she saw that the bed was gilded and so rich that it seemed that of a prince rather than of a private gentleman",
+   "final_norm": "she saw that the bed was gilded and so rich that it seemed that of a prince rather than of a private gentleman",
+   "wer_raw": [
+    0,
+    23
+   ],
+   "wer_final": [
+    0,
+    23
+   ],
+   "cer_raw": [
+    0,
+    110
+   ],
+   "cer_final": [
+    0,
+    110
+   ]
+  },
+  {
+   "id": "5683-32879-0003",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.345,
+   "ref": "WOMEN CAN HIDE THEIR PAIN BETTER THAN WE MEN AND BEAR IT BETTER TOO EXCEPT WHEN SHAME DROPS FIRE INTO THE DREADFUL CHALICE",
+   "speaker": "5683",
+   "mic": null,
+   "raw": "women can hide their pain better than we men, and bear it better, too, except when shame drops fire into the dreadful chalice.",
+   "final": "women can hide their pain better than we men, and bear it better, too, except when shame drops fire into the dreadful chalice.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 455.42,
+   "cleanup_ms": 0.0,
+   "total_ms": 455.51,
+   "ref_norm": "women can hide their pain better than we men and bear it better too except when shame drops fire into the dreadful chalice",
+   "raw_norm": "women can hide their pain better than we men and bear it better too except when shame drops fire into the dreadful chalice",
+   "final_norm": "women can hide their pain better than we men and bear it better too except when shame drops fire into the dreadful chalice",
+   "wer_raw": [
+    0,
+    23
+   ],
+   "wer_final": [
+    0,
+    23
+   ],
+   "cer_raw": [
+    0,
+    122
+   ],
+   "cer_final": [
+    0,
+    122
+   ]
+  },
+  {
+   "id": "61-70968-0041",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 6.825,
+   "ref": "I LIKE YOU WILL YOU ARE THE SECOND WILL THAT I HAVE MET AND LIKED WITHIN TWO DAYS IS THERE A SIGN IN THAT",
+   "speaker": "61",
+   "mic": null,
+   "raw": "I like you, Will. You are the second Will that I have met and liked within two days. Is there a sign in that?",
+   "final": "I like you, Will. You are the second Will that I have met and liked within two days. Is there a sign in that?",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 353.05,
+   "cleanup_ms": 0.0,
+   "total_ms": 353.12,
+   "ref_norm": "i like you will you are the 2nd will that i have met and liked within 2 days is there a sign in that",
+   "raw_norm": "i like you will you are the 2nd will that i have met and liked within 2 days is there a sign in that",
+   "final_norm": "i like you will you are the 2nd will that i have met and liked within 2 days is there a sign in that",
+   "wer_raw": [
+    0,
+    24
+   ],
+   "wer_final": [
+    0,
+    24
+   ],
+   "cer_raw": [
+    0,
+    100
+   ],
+   "cer_final": [
+    0,
+    100
+   ]
+  },
+  {
+   "id": "61-70970-0034",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 4.485,
+   "ref": "NAY NAY LORDING ANSWERED WARRENTON WITH A HALF LAUGH",
+   "speaker": "61",
+   "mic": null,
+   "raw": "Nay, nay, Lording, answered Warrington with a half laugh.",
+   "final": "Nay, nay, Lording, answered Warrington with a half laugh.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 253.87,
+   "cleanup_ms": 0.0,
+   "total_ms": 253.91,
+   "ref_norm": "nay nay lording answered warrenton with a half laugh",
+   "raw_norm": "nay nay lording answered warrington with a half laugh",
+   "final_norm": "nay nay lording answered warrington with a half laugh",
+   "wer_raw": [
+    1,
+    9
+   ],
+   "wer_final": [
+    1,
+    9
+   ],
+   "cer_raw": [
+    2,
+    52
+   ],
+   "cer_final": [
+    2,
+    52
+   ]
+  },
+  {
+   "id": "672-122797-0028",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 2.61,
+   "ref": "THIS EVENING THEY ALL SAID",
+   "speaker": "672",
+   "mic": null,
+   "raw": "This evening, they all said,",
+   "final": "This evening, they all said,",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 176.96,
+   "cleanup_ms": 0.0,
+   "total_ms": 176.99,
+   "ref_norm": "this evening they all said",
+   "raw_norm": "this evening they all said",
+   "final_norm": "this evening they all said",
+   "wer_raw": [
+    0,
+    5
+   ],
+   "wer_final": [
+    0,
+    5
+   ],
+   "cer_raw": [
+    0,
+    26
+   ],
+   "cer_final": [
+    0,
+    26
+   ]
+  },
+  {
+   "id": "6829-68771-0019",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 7.42,
+   "ref": "SHE WAS DRESSED IN THE REGULATION COSTUME OF THE MAIDS AT ELMHURST A PLAIN BLACK GOWN WITH WHITE APRON AND CAP",
+   "speaker": "6829",
+   "mic": null,
+   "raw": "She was dressed in the regulation costume of the maids at Elmhurst, a plain black gown with a white apron and cap.",
+   "final": "She was dressed in the regulation costume of the maids at Elmhurst, a plain black gown with a white apron and cap.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 377.22,
+   "cleanup_ms": 0.0,
+   "total_ms": 377.29,
+   "ref_norm": "she was dressed in the regulation costume of the maids at elmhurst a plain black gown with white apron and cap",
+   "raw_norm": "she was dressed in the regulation costume of the maids at elmhurst a plain black gown with a white apron and cap",
+   "final_norm": "she was dressed in the regulation costume of the maids at elmhurst a plain black gown with a white apron and cap",
+   "wer_raw": [
+    1,
+    21
+   ],
+   "wer_final": [
+    1,
+    21
+   ],
+   "cer_raw": [
+    2,
+    110
+   ],
+   "cer_final": [
+    2,
+    110
+   ]
+  },
+  {
+   "id": "6930-75918-0001",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 14.225,
+   "ref": "THE ENGLISH FORWARDED TO THE FRENCH BASKETS OF FLOWERS OF WHICH THEY HAD MADE A PLENTIFUL PROVISION TO GREET THE ARRIVAL OF THE YOUNG PRINCESS THE FRENCH IN RETURN INVITED THE ENGLISH TO A SUPPER WHICH WAS TO BE GIVEN THE NEXT DAY",
+   "speaker": "6930",
+   "mic": null,
+   "raw": "the English forwarded to the French baskets of flowers, of which they had made a plentiful provision to greet the arrival of the young princess. The French, in return, invited the English to a supper, which was to be given the next day.",
+   "final": "the English forwarded to the French baskets of flowers, of which they had made a plentiful provision to greet the arrival of the young princess. The French, in return, invited the English to a supper, which was to be given the next day.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 891.28,
+   "cleanup_ms": 0.0,
+   "total_ms": 891.42,
+   "ref_norm": "the english forwarded to the french baskets of flowers of which they had made a plentiful provision to greet the arrival of the young princess the french in return invited the english to a supper which was to be given the next day",
+   "raw_norm": "the english forwarded to the french baskets of flowers of which they had made a plentiful provision to greet the arrival of the young princess the french in return invited the english to a supper which was to be given the next day",
+   "final_norm": "the english forwarded to the french baskets of flowers of which they had made a plentiful provision to greet the arrival of the young princess the french in return invited the english to a supper which was to be given the next day",
+   "wer_raw": [
+    0,
+    43
+   ],
+   "wer_final": [
+    0,
+    43
+   ],
+   "cer_raw": [
+    0,
+    230
+   ],
+   "cer_final": [
+    0,
+    230
+   ]
+  },
+  {
+   "id": "6930-75918-0002",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 5.025,
+   "ref": "CONGRATULATIONS WERE POURED IN UPON THE PRINCESS EVERYWHERE DURING HER JOURNEY",
+   "speaker": "6930",
+   "mic": null,
+   "raw": "Congratulations were poured in upon the princess everywhere during her journey,",
+   "final": "Congratulations were poured in upon the princess everywhere during her journey,",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 325.24,
+   "cleanup_ms": 0.0,
+   "total_ms": 325.29,
+   "ref_norm": "congratulations were poured in upon the princess everywhere during her journey",
+   "raw_norm": "congratulations were poured in upon the princess everywhere during her journey",
+   "final_norm": "congratulations were poured in upon the princess everywhere during her journey",
+   "wer_raw": [
+    0,
+    11
+   ],
+   "wer_final": [
+    0,
+    11
+   ],
+   "cer_raw": [
+    0,
+    78
+   ],
+   "cer_final": [
+    0,
+    78
+   ]
+  },
+  {
+   "id": "6930-76324-0018",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 2.14,
+   "ref": "HE MAKES IT SORT OF COZIER",
+   "speaker": "6930",
+   "mic": null,
+   "raw": "he makes it sort of cozier",
+   "final": "he makes it sort of cozier",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 188.9,
+   "cleanup_ms": 0.0,
+   "total_ms": 188.93,
+   "ref_norm": "he makes it sort of cozier",
+   "raw_norm": "he makes it sort of cozier",
+   "final_norm": "he makes it sort of cozier",
+   "wer_raw": [
+    0,
+    6
+   ],
+   "wer_final": [
+    0,
+    6
+   ],
+   "cer_raw": [
+    0,
+    26
+   ],
+   "cer_final": [
+    0,
+    26
+   ]
+  },
+  {
+   "id": "7021-85628-0007",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 16.675,
+   "ref": "AND SHE TOOK ANDERS HAND AND WALKED WITH HIM UP THE BROAD MARBLE STAIRS WHERE SOLDIERS WERE POSTED AT EVERY THIRD STEP AND THROUGH THE MAGNIFICENT HALLS WHERE COURTIERS IN SILK AND VELVET STOOD BOWING WHEREVER HE WENT",
+   "speaker": "7021",
+   "mic": null,
+   "raw": "and she took Anders hand and walked with him up the broad marble stairs, where soldiers were posted at every third step, and through the magnificent halls where courtiers in silk and velvet stood bowing wherever he went.",
+   "final": "and she took Anders hand and walked with him up the broad marble stairs, where soldiers were posted at every third step, and through the magnificent halls where courtiers in silk and velvet stood bowing wherever he went.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 947.06,
+   "cleanup_ms": 0.0,
+   "total_ms": 947.17,
+   "ref_norm": "and she took anders hand and walked with him up the broad marble stairs where soldiers were posted at every 3rd step and through the magnificent halls where courtiers in silk and velvet stood bowing wherever he went",
+   "raw_norm": "and she took anders hand and walked with him up the broad marble stairs where soldiers were posted at every 3rd step and through the magnificent halls where courtiers in silk and velvet stood bowing wherever he went",
+   "final_norm": "and she took anders hand and walked with him up the broad marble stairs where soldiers were posted at every 3rd step and through the magnificent halls where courtiers in silk and velvet stood bowing wherever he went",
+   "wer_raw": [
+    0,
+    38
+   ],
+   "wer_final": [
+    0,
+    38
+   ],
+   "cer_raw": [
+    0,
+    215
+   ],
+   "cer_final": [
+    0,
+    215
+   ]
+  },
+  {
+   "id": "7127-75946-0006",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 7.98,
+   "ref": "HE HAS GIVEN THEM WITH TOO MUCH GRACE NOT TO HAVE OTHERS STILL TO GIVE IF THEY ARE REQUIRED WHICH IS THE CASE AT THE PRESENT MOMENT",
+   "speaker": "7127",
+   "mic": null,
+   "raw": "he has given them with too much grace not to have others still to give, if they are required, which is the case at the present moment.",
+   "final": "he has given them with too much grace not to have others still to give, if they are required, which is the case at the present moment.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 507.5,
+   "cleanup_ms": 0.0,
+   "total_ms": 507.57,
+   "ref_norm": "he has given them with too much grace not to have others still to give if they are required which is the case at the present moment",
+   "raw_norm": "he has given them with too much grace not to have others still to give if they are required which is the case at the present moment",
+   "final_norm": "he has given them with too much grace not to have others still to give if they are required which is the case at the present moment",
+   "wer_raw": [
+    0,
+    27
+   ],
+   "wer_final": [
+    0,
+    27
+   ],
+   "cer_raw": [
+    0,
+    131
+   ],
+   "cer_final": [
+    0,
+    131
+   ]
+  },
+  {
+   "id": "7127-75947-0017",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 2.665,
+   "ref": "WHAT ALREADY HERE THEY SAID TO HER",
+   "speaker": "7127",
+   "mic": null,
+   "raw": "What, already here? they said to her.",
+   "final": "What, already here? they said to her.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 201.05,
+   "cleanup_ms": 0.0,
+   "total_ms": 201.1,
+   "ref_norm": "what already here they said to her",
+   "raw_norm": "what already here they said to her",
+   "final_norm": "what already here they said to her",
+   "wer_raw": [
+    0,
+    7
+   ],
+   "wer_final": [
+    0,
+    7
+   ],
+   "cer_raw": [
+    0,
+    34
+   ],
+   "cer_final": [
+    0,
+    34
+   ]
+  },
+  {
+   "id": "7176-88083-0022",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.485,
+   "ref": "THE HAWK EMBITTERED BY THE LOSS OF HIS FIRST QUARRY HAD BECOME AS DOGGED IN PURSUIT AS A WEASEL NOT TO BE SHAKEN OFF OR EVADED OR DECEIVED",
+   "speaker": "7176",
+   "mic": null,
+   "raw": "the Hawk, embittered by the loss of his first quarry, had become as dogged in pursuit as a weasel, not to be shaken off or evaded or deceived,",
+   "final": "the Hawk, embittered by the loss of his first quarry, had become as dogged in pursuit as a weasel, not to be shaken off or evaded or deceived,",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 506.37,
+   "cleanup_ms": 0.0,
+   "total_ms": 506.43,
+   "ref_norm": "the hawk embittered by the loss of his 1st quarry had become as dogged in pursuit as a weasel not to be shaken off or evaded or deceived",
+   "raw_norm": "the hawk embittered by the loss of his 1st quarry had become as dogged in pursuit as a weasel not to be shaken off or evaded or deceived",
+   "final_norm": "the hawk embittered by the loss of his 1st quarry had become as dogged in pursuit as a weasel not to be shaken off or evaded or deceived",
+   "wer_raw": [
+    0,
+    28
+   ],
+   "wer_final": [
+    0,
+    28
+   ],
+   "cer_raw": [
+    0,
+    136
+   ],
+   "cer_final": [
+    0,
+    136
+   ]
+  },
+  {
+   "id": "7729-102255-0030",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 7.25,
+   "ref": "HE SUMMONED HALF A DOZEN CITIZENS TO JOIN HIS POSSE WHO FOLLOWED OBEYED AND ASSISTED HIM",
+   "speaker": "7729",
+   "mic": null,
+   "raw": "He summoned half a dozen citizens to join his posse, who followed, obeyed, and assisted him.",
+   "final": "He summoned half a dozen citizens to join his posse, who followed, obeyed, and assisted him.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 357.72,
+   "cleanup_ms": 0.0,
+   "total_ms": 357.78,
+   "ref_norm": "he summoned half a dozen citizens to join his posse who followed obeyed and assisted him",
+   "raw_norm": "he summoned half a dozen citizens to join his posse who followed obeyed and assisted him",
+   "final_norm": "he summoned half a dozen citizens to join his posse who followed obeyed and assisted him",
+   "wer_raw": [
+    0,
+    16
+   ],
+   "wer_final": [
+    0,
+    16
+   ],
+   "cer_raw": [
+    0,
+    88
+   ],
+   "cer_final": [
+    0,
+    88
+   ]
+  },
+  {
+   "id": "8224-274381-0012",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 19.885,
+   "ref": "MONTROSE WEAK IN CAVALRY HERE LINED HIS TROOPS OF HORSE WITH INFANTRY AND AFTER PUTTING THE ENEMY'S HORSE TO ROUT FELL WITH UNITED FORCE UPON THEIR FOOT WHO WERE ENTIRELY CUT IN PIECES THOUGH WITH THE LOSS OF THE GALLANT LORD GORDON ON THE PART OF THE ROYALISTS",
+   "speaker": "8224",
+   "mic": null,
+   "raw": "Montrose, weak in cavalry, here lined his troops of horse with infantry, and after putting the enemy's horse to rout, fell with united force upon their foot, who were entirely cut in pieces, though with the loss of the gallant Lord Gordon on the part of the Royalists.",
+   "final": "Montrose, weak in cavalry, here lined his troops of horse with infantry, and after putting the enemy's horse to rout, fell with united force upon their foot, who were entirely cut in pieces, though with the loss of the gallant Lord Gordon on the part of the Royalists.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 964.46,
+   "cleanup_ms": 0.0,
+   "total_ms": 964.59,
+   "ref_norm": "montrose weak in cavalry here lined his troops of horse with infantry and after putting the enemy s horse to rout fell with united force upon their foot who were entirely cut in pieces though with the loss of the gallant lord gordon on the part of the royalists",
+   "raw_norm": "montrose weak in cavalry here lined his troops of horse with infantry and after putting the enemy s horse to rout fell with united force upon their foot who were entirely cut in pieces though with the loss of the gallant lord gordon on the part of the royalists",
+   "final_norm": "montrose weak in cavalry here lined his troops of horse with infantry and after putting the enemy s horse to rout fell with united force upon their foot who were entirely cut in pieces though with the loss of the gallant lord gordon on the part of the royalists",
+   "wer_raw": [
+    0,
+    49
+   ],
+   "wer_final": [
+    0,
+    49
+   ],
+   "cer_raw": [
+    0,
+    261
+   ],
+   "cer_final": [
+    0,
+    261
+   ]
+  },
+  {
+   "id": "8455-210777-0033",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 7.51,
+   "ref": "BUT YOUR POWER IS SO SUPERIOR TO ANY THAT I CAN ADVANCE AS TO MAKE US HERE FEEL THAT THERE IS NO DISGRACE IN YIELDING TO IT",
+   "speaker": "8455",
+   "mic": null,
+   "raw": "but your power is so superior to any that I can advance, as to make us here feel that there is no disgrace in yielding to it.",
+   "final": "but your power is so superior to any that I can advance, as to make us here feel that there is no disgrace in yielding to it.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 399.35,
+   "cleanup_ms": 0.0,
+   "total_ms": 399.42,
+   "ref_norm": "but your power is so superior to any that i can advance as to make us here feel that there is no disgrace in yielding to it",
+   "raw_norm": "but your power is so superior to any that i can advance as to make us here feel that there is no disgrace in yielding to it",
+   "final_norm": "but your power is so superior to any that i can advance as to make us here feel that there is no disgrace in yielding to it",
+   "wer_raw": [
+    0,
+    27
+   ],
+   "wer_final": [
+    0,
+    27
+   ],
+   "cer_raw": [
+    0,
+    123
+   ],
+   "cer_final": [
+    0,
+    123
+   ]
+  },
+  {
+   "id": "8463-294828-0003",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 9.34,
+   "ref": "I WANTED NOTHING MORE THAN TO SEE MY COUNTRY AGAIN MY FRIENDS MY MODEST QUARTERS BY THE BOTANICAL GARDENS MY DEARLY BELOVED COLLECTIONS",
+   "speaker": "8463",
+   "mic": null,
+   "raw": "I wanted nothing more than to see my country again, my friends, my modest quarters by the botanical gardens, my dearly beloved collections.",
+   "final": "I wanted nothing more than to see my country again, my friends, my modest quarters by the botanical gardens, my dearly beloved collections.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 476.51,
+   "cleanup_ms": 0.0,
+   "total_ms": 476.59,
+   "ref_norm": "i wanted nothing more than to see my country again my friends my modest quarters by the botanical gardens my dearly beloved collections",
+   "raw_norm": "i wanted nothing more than to see my country again my friends my modest quarters by the botanical gardens my dearly beloved collections",
+   "final_norm": "i wanted nothing more than to see my country again my friends my modest quarters by the botanical gardens my dearly beloved collections",
+   "wer_raw": [
+    0,
+    23
+   ],
+   "wer_final": [
+    0,
+    23
+   ],
+   "cer_raw": [
+    0,
+    135
+   ],
+   "cer_final": [
+    0,
+    135
+   ]
+  },
+  {
+   "id": "8555-284447-0001",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 8.61,
+   "ref": "HOLD HIM FAST MY MEN AND AS SOON AS I'VE HAD MY COFFEE AND OATMEAL I'LL TAKE HIM TO THE ROOM OF THE GREAT KNIFE AND PATCH HIM",
+   "speaker": "8555",
+   "mic": null,
+   "raw": "Hold him fast, my men, and as soon as I've had my coffee and oatmeal, I'll take him to the room of the great knife, and patch him.",
+   "final": "Hold him fast, my men, and as soon as I've had my coffee and oatmeal, I'll take him to the room of the great knife, and patch him.",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 453.67,
+   "cleanup_ms": 0.0,
+   "total_ms": 453.75,
+   "ref_norm": "hold him fast my men and as soon as i have had my coffee and oatmeal i will take him to the room of the great knife and patch him",
+   "raw_norm": "hold him fast my men and as soon as i have had my coffee and oatmeal i will take him to the room of the great knife and patch him",
+   "final_norm": "hold him fast my men and as soon as i have had my coffee and oatmeal i will take him to the room of the great knife and patch him",
+   "wer_raw": [
+    0,
+    30
+   ],
+   "wer_final": [
+    0,
+    30
+   ],
+   "cer_raw": [
+    0,
+    129
+   ],
+   "cer_final": [
+    0,
+    129
+   ]
+  },
+  {
+   "id": "8555-284449-0006",
+   "dataset": "librispeech-clean",
+   "category": "librispeech-clean",
+   "tags": {},
+   "duration_s": 3.92,
+   "ref": "DON'T WORRY SIZZLE DEAR IT'LL ALL COME RIGHT PRETTY SOON",
+   "speaker": "8555",
+   "mic": null,
+   "raw": "Don't worry, Sizzle, dear. It'll all come right pretty soon, but",
+   "final": "Don't worry, Sizzle, dear. It'll all come right pretty soon, but",
+   "route": "replace",
+   "cleanup_status": null,
+   "asr_ms": 227.41,
+   "cleanup_ms": 0.0,
+   "total_ms": 227.46,
+   "ref_norm": "do not worry sizzle dear it will all come right pretty soon",
+   "raw_norm": "do not worry sizzle dear it will all come right pretty soon but",
+   "final_norm": "do not worry sizzle dear it will all come right pretty soon but",
+   "wer_raw": [
+    1,
+    12
+   ],
+   "wer_final": [
+    1,
+    12
+   ],
+   "cer_raw": [
+    4,
+    59
+   ],
+   "cer_final": [
+    4,
+    59
+   ]
+  },
+  {
+   "id": "hum-60hz-1.5s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 11.95,
+   "cleanup_ms": 0.0,
+   "total_ms": 11.95,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-1.5s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 12.06,
+   "cleanup_ms": 0.0,
+   "total_ms": 12.06,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-10s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 73.13,
+   "cleanup_ms": 0.0,
+   "total_ms": 73.13,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-10s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 51.6,
+   "cleanup_ms": 0.0,
+   "total_ms": 51.6,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-3s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 17.93,
+   "cleanup_ms": 0.0,
+   "total_ms": 17.93,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-3s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.66,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.66,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-6s-0",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 31.73,
+   "cleanup_ms": 0.0,
+   "total_ms": 31.73,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "hum-60hz-6s-1",
+   "dataset": "negatives",
+   "category": "hum-60hz",
+   "tags": {
+    "kind": "hum-60hz"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 32.27,
+   "cleanup_ms": 0.0,
+   "total_ms": 32.27,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-1.5s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.49,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.49,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-1.5s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.74,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.74,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-10s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 50.08,
+   "cleanup_ms": 0.0,
+   "total_ms": 50.08,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-10s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 50.59,
+   "cleanup_ms": 0.0,
+   "total_ms": 50.59,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-3s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.68,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.68,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-3s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.81,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.81,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-6s-0",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 28.2,
+   "cleanup_ms": 0.0,
+   "total_ms": 28.2,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "keyboard-clicks-6s-1",
+   "dataset": "negatives",
+   "category": "keyboard-clicks",
+   "tags": {
+    "kind": "keyboard-clicks"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 31.39,
+   "cleanup_ms": 0.0,
+   "total_ms": 31.39,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 8.39,
+   "cleanup_ms": 0.0,
+   "total_ms": 8.39,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.34,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.34,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-10s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.01,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.01,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-10s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 47.96,
+   "cleanup_ms": 0.0,
+   "total_ms": 47.96,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-3s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.99,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.99,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-3s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.54,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.54,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-6s-0",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 29.43,
+   "cleanup_ms": 0.0,
+   "total_ms": 29.43,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-fan-6s-1",
+   "dataset": "negatives",
+   "category": "noise-fan",
+   "tags": {
+    "kind": "noise-fan"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 32.87,
+   "cleanup_ms": 0.0,
+   "total_ms": 32.87,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 9.95,
+   "cleanup_ms": 0.0,
+   "total_ms": 9.95,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 8.21,
+   "cleanup_ms": 0.0,
+   "total_ms": 8.21,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-10s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.48,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.48,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-10s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 50.3,
+   "cleanup_ms": 0.0,
+   "total_ms": 50.3,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-3s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.79,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.79,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-3s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 18.27,
+   "cleanup_ms": 0.0,
+   "total_ms": 18.27,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-6s-0",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 31.68,
+   "cleanup_ms": 0.0,
+   "total_ms": 31.68,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-room-6s-1",
+   "dataset": "negatives",
+   "category": "noise-room",
+   "tags": {
+    "kind": "noise-room"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 28.94,
+   "cleanup_ms": 0.0,
+   "total_ms": 28.94,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-1.5s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.24,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.24,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-1.5s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.51,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.51,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-10s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 48.64,
+   "cleanup_ms": 0.0,
+   "total_ms": 48.64,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-10s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 54.56,
+   "cleanup_ms": 0.0,
+   "total_ms": 54.56,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-3s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.1,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.1,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-3s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.63,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.63,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-6s-0",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 29.95,
+   "cleanup_ms": 0.0,
+   "total_ms": 29.95,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "noise-white-loud-6s-1",
+   "dataset": "negatives",
+   "category": "noise-white-loud",
+   "tags": {
+    "kind": "noise-white-loud"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 34.06,
+   "cleanup_ms": 0.0,
+   "total_ms": 34.06,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-1.5s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.55,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.55,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-1.5s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.14,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.14,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-10s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.96,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.96,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-10s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.75,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.75,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-3s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.1,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.1,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-3s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.48,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.48,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-6s-0",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 27.82,
+   "cleanup_ms": 0.0,
+   "total_ms": 27.82,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-digital-6s-1",
+   "dataset": "negatives",
+   "category": "silence-digital",
+   "tags": {
+    "kind": "silence-digital"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 29.61,
+   "cleanup_ms": 0.0,
+   "total_ms": 29.61,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-1.5s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.67,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.67,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-1.5s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 1.5,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 7.44,
+   "cleanup_ms": 0.0,
+   "total_ms": 7.44,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-10s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 47.75,
+   "cleanup_ms": 0.0,
+   "total_ms": 47.75,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-10s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 10.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 49.52,
+   "cleanup_ms": 0.0,
+   "total_ms": 49.52,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-3s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 14.83,
+   "cleanup_ms": 0.0,
+   "total_ms": 14.83,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-3s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 3.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 15.27,
+   "cleanup_ms": 0.0,
+   "total_ms": 15.27,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-6s-0",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 30.2,
+   "cleanup_ms": 0.0,
+   "total_ms": 30.2,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "silence-dither-6s-1",
+   "dataset": "negatives",
+   "category": "silence-dither",
+   "tags": {
+    "kind": "silence-dither"
+   },
+   "duration_s": 6.0,
+   "ref": "",
+   "speaker": null,
+   "mic": null,
+   "raw": "",
+   "final": "",
+   "route": "empty",
+   "cleanup_status": null,
+   "asr_ms": 32.26,
+   "cleanup_ms": 0.0,
+   "total_ms": 32.26,
+   "ref_norm": "",
+   "raw_norm": "",
+   "final_norm": "",
+   "wer_raw": [
+    0,
+    0
+   ],
+   "wer_final": [
+    0,
+    0
+   ],
+   "cer_raw": [
+    0,
+    0
+   ],
+   "cer_final": [
+    0,
+    0
+   ]
+  }
+ ]
+}

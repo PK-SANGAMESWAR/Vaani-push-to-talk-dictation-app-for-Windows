@@ -165,9 +165,7 @@ is 1 on regression and the verdict is in the report and in the result JSON (`gat
 
 A gate that applies but finds no data fails. Profiles: `gpu` (release check on the laptop), `cleanup`
 (shipped cleanup path), `ci` (CPU int8, n=40 LibriSpeech + negatives; no latency gate because shared runners
-are slower than the laptop). Baselines are committed result files; the `gpu` and `cleanup` baselines are the
-Phase 4 runs, which come from a dirty tree, so re-baseline them from a clean commit at release time
-(update `baseline` in the same commit as the code change).
+are slower than the laptop). Baselines are committed result files from a clean tree (commit `ace27dd`); when you change them, do it in the same commit as the code change that moved the numbers.
 
 Release routine (local, results committed to `evals/results/`):
 

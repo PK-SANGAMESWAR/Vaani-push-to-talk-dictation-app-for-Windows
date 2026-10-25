@@ -16,12 +16,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from . import metrics
+
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
 START, END = "<!-- bench:start -->", "<!-- bench:end -->"
 
 # Result files the README quotes. Replace with newer clean-tree runs when they exist.
-GPU_RUN = "evals/results/20261024T101301Z_2131f02_gpu-fp32-4sets.json"
+GPU_RUN = "evals/results/20261025T044644Z_ace27dd_release-gpu.json"
 VALIDATION_RUN = "evals/results/20261024T100052Z_255cdb2_validate-novad.json"
 NAMES = {
     "librispeech-clean": "LibriSpeech test-clean",
@@ -50,15 +52,19 @@ def render() -> str:
     commit = p["git"]["commit"][:7]
     rows = []
     for ds, g in r["summary"]["by_dataset"].items():
+        if ds not in NAMES:
+            continue  # silence/noise, dictation and safety sets are not public benchmarks
         lat = g["latency_ms"]["total"]
         rows.append(
             f"| {NAMES.get(ds, ds)} | {g['n']} | {_pct(g['wer_final'])} | "
             f"{lat['p50']:.0f} / {lat['p95']:.0f} | {g['rtfx']} |"
         )
-    o = r["summary"]["overall"]
-    lat = o["latency_ms"]["total"]
+    pub = [u for u in r["utterances"] if u["dataset"] in NAMES and u["wer_raw"][1] > 0]
+    wer = metrics.rate_with_ci([metrics.Edits(*u["wer_final"]) for u in pub])
+    lat = metrics.latency_stats([u["total_ms"] for u in pub])
+    rtfx = sum(u["duration_s"] for u in pub) / (sum(u["asr_ms"] for u in pub) / 1000)
     rows.append(
-        f"| **All four** | {o['n']} | {_pct(o['wer_final'])} | {lat['p50']:.0f} / {lat['p95']:.0f} | {o['rtfx']} |"
+        f"| **All four** | {len(pub)} | {_pct(wer)} | {lat['p50']:.0f} / {lat['p95']:.0f} | {rtfx:.1f} |"
     )
     ref = v["published_reference"]
     return "\n".join(
@@ -66,7 +72,7 @@ def render() -> str:
             START,
             f"Parakeet TDT 0.6B v3 fp32 on {gpu['name']} ({gpu['memory_total_mb'] / 1024:.0f} GB), driver "
             f"{gpu['driver']}, {p['hardware']['cpu']}; shipped pipeline (Silero VAD, no cleanup), "
-            f"{r['summary']['overall']['n']} clips = 200 per set (seed 0). WER is corpus-level on "
+            f"{len(r['utterances'])} clips in this run, 200 per public set (seed 0). WER is corpus-level on "
             "Open ASR Leaderboard-normalized text with a 95% bootstrap CI. Latency is `Pipeline.process` "
             "per clip (no paste). From a clean commit "
             f"(`{commit}`): [`{GPU_RUN.rsplit('/', 1)[1]}`]({GPU_RUN}).",

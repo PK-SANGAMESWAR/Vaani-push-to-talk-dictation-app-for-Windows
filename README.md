@@ -48,15 +48,15 @@ Edit `config.toml` (tray → Open config), then restart. Highlights:
 ## Benchmarks
 
 <!-- bench:start -->
-Parakeet TDT 0.6B v3 fp32 on NVIDIA GeForce RTX 4050 Laptop GPU (6 GB), driver 591.66, AMD Ryzen 7 7435HS; shipped pipeline (Silero VAD, no cleanup), 800 clips = 200 per set (seed 0). WER is corpus-level on Open ASR Leaderboard-normalized text with a 95% bootstrap CI. Latency is `Pipeline.process` per clip (no paste). From a clean commit (`2131f02`): [`20261024T101301Z_2131f02_gpu-fp32-4sets.json`](evals/results/20261024T101301Z_2131f02_gpu-fp32-4sets.json).
+Parakeet TDT 0.6B v3 fp32 on NVIDIA GeForce RTX 4050 Laptop GPU (6 GB), driver 591.66, AMD Ryzen 7 7435HS; shipped pipeline (Silero VAD, no cleanup), 914 clips in this run, 200 per public set (seed 0). WER is corpus-level on Open ASR Leaderboard-normalized text with a 95% bootstrap CI. Latency is `Pipeline.process` per clip (no paste). From a clean commit (`ace27dd`): [`20261025T044644Z_ace27dd_release-gpu.json`](evals/results/20261025T044644Z_ace27dd_release-gpu.json).
 
 | Set | Clips | WER % [95% CI] | Latency ms p50 / p95 | ASR RTFx |
 |---|---:|---|---|---:|
-| FLEURS en_us | 200 | 7.22 [5.9–8.6] | 170 / 229 | 55.8 |
-| LibriSpeech test-clean | 200 | 2.04 [1.5–2.6] | 143 / 259 | 45.6 |
-| LibriSpeech test-other | 200 | 3.79 [2.9–4.8] | 133 / 227 | 43.6 |
-| Svarah (Indian-accented English) | 200 | 10.14 [7.7–12.5] | 133 / 222 | 35.6 |
-| **All four** | 800 | 5.33 [4.7–6.0] | 145 / 238 | 45.7 |
+| FLEURS en_us | 200 | 6.36 [5.1–7.7] | 289 / 406 | 34.4 |
+| LibriSpeech test-clean | 200 | 2.04 [1.5–2.6] | 135 / 251 | 48.0 |
+| LibriSpeech test-other | 200 | 3.79 [2.9–4.8] | 134 / 223 | 44.1 |
+| Svarah (Indian-accented English) | 200 | 10.14 [7.7–12.5] | 232 / 383 | 20.7 |
+| **All four** | 800 | 5.06 [4.4–5.7] | 181 / 370 | 34.5 |
 
 Harness check: the same model without VAD on the full LibriSpeech test-clean (2620 clips) gives 1.89% WER [1.74–2.05], against 1.93% published on the model card (inside our CI: yes). Result: [`20261024T100052Z_255cdb2_validate-novad.json`](evals/results/20261024T100052Z_255cdb2_validate-novad.json).
 <!-- bench:end -->
@@ -68,10 +68,9 @@ Reproduce (needs the eval dependencies, a free Hugging Face login for the gated 
 ```
 
 The README table is generated from the committed result file (`python -m evals.bench_table --check` runs in
-the tests), and only runs from a clean commit are quoted. Later runs (silence/noise, injection safety,
-CPU vs GPU vs Whisper, cleanup models, end-to-end release-to-paste latency, 1000-dictation soak) are in
-[`evals/results/`](evals/results); they were taken on a working tree with uncommitted code, so their
-reports are marked dirty and are not quoted here until re-run on a commit. Method, datasets and gates:
+the tests), and only runs from a clean commit are quoted. The Phase 3-5 results (silence/noise, injection safety, CPU vs GPU vs Whisper, cleanup models, end-to-end
+release-to-paste latency, 1000-dictation soak) are in [`evals/results/`](evals/results); the ones taken on a
+dirty tree are marked as such in their reports and are not quoted here. Method, datasets and gates:
 [evals/README.md](evals/README.md).
 
 ## Privacy
